@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/nylogo.png';
 import { Snackbar, Alert, LinearProgress } from '@mui/material';
 import PhoneSignUp from '../PhoneSignUp/PhoneSignUp';
-import { FaPhone, FaGoogle, FaGithub, FaFacebookF, FaApple } from 'react-icons/fa';
+import { FaPhoneAlt, FaGoogle, FaGithub, FaFacebookF, FaApple} from 'react-icons/fa';
+import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const SignUp = () => {
   });
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [showPhoneSignUp, setShowPhoneSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     validatePassword(formData.password);
@@ -158,75 +160,106 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
-        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
-          <div className="text-center">
-            <img src={logo} alt="Logo" className="mx-auto h-12 w-auto" />
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">Get Started</h2>
-            <p className="mt-2 text-sm text-gray-600">Revolutionize your voting experience today.</p>
+      <div className="min-h-screen flex items-center justify-center px-4 py-12">
+        <div className="max-w-md w-full space-y-8">
+          <div className="flex flex-col items-center text-center space-y-2">
+            <img src={logo} alt="Logo" className="h-12 w-auto" />
+            <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
+            <p className="text-sm text-gray-600">
+              Revolutionize your voting experience today.
+            </p>
           </div>
 
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6" noValidate>
+            {/* Full Name Input */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                 Full Name
               </label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                placeholder="Enter your name"
-                value={formData.fullName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                required
-                className={`mt-1 block w-full px-3 py-2 border ${
-                  fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
-                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-              />
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <CircleUser className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter your name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onFocus={handleFocus}
+                  required
+                  className={`block w-full pl-10 pr-3 py-2 border ${
+                    fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                />
+              </div>
             </div>
 
+            {/* Email Input */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 E-mail
               </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="name@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                required
-                className={`mt-1 block w-full px-3 py-2 border ${
-                  fieldErrors.email ? 'border-red-500' : 'border-gray-300'
-                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-              />
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <AtSign className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onFocus={handleFocus}
+                  required
+                  className={`block w-full pl-10 pr-3 py-2 border ${
+                    fieldErrors.email ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                />
+              </div>
             </div>
 
+            {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Your password"
-                value={formData.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                required
-                className={`mt-1 block w-full px-3 py-2 border ${
-                  fieldErrors.password ? 'border-red-500' : 'border-gray-300'
-                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-              />
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Key className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  placeholder="Your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onFocus={handleFocus}
+                  required
+                  className={`block w-full pl-10 pr-10 py-2 border ${
+                    fieldErrors.password ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  {showPassword ? (
+                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                  ) : (
+                    <EyeClosed className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                  )}
+                </button>
+              </div>
 
               {isPasswordFocused && (
                 <div className="mt-4 space-y-2">
@@ -293,29 +326,31 @@ const SignUp = () => {
                   onClick={handlePhoneSignUp}
                   className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
-                  <FaPhone className="h-5 w-5" />
+                  <FaPhoneAlt className="h-5 w-5" />
                 </button>
               </div>
             </div>
           </form>
 
-          <p className="mt-4 text-center text-sm text-gray-600">
-            By signing up, you agree to our{' '}
-            <Link to="/terms" className="text-indigo-600 hover:text-indigo-500">
-              Terms of service
-            </Link>{' '}
-            &{' '}
-            <Link to="/privacy" className="text-indigo-600 hover:text-indigo-500">
-              Privacy Policy
-            </Link>
-          </p>
+          <div className="flex flex-col items-center space-y-4 mt-6">
+            <p className="text-sm text-gray-600 text-center">
+              By signing up, you agree to our{' '}
+              <Link to="/terms" className="text-indigo-600 hover:text-indigo-500">
+                Terms of service
+              </Link>{' '}
+              &{' '}
+              <Link to="/privacy" className="text-indigo-600 hover:text-indigo-500">
+                Privacy Policy
+              </Link>
+            </p>
 
-          <p className="text-center text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-500">
-              Login
-            </Link>
-          </p>
+            <p className="text-sm text-gray-600 text-center">
+              Already have an account?{' '}
+              <Link to="/login" className="text-indigo-600 hover:text-indigo-500">
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
 
