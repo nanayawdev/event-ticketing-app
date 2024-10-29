@@ -1,7 +1,4 @@
 import React from 'react';
-import './Brands.css';
-
-// Import client logos
 import client1Logo from '../../assets/icons/visaxl.png';
 import client2Logo from '../../assets/icons/stripexl.png';
 import client3Logo from '../../assets/icons/card.png';
@@ -20,14 +17,22 @@ const Brands = () => {
   ];
 
   return (
-    <div className="brands-container">
-      <h2 className="brands-title">Brands We've Worked With</h2>
-      <div className="brand-logos">
-        {brands.map((brand, index) => (
-          <div key={index} className="brand-logo">
-            <img src={brand.logo} alt={brand.name} />
-          </div>
-        ))}
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-[1200px] px-6 lg:px-8">
+        <h2 className="text-center text-lg font-semibold text-gray-900 mb-10">
+          Trusted by the world's most innovative teams
+        </h2>
+        <div className="mx-auto grid grid-cols-2 items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+          {brands.map((brand, index) => (
+            <div key={index} className="flex justify-center">
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="max-h-12 object-contain"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
