@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import NoticeBar from './components/NoticeBar'
-import EventCategoryTags from './components/EventCategoryTags';
-import UpcomingEvents from './components/UpcomingEvents';
-import EventCardGrid from './components/EventCardGrid';
-import EventDetails from './components/EventDetails';
-import EventFeatures from './components/EventFeatures';
-import MarqueeScroll from './components/MarqueeScroll';
-import Footer from './components/Footer';
-import SocialBar from './components/SocialBar';
-import FeaturedSection from './components/FeaturedSection';
-import SignUp from './components/SignUp';
-import About from './components/About';  // Make sure this import is present
-import Events from './components/Events';  // Add this import
-import Services from './components/Services';  // Add this import
-import Pricing from './components/Pricing';  // Add this import
-import Contact from './components/Contact';  // Add this import
-import ClientGuide from './components/ClientGuide';  // Add this import
-import Dashboard from './components/Dashboard';  // Make sure this import is present
-import ScrollingHeader from './components/ScrollingHeader';
-import Login from './components/Login';  // Add this import
+import Navbar from './components/Navbar/Navbar';
+import NoticeBar from './components/NoticeBar/NoticeBar'
+import EventCategoryTags from './components/EventCategoryTags/EventCategoryTags';
+import UpcomingEvents from './components/UpcomingEvents/UpcomingEvents';
+import EventCardGrid from './components/EventCardGrid/EventCardGrid';
+import EventDetails from './components/EventDetails/EventDetails';
+import EventFeatures from './components/EventFeatures/EventFeatures';
+import MarqueeScroll from './components/MarqueeScroll/MarqueeScroll';
+import Footer from './components/Footer/Footer';
+import SocialBar from './components/SocialBar/SocialBar';
+import FeaturedSection from './components/FeaturedSection/FeaturedSection';
+import SignUp from './components/SignUp/SignUp';
+import About from './components/About/About';  // Make sure this import is present
+import Events from './components/Events/Events';  // Add this import
+import Services from './components/Services/Services';  // Add this import
+import Pricing from './components/Pricing/Pricing';  // Add this import
+import Contact from './components/Contacts/Contact';  // Add this import
+import ClientGuide from './components/ClientGuide/ClientGuide';  // Add this import
+import Dashboard from './components/Dashboard/Dashboard';  // Make sure this import is present
+import ScrollingHeader from './components/ScrollingHeader/ScrollingHeader';
+import Login from './components/Login/Login';  // Add this import
 
 const AppContent = () => {
 	const location = useLocation();

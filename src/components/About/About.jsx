@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './About.css';
-import Why from './Why'; // Import the Why component
-import Clients from './Clients'; // Import the Clients component
-import Footer from './Footer'; // Import the Footer component
+import Why from '../Why/Why'; // Import the Why component
+import Brands from '../Brands/Brands'; // Import the Clients component
+import Footer from '../Footer/Footer'; // Import the Footer component
 
 // Import your images here
-import image1 from '../assets/images/stonebwoy.jpeg';
-import image2 from '../assets/images/epixode.jpeg';
-import image3 from '../assets/images/amakyedede.jpeg';
-import image4 from '../assets/images/perezmusik.jpeg';
-import image5 from '../assets/images/mogbeats.jpeg';
-import image6 from '../assets/images/stoneb.jpeg';
-import image7 from '../assets/images/photoshoot.jpeg';
-import image8 from '../assets/images/jkstudio.jpeg';
-import image9 from '../assets/images/jkstudiios2.jpeg';
+import image1 from '../../assets/images/stonebwoy.jpeg';
+import image2 from '../../assets/images/epixode.jpeg';
+import image3 from '../../assets/images/amakyedede.jpeg';
+import image4 from '../../assets/images/perezmusik.jpeg';
+import image5 from '../../assets/images/mogbeats.jpeg';
+import image6 from '../../assets/images/stoneb.jpeg';
+import image7 from '../../assets/images/photoshoot.jpeg';
+import image8 from '../../assets/images/jkstudio.jpeg';
+import image9 from '../../assets/images/jkstudiios2.jpeg';
 // ... import more images as needed
 
 const About = () => {
@@ -64,7 +64,7 @@ const About = () => {
         ))}
       </div>
       <Why />
-      <Clients />
+      <Brands />
       <Footer /> {/* Add the Footer component here */}
     </>
   );
