@@ -20,6 +20,9 @@ module.exports = {
           },
         },
       },
+      maxWidth: {
+        '1600': '1600px',
+      },
     },
   },
   plugins: [],

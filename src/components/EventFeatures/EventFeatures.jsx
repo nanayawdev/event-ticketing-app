@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './EventFeatures.css';
 import jkstudio from '../../assets/images/jkstudio.jpeg';
 import jkstudio2 from '../../assets/images/jkstudiios2.jpeg';
 import jkstudio3 from '../../assets/images/jkstudiios3.jpeg';
@@ -10,7 +9,6 @@ import photoshoot3 from '../../assets/images/photoshoot3.jpeg';
 const EventFeatures = () => {
   const [openQuestion, setOpenQuestion] = useState(null);
 
-  // Array of images
   const images = [jkstudio, jkstudio2, jkstudio3, photoshoot, photoshoot2, photoshoot3];
 
   const toggleQuestion = (index) => {
@@ -27,34 +25,55 @@ const EventFeatures = () => {
   ];
 
   return (
-    <div className="event-features">
-      <div className="event-features-image">
-        <img 
-          src={openQuestion !== null ? images[openQuestion % images.length] : jkstudio} 
-          alt="Event feature illustration" 
-        />
-      </div>
-      <div className="event-features-content">
-        <h2 className="event-features-title">
-          Why Event Organizers Choose<br /> and Trust Our Solution
-        </h2>
-        <div className="event-features-faq">
-          {faqData.map((item, index) => (
-            <div key={index} className="faq-item">
-              <button 
-                className="faq-question" 
-                onClick={() => toggleQuestion(index)}
-              >
-                {item.question}
-                <span className={`arrow ${openQuestion === index ? 'open' : ''}`}>
-                  {openQuestion === index ? '-' : '+'}
-                </span>
-              </button>
-              {openQuestion === index && (
-                <div className="faq-answer">{item.answer}</div>
-              )}
+    <div className="bg-white py-16 lg:py-24">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
+          {/* Image Section */}
+          <div className="relative lg:col-span-5 lg:row-span-2">
+            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-2xl">
+              <img 
+                src={openQuestion !== null ? images[openQuestion % images.length] : jkstudio} 
+                alt="Event feature illustration"
+                className="object-cover object-center w-full h-full transition-all duration-500 ease-in-out"
+              />
             </div>
-          ))}
+          </div>
+
+          {/* Content Section */}
+          <div className="mt-10 lg:col-span-7 lg:mt-0 lg:pl-8">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Why Event Organizers Choose<br className="hidden sm:inline" /> and Trust Our Solution
+            </h2>
+            
+            {/* FAQ Section */}
+            <div className="mt-10 space-y-4">
+              {faqData.map((item, index) => (
+                <div key={index} className="border-b border-gray-200 last:border-0">
+                  <button 
+                    className="flex w-full items-center justify-between py-4 text-left hover:text-indigo-600 transition-colors"
+                    onClick={() => toggleQuestion(index)}
+                  >
+                    <span className="text-lg font-medium text-gray-900 hover:text-indigo-600">
+                      {item.question}
+                    </span>
+                    <span className={`ml-6 flex-shrink-0 transition-transform duration-200 ${openQuestion === index ? 'rotate-180' : ''}`}>
+                      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </button>
+                  
+                  {openQuestion === index && (
+                    <div className="pb-4 pr-6">
+                      <p className="text-base text-gray-600 leading-relaxed">
+                        {item.answer}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
