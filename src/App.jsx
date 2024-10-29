@@ -5,10 +5,7 @@ import NoticeBar from './components/NoticeBar/NoticeBar'
 import UpcomingEvents from './components/UpcomingEvents/UpcomingEvents';
 import EventCardGrid from './components/EventCardGrid/EventCardGrid';
 import EventDetails from './components/EventDetails/EventDetails';
-import MarqueeScroll from './components/MarqueeScroll/MarqueeScroll';
 import Footer from './components/Footer/Footer';
-import SocialBar from './components/SocialBar/SocialBar';
-import FeaturedSection from './components/FeaturedSection/FeaturedSection';
 import SignUp from './components/SignUp/SignUp';
 import About from './components/About/About';
 import Events from './components/Events/Events';
@@ -133,28 +130,7 @@ const AppContent = () => {
 								loading={loading}
 								error={error}
 							/>
-							<div className="featured-section-container">
-								<FeaturedSection
-									title="Ghana's Largest Ticketing Network: Unrivaled Reach"
-									description="Tap into our extensive network, surpassing all competitors combined. Connect with 3M+ potential attendees through our diverse ticketing partnerships."
-									logos={['/path/to/expressPay.png', '/path/to/hubtel.png', '/path/to/korba.png', '/path/to/giftpal.png', '/path/to/cityloop.png', '/path/to/egotickets.png']}
-								/>
-								<div className="featured-divider"></div>
-								<FeaturedSection
-									title="Pioneering Event Insurance: Safeguarding Your Attendees"
-									description="In partnership with Starlife Assurance, we're Ghana's first platform offering comprehensive insurance coverage for attendees before, during, and after events."
-									coverText="Cover is underwritten by StarLife Assurance"
-									logos={['/path/to/starlife.png']}
-								/>
-								<div className="featured-divider"></div>
-								<FeaturedSection
-									title="Meet Amma Aboagye: Founding curator of Wax Print Festival"
-									image="/path/to/amma-video-thumbnail.jpg"
-									button="Start selling today!"
-								/>
-							</div>
-							<MarqueeScroll text="**All Your Event Needs Covered.**" />
-							<SocialBar />
+
 							<Footer />
 						</>
 					} />
