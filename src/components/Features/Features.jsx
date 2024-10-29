@@ -28,7 +28,7 @@ const features = [
   },
 ]
 
-export default function About() {
+export default function Features() {
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-[1200px] px-6 lg:px-8">
@@ -36,7 +36,7 @@ export default function About() {
           <h2 className="inline-block text-base font-semibold leading-7 text-indigo-600 border border-indigo-600 rounded-full px-4 py-1">
             Deploy faster
           </h2>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+          <h1 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
             Everything you need to host a successful event
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 mx-auto max-w-xl">
