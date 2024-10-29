@@ -1,0 +1,45 @@
+.ready-to-withdraw-card {
+  border: 1px dashed #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.ready-to-withdraw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ready-to-withdraw-header span {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.info-icon {
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.ready-to-withdraw-amount {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.currency {
+  font-size: 20px;
+  margin-right: 2px;
+  font-weight: normal;
+}
+
+/* Optional: Global styles for the tooltip */
+:root {
+  --rt-color-white: #fff;
+  --rt-color-dark: #222;
+  --rt-opacity: 0.9;
+}

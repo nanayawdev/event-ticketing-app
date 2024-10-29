@@ -1,0 +1,36 @@
+.commission-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 15px;
+  border: 1px dashed #e0f7fa;
+  border-radius: 16px;
+}
+
+.commission-content {
+  display: flex;
+  align-items: center;
+}
+
+.commission-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-right: 8px;
+}
+
+.commission-icon {
+  font-size: 22px;
+  color: #00bcd4;
+  margin-right: 8px;
+}
+
+.commission-percentage {
+  background-color: #b2ebf2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #00838f;
+}

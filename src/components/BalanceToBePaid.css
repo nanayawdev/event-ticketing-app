@@ -1,0 +1,36 @@
+.balance-to-be-paid-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 15px;
+  border: 1px dashed #fff3e0;
+  border-radius: 16px;
+}
+
+.balance-to-be-paid-content {
+  display: flex;
+  align-items: center;
+}
+
+.balance-to-be-paid-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-right: 8px;
+}
+
+.balance-to-be-paid-icon {
+  font-size: 22px;
+  color: #ff9800;
+  margin-right: 8px;
+}
+
+.balance-to-be-paid-amount {
+  background-color: #ffe0b2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e65100;
+}

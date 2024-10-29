@@ -1,0 +1,104 @@
+.about-container {
+    padding: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .about-label {
+    background-color: #fff0e6; /* Light orange background */
+    color: #ff7d00; /* Orange text color */
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  
+  .about-title {
+    font-size: 3.8rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-description {
+    color: #4b5563;
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  
+  /* Tablet styles */
+  @media (max-width: 1024px) {
+    .about-container {
+      padding: 2rem 1rem;
+    }
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 2rem 1rem;
+    }
+
+    .about-container {
+      margin-top: 2rem; /* Further reduced margin for mobile */
+    }
+  }
+  
+.create-event-btn {
+  display: inline-block;
+  color: #ff7d00;
+  padding: 18px 84px;
+  border: 1px solid #ff7d00;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.create-event-btn:hover {
+  background-color: #fff0e6;
+  border: none;
+  color: #ff7d00;
+}
+
+.event-image-container {
+  display: flex;
+  width: 100vw;
+}
+
+.image-column {
+  flex: 1;
+}
+
+.about-event-image {
+  width: 100%;
+  height: 100%; /* Make the image take full height of its column */
+  object-fit: cover; /* This ensures the image covers the entire area */
+  object-position: center; /* This centers the image within its container */
+  transition: transform 0.3s ease;
+}
+
+.about-event-image:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .event-image-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .image-column {
+    height: 33.33vh;
+  }
+}

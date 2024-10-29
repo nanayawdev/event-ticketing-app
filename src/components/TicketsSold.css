@@ -1,0 +1,32 @@
+.tickets-sold-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 15px;
+  /*background-color: #d0dff8;*/
+  border: 1px dashed #d0dff8;
+  border-radius: 16px;
+}
+
+.tickets-sold-title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.tickets-sold-icon {
+  margin-right: 8px;
+  font-size: 22px;
+}
+
+.tickets-sold-count {
+  background-color: #e3ecfb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+}

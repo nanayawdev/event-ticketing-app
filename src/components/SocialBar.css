@@ -1,0 +1,25 @@
+.social-bar {
+  display: flex;
+  width: 100%;
+}
+
+.social-link {
+  flex: 1;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 25px 0;  /* Increased from 15px to 25px */
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.social-link:hover {
+  opacity: 0.8;
+}
+
+.social-divider {
+  width: 1px;
+  background-color: #fff;
+  align-self: stretch;
+}

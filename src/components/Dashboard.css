@@ -1,0 +1,153 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: calc(100% - 250px); /* Adjust width to account for sidebar */
+  margin-left: 250px; /* Push main content to the right of the sidebar */
+}
+
+.dashboard-content {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-sidenav {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  background-color: #f9f9f9;
+  color: #333;
+  height: 100vh;
+  border-right: 1px solid #34495e;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: width 0.3s ease;
+  overflow-y: auto; /* Allow scrolling if content exceeds height */
+}
+
+.logo img {
+  max-width: 80%; /* Increased from 100% to 80% */
+  max-height: 80px; /* Set a max-height */
+  height: auto;
+  object-fit: contain; /* Ensures the entire logo is visible */
+  margin-top: 40px;
+}
+
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.nav-links li {
+  margin: 20px 0;
+}
+
+.nav-links a, .logout-btn {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: #4d29fa;
+}
+
+.nav-links a svg, .logout-btn svg {
+  margin-right: 10px;
+  font-size: 28px;
+}
+
+.logout-container {
+  padding: 10px;
+  margin-top: auto; /* Push to bottom */
+  border-top: 1px solid #34495e;
+}
+
+.logout-btn {
+  width: 100%;
+  background: none;
+  border: none; /* Remove the border */
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #ff0000;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard-sidenav {
+    width: 60px;
+  }
+
+  .dashboard-main {
+    width: calc(100% - 60px); /* Adjust width for mobile */
+    margin-left: 60px; /* Adjust margin for mobile */
+  }
+
+  .logo h2, .nav-links a span, .logout-btn span {
+    display: none;
+  }
+
+  .nav-links a, .logout-btn {
+    justify-content: center;
+  }
+
+  .nav-links a svg, .logout-btn svg {
+    margin-right: 0;
+    font-size: 38px;
+  }
+
+  .logo {
+    height: 60px; /* Smaller height for mobile */
+    padding: 10px;
+  }
+
+  .logo img {
+    max-height: 50px; /* Smaller max-height for mobile */
+  }
+
+  .logout-btn span {
+    display: none;
+  }
+
+  .logout-btn {
+    padding: 10px 0;
+  }
+
+  .logout-btn svg {
+    margin-right: 0;
+    font-size: 24px;
+  }
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

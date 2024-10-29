@@ -1,0 +1,64 @@
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 50px 0;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.marquee-row {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 60s linear infinite;
+}
+
+.marquee-row.reverse .marquee-content {
+  animation-direction: reverse;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  margin-right: 20px;
+  padding: 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  white-space: nowrap; /* Add this line */
+  width: auto; /* Change from fixed width to auto */
+}
+
+.marquee-item p {
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  width: 100%;
+  word-wrap: break-word; /* Add this line */
+  overflow-wrap: break-word; /* Add this line */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Optional: Pause animation on hover */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}

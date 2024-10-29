@@ -1,0 +1,34 @@
+.settlements-container {
+  padding: 16px;
+}
+
+.settlements-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust this value to control spacing between cards */
+  margin-top: 16px;
+}
+
+.settlement-card-wrapper {
+  flex: 1 1 200px; /* This allows the cards to grow and shrink, with a base width of 200px */
+  max-width: calc(33.333% - 8px); /* Ensures 3 cards per row on larger screens, adjust the 8px if you change the gap */
+}
+
+.settlement-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.settlement-card h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.settlement-card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0066cc;
+}

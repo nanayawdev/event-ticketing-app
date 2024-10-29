@@ -1,0 +1,36 @@
+.net-revenue-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 15px;
+  border: 1px dashed #fce4ec;
+  border-radius: 16px;
+}
+
+.net-revenue-content {
+  display: flex;
+  align-items: center;
+}
+
+.net-revenue-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-right: 8px;
+}
+
+.net-revenue-icon {
+  font-size: 22px;
+  color: #ff4081;
+  margin-right: 8px;
+}
+
+.net-revenue-amount {
+  background-color: #f8bbd0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #c2185b;
+}

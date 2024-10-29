@@ -1,0 +1,45 @@
+.event-card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .loading-message,
+  .error-message,
+  .no-events-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .error-message {
+    color: #ff0000;
+  }
+  
+  @media (max-width: 1600px) {
+    .event-card-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .event-card-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .event-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .event-card-grid {
+      grid-template-columns: 1fr;
+    }
+  }

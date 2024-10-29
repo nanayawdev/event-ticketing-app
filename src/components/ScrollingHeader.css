@@ -1,0 +1,65 @@
+.scrolling-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  font-family: inherit;
+  margin-bottom: 100px;
+  margin-top: 80px;
+}
+
+.static-text {
+  font-size: 4.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  max-width: 80%;
+}
+
+.scrolling-text-container {
+  height: 2.5rem; /* Fixed height to contain one line of text */
+  overflow: hidden;
+  position: relative;
+}
+
+.scrolling-text-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  animation: scroll 12s linear infinite; /* Adjust timing as needed */
+}
+
+.scrolling-text {
+  font-size: 4.5rem;
+  color: #f43630; /* Royal Blue */
+  font-weight: bold;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  margin: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* Pause animation on hover */
+.scrolling-text-container:hover .scrolling-text-wrapper {
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .static-text {
+    font-size: 1.8rem;
+  }
+
+  .scrolling-text {
+    font-size: 1.5rem;
+  }
+}

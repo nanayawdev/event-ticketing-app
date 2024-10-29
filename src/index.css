@@ -1,0 +1,23 @@
+  /* General Reset */
+  * {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+  }
+  
+  
+  body {
+  font-family: "DM Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+
+/* or create a new file like src/tooltip.css and import it in your main component */
+
+.react-tooltip {
+  background-color: #333 !important;
+  color: #fff !important;
+  padding: 8px 12px !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+}

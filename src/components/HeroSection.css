@@ -1,0 +1,15 @@
+.hero-text {
+    text-align: center; /* Center the text */
+    padding: 50px 20px; /* Add padding for spacing */
+    background-color: white; /* Background color */
+}
+
+.hero-text h1 {
+    font-size: 46px; /* Adjust font size */
+    font-weight: bold; /* Bold text */
+}
+
+.hero-text p {
+    font-size: 18px; /* Adjust font size */
+    color: gray; /* Text color */
+}

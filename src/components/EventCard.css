@@ -1,0 +1,87 @@
+.event-card {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  
+  .event-image {
+    height: 0;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .event-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.5s ease-in-out;
+    filter: grayscale(100%);
+  }
+  
+  .event-details {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-date {
+    display: inline-block;
+    background-color: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 12px;
+    margin-bottom: 8px;
+    align-self: flex-start;
+  }
+  
+  .event-title {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+  }
+  
+  .event-location {
+    margin: 0 0 16px 0;
+    color: #666;
+    flex-grow: 1;
+  }
+  
+  .event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .event-ussd {
+    font-family: monospace;
+    background-color: #f0f0f0;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  
+  .event-price {
+    font-weight: bold;
+    color: #000;
+  }
+
+  .event-image-link {
+    display: block;
+    text-decoration: none;
+  }
+  
+  .event-title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .event-title-link:hover {
+    color: #000;
+  }

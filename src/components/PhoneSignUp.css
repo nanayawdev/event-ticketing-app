@@ -1,0 +1,105 @@
+/* Import the main SignUp.css to reuse styles */
+@import './SignUp.css';
+
+/* Override and add specific styles for PhoneSignUp */
+.phone-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 60px; /* Adjust this value based on your logo's dimensions */
+  height: auto;
+}
+
+.signup-form {
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.phone-input-container {
+  width: 100% !important;
+}
+
+.phone-input {
+  width: 100% !important;
+  height: 50px !important;
+  font-size: 16px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px;
+  padding-left: 60px !important;
+  font-family: inherit !important;
+}
+
+.country-dropdown {
+  background-color: #ffffff !important;
+  border: 1px solid #ddd !important;
+  border-right: none !important;
+}
+
+.continue-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+  text-decoration: underline;
+}
+
+.continue-btn:hover, .back-btn:hover {
+  opacity: 0.9;
+}
+
+/* Ensure the logo is centered */
+.logo {
+  margin: 0 auto 20px;
+}
+
+/* Center the heading and paragraph */
+.signup-title, .signup-subtitle {
+  text-align: center;
+}
+
+.signup-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.signup-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
