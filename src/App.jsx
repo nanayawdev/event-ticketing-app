@@ -21,8 +21,7 @@ import Login from './components/Login/Login';
 import HeroSection from './components/HeroSection/HeroSection';
 import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
-import BrandAlternative from './components/BrandAlternative/BrandAlternative';
-
+import Divider from './components/Divider/Divider';
 
 const AppContent = () => {
 	const location = useLocation();
@@ -121,7 +120,7 @@ const AppContent = () => {
 						<>
 							<HeroSection />
 							<Brands />
-							<BrandAlternative />
+							<Divider />
 							<Approach />
 							<UpcomingEvents 
 								searchQuery={searchQuery} 
