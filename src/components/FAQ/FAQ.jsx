@@ -80,17 +80,17 @@ const FAQ = () => {
           .
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
           {faqs.map((faq, index) => (
-            <div key={index} className="flex gap-x-4 max-w-2xl">
-              <div className="flex-shrink-0 mt-1">
+            <div key={index} className="flex gap-x-4 w-[704px] pr-4">
+              <div className="flex-shrink-0">
                 {faq.icon}
               </div>
-              <div className="min-w-[calc(100%-28px)]">
-                <h3 className="text-base font-semibold text-gray-900 mb-2">
+              <div className="flex-1 pr-2">
+                <h3 className="text-base font-semibold text-gray-900 mb-1">
                   {faq.question}
                 </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-5">
                   {faq.answer}
                 </p>
               </div>
