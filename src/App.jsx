@@ -19,6 +19,10 @@ import ClientGuide from './components/ClientGuide/ClientGuide';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import HeroSection from './components/HeroSection/HeroSection';
+import Brands from './components/Brands/Brands';
+import Approach from './components/Approach/Approach';
+import BrandAlternative from './components/BrandAlternative/BrandAlternative';
+
 
 const AppContent = () => {
 	const location = useLocation();
@@ -116,6 +120,9 @@ const AppContent = () => {
 					<Route path="/" element={
 						<>
 							<HeroSection />
+							<Brands />
+							<BrandAlternative />
+							<Approach />
 							<UpcomingEvents 
 								searchQuery={searchQuery} 
 								setSearchQuery={setSearchQuery}

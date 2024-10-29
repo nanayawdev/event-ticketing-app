@@ -28,7 +28,7 @@ const HeroSection = () => {
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${heroBg})`
             }}
         >
-            <div className="mx-auto max-w-7xl px-4 pt-64 sm:px-6 md:pt-80 lg:px-32 lg:pt-96">
+            <div className="mx-auto max-w-9xl px-4 pt-64 sm:px-6 md:pt-80 lg:px-32 lg:pt-96">
                 <div className="max-w-4xl">
                     <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                         Find, book, and enjoy events you love.
