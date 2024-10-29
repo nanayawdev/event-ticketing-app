@@ -17,8 +17,8 @@ import Pricing from './components/Pricing/Pricing';
 import Contact from './components/Contacts/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
 import Dashboard from './components/Dashboard/Dashboard';
-import ScrollingHeader from './components/ScrollingHeader/ScrollingHeader';
 import Login from './components/Login/Login';
+import HeroSection from './components/HeroSection/HeroSection';
 
 const AppContent = () => {
 	const location = useLocation();
@@ -115,7 +115,7 @@ const AppContent = () => {
 				<Routes>
 					<Route path="/" element={
 						<>
-							<ScrollingHeader />
+							<HeroSection />
 							<UpcomingEvents 
 								searchQuery={searchQuery} 
 								setSearchQuery={setSearchQuery}
