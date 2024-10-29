@@ -160,8 +160,9 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="max-w-md w-full space-y-8">
+      <div className="min-h-screen flex items-center justify-center px-4 py-8">
+        <div className="max-w-sm w-full space-y-6">
+          {/* Header Section */}
           <div className="flex flex-col items-center text-center space-y-2">
             <img src={logo} alt="Logo" className="h-12 w-auto" />
             <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
@@ -170,9 +171,9 @@ const SignUp = () => {
             </p>
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6" noValidate>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
             {/* Full Name Input */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
@@ -192,7 +193,7 @@ const SignUp = () => {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   required
-                  className={`block w-full pl-10 pr-3 py-2 border ${
+                  className={`block w-full pl-10 pr-3 h-12 border ${
                     fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
                   } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                 />
@@ -218,7 +219,7 @@ const SignUp = () => {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   required
-                  className={`block w-full pl-10 pr-3 py-2 border ${
+                  className={`block w-full pl-10 pr-3 h-12 border ${
                     fieldErrors.email ? 'border-red-500' : 'border-gray-300'
                   } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                 />
@@ -244,7 +245,7 @@ const SignUp = () => {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   required
-                  className={`block w-full pl-10 pr-10 py-2 border ${
+                  className={`block w-full pl-10 pr-10 h-12 border ${
                     fieldErrors.password ? 'border-red-500' : 'border-gray-300'
                   } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                 />
@@ -287,7 +288,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
               >
                 {isLoading ? 'Registering...' : 'Register'}
               </button>
@@ -295,28 +296,28 @@ const SignUp = () => {
               <div className="grid grid-cols-5 gap-4">
                 <button
                   type="button"
-                  className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
                   <FaGoogle className="h-5 w-5" />
                 </button>
 
                 <button
                   type="button"
-                  className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
                   <FaGithub className="h-5 w-5" />
                 </button>
 
                 <button
                   type="button"
-                  className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
                   <FaFacebookF className="h-5 w-5" />
                 </button>
 
                 <button
                   type="button"
-                  className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
                   <FaApple className="h-5 w-5" />
                 </button>
@@ -324,7 +325,7 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={handlePhoneSignUp}
-                  className="flex items-center justify-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
                 >
                   <FaPhoneAlt className="h-5 w-5" />
                 </button>
@@ -332,7 +333,7 @@ const SignUp = () => {
             </div>
           </form>
 
-          <div className="flex flex-col items-center space-y-4 mt-6">
+          <div className="flex flex-col items-center space-y-4 mt-4">
             <p className="text-sm text-gray-600 text-center">
               By signing up, you agree to our{' '}
               <Link to="/terms" className="text-indigo-600 hover:text-indigo-500">

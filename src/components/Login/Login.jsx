@@ -41,8 +41,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="max-w-sm w-full space-y-6">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center space-y-2">
           <img src={logo} alt="Logo" className="h-12 w-auto" />
@@ -56,7 +56,7 @@ const Login = () => {
           <div className="text-red-500 text-sm text-center">{error}</div>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -181,7 +181,7 @@ const Login = () => {
         </form>
 
         {/* Updated Sign Up Link styling */}
-        <div className="flex flex-col items-center space-y-4 mt-6">
+        <div className="flex flex-col items-center space-y-4 mt-4">
           <p className="text-sm text-gray-600 text-center">
             Don't have an account?{' '}
             <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
