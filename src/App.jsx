@@ -20,6 +20,9 @@ import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 
+// Import ThemeProvider
+import { ThemeProvider } from './context/ThemeContext';
+
 const AppContent = () => {
 	const location = useLocation();
 	const [searchQuery, setSearchQuery] = useState('');
@@ -151,9 +154,11 @@ const AppContent = () => {
 
 const App = () => {
 	return (
-		<Router>
-			<AppContent />
-		</Router>
+		<ThemeProvider> {/* Wrap the Router with ThemeProvider */}
+			<Router>
+				<AppContent />
+			</Router>
+		</ThemeProvider>
 	);
 };
 
