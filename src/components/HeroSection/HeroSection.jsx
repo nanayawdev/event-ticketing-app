@@ -21,6 +21,20 @@ const HeroSection = () => {
         }
     ];
 
+    const handleDiscoverClick = () => {
+        const navigationSection = document.querySelector('.navigation-section');
+        if (navigationSection) {
+            const navHeight = 80; // Approximate height of the navigation bar
+            const elementPosition = navigationSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     return (
         <div 
             className="relative min-h-screen bg-cover bg-center bg-no-repeat" 
@@ -38,7 +52,10 @@ const HeroSection = () => {
                     </p>
                     
                     <div className="mt-8 flex flex-row items-center gap-6">
-                        <button className="rounded-lg bg-sea-green-600 px-6 py-3 font-semibold text-sea-green-50 transition-colors hover:bg-sea-green-400 sm:px-8 sm:py-4">
+                        <button 
+                            onClick={handleDiscoverClick}
+                            className="rounded-lg bg-sea-green-600 px-6 py-3 font-semibold text-sea-green-50 transition-colors hover:bg-sea-green-400 sm:px-8 sm:py-4"
+                        >
                             DISCOVER EVENTS
                         </button>
                         <a href="#" className="font-medium text-sea-green-50 underline hover:text-sea-green-200">

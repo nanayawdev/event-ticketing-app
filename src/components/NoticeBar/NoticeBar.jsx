@@ -1,18 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaArrowRight } from 'react-icons/fa';
+import { SquareArrowOutUpRight } from 'lucide-react';
 
 const NoticeBar = () => {
   return (
-    <Link 
-      to="/events/tech-expo-2024" 
-      className="sticky top-0 z-50 bg-sea-green-200 hover:bg-sea-green-100 block"
-    >
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 text-center py-4 px-4 text-base font-normal inline-block w-full animate-gradient">
-        New Event: "Tech Expo 2024" Tickets Now Available - Book Yours Today!
-        <FaArrowRight className="inline-block ml-2" />
-      </span>
-    </Link>
+    <div className="sticky top-0 z-50 bg-sea-green-900 flex items-center justify-center px-4 py-3 sm:py-2">
+      <div className="flex items-center gap-x-4">
+        <span className="text-gray-50 text-base font-normal">
+          <strong>New Event:</strong> "Tech Expo 2024" Tickets Now Available
+        </span>
+        <a
+          href="/events/tech-expo-2024"
+          className="flex-none rounded-sm bg-sea-green-400 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-sea-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 flex items-center gap-x-1"
+        >
+          Reserve Ticket <SquareArrowOutUpRight className="w-4 h-4" />
+        </a>
+      </div>
+    </div>
   );
 };
 

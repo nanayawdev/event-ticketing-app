@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import Banner from './components/Banner/Banner'
+import NoticeBar from './components/NoticeBar/NoticeBar'
 import EventCardGrid from './components/EventCardGrid/EventCardGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
@@ -19,6 +19,7 @@ import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
+import HelpPopup from './components/HelpPopup/HelpPopup';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -99,7 +100,7 @@ const AppContent = () => {
 
 	return (
 		<>
-			{!isSignUpPage && !isDashboardPage && !isLoginPage && <Banner />}
+			{!isSignUpPage && !isDashboardPage && !isLoginPage && <NoticeBar />}
 			{!isSignUpPage && !isDashboardPage && !isLoginPage && <Navbar />}
 				<Routes>
 					<Route path="/" element={
@@ -115,6 +116,7 @@ const AppContent = () => {
 								error={error}
 							/>
 							<Footer />
+							<HelpPopup />
 						</>
 					} />
 					<Route path="/event/:eventName" element={<EventDetails />} />

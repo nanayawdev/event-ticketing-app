@@ -9,7 +9,7 @@ const Approach = () => {
             description: 'Over the years, 12m+ users have trusted our solution for their event ticketing needs.',
             bgColor: 'bg-sea-green-100',
             icon: Users,
-            iconBg: 'bg-white'
+            iconBg: 'bg-sea-green-200'
         },
         {
             number: '$8.9m+',
@@ -25,7 +25,7 @@ const Approach = () => {
             description: 'Ticket sales over 49m+ transactions has been made on our platform this year.',
             bgColor: 'bg-sea-green-500',
             icon: Wallet,
-            iconBg: 'bg-sea-green-600'
+            iconBg: 'bg-sea-green-400'
         }
     ];
 
@@ -33,7 +33,7 @@ const Approach = () => {
         <div className="px-4 py-16 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl">
                 <div className="max-w-2xl">
-                    <div className="w-20 border-t-4 border-black mb-8"></div>
+                    <div className="w-20 border-t-4 border-sea-green-400 mb-8"></div>
                     
                     <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                         We take the millions of organisers, content creators into account
@@ -63,7 +63,7 @@ const Approach = () => {
                                 {/* Icon in bottom right corner with background */}
                                 <div className="absolute bottom-6 right-6">
                                     <div className={`${stat.iconBg} w-12 h-12 rounded-full flex items-center justify-center`}>
-                                        <Icon className={`w-6 h-6 ${index === 1 || index === 2 ? 'text-white' : 'text-sea-green-600'}`} />
+                                        <Icon className={`w-6 h-6 ${index === 1 || index === 2 ? 'text-sea-green-200' : 'text-sea-green-900'}`} />
                                     </div>
                                 </div>
                             </div>
