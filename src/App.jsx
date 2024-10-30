@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import NoticeBar from './components/NoticeBar/NoticeBar'
-import UpcomingEvents from './components/UpcomingEvents/UpcomingEvents';
 import EventCardGrid from './components/EventCardGrid/EventCardGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
@@ -19,17 +18,15 @@ import HeroSection from './components/HeroSection/HeroSection';
 import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
-
+import Navigation from './components/Navigation/Navigation';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
 const AppContent = () => {
 	const location = useLocation();
-	const [searchQuery, setSearchQuery] = useState('');
 	const [events, setEvents] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [activeTab, setActiveTab] = useState('list');
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 
 	useEffect(() => {
@@ -58,12 +55,7 @@ const AppContent = () => {
 		};
 	}, []);  // Empty dependency array to run only once on mount
 
-	const generateRandomUSSD = () => {
-		const prefix = '*713*';
-		const middlePart = Math.floor(Math.random() * 90 + 10);
-		const suffix = Math.floor(Math.random() * 900 + 100);
-		return `${prefix}${middlePart}*${suffix}#`;
-	};
+
 
 	const fetchEvents = async () => {
 		if (!isOnline) {
@@ -101,12 +93,6 @@ const AppContent = () => {
 		}
 	};
 
-	const filteredEvents = events.filter(event => 
-		event.Event_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-		event.Location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-		(event.Price && event.Price.toString().includes(searchQuery))
-	);
-
 	const isSignUpPage = location.pathname === '/signup';
 	const isDashboardPage = location.pathname.startsWith('/dashboard');
 	const isLoginPage = location.pathname === '/login';
@@ -122,18 +108,12 @@ const AppContent = () => {
 							<Brands />
 							<Divider />
 							<Approach />
-							<UpcomingEvents 
-								searchQuery={searchQuery} 
-								setSearchQuery={setSearchQuery}
-								activeTab={activeTab}
-								setActiveTab={setActiveTab}
-							/>
+							<Navigation />
 							<EventCardGrid 
-								events={filteredEvents}
+								events={events}
 								loading={loading}
 								error={error}
 							/>
-
 							<Footer />
 						</>
 					} />
