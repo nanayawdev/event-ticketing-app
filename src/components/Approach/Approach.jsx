@@ -1,24 +1,31 @@
 import React from 'react';
+import { Users, BadgeCent, Wallet } from 'lucide-react';
 
 const Approach = () => {
     const stats = [
         {
-            number: '250k',
-            title: 'Users on the platform',
-            description: 'Vel labore deleniti veniam consequuntur sunt nobis.',
-            bgColor: 'bg-gray-50'
+            number: '12m+',
+            title: 'Creators and Organisers on the platform',
+            description: 'Over the years, 12m+ users have trusted our solution for their event ticketing needs.',
+            bgColor: 'bg-sea-green-100',
+            icon: Users,
+            iconBg: 'bg-white'
         },
         {
-            number: '$8.9 billion',
-            title: "We're proud that our customers have made over $8 billion in total revenue.",
-            description: 'Eu duis porta aliquam ornare. Elementum eget magna egestas.',
-            bgColor: 'bg-[#14171F]'
+            number: '$8.9m+',
+            title: "Returns made for trusting our solution.",
+            description: 'Our customers have made over $8.9m+ in total revenue with our system.',
+            bgColor: 'bg-sea-green-300',
+            icon: BadgeCent,
+            iconBg: 'bg-sea-green-400'
         },
         {
-            number: '401,093',
-            title: 'Transactions this year',
-            description: 'Eu duis porta aliquam ornare. Elementum eget magna egestas. Eu duis porta aliquam ornare.',
-            bgColor: 'bg-[#4F46E5]'
+            number: '49m+',
+            title: 'Events ticket sales and more over the years',
+            description: 'Ticket sales over 49m+ transactions has been made on our platform this year.',
+            bgColor: 'bg-sea-green-500',
+            icon: Wallet,
+            iconBg: 'bg-sea-green-600'
         }
     ];
 
@@ -29,29 +36,39 @@ const Approach = () => {
                     <div className="w-20 border-t-4 border-black mb-8"></div>
                     
                     <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                        We approach work as a place to make the world better
+                        We take the millions of organisers, content creators into account
                     </h2>
                 </div>
 
                 <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {stats.map((stat, index) => (
-                        <div 
-                            key={index} 
-                            className={`rounded-3xl ${stat.bgColor} p-10 ${index === 1 || index === 2 ? 'text-white' : 'text-gray-900'}`}
-                        >
-                            <div className="flex flex-col gap-4">
-                                <span className="text-4xl font-bold sm:text-5xl">
-                                    {stat.number}
-                                </span>
-                                <h3 className="text-xl font-semibold">
-                                    {stat.title}
-                                </h3>
-                                <p className={`text-sm ${index === 1 || index === 2 ? 'text-gray-300' : 'text-gray-500'}`}>
-                                    {stat.description}
-                                </p>
+                    {stats.map((stat, index) => {
+                        const Icon = stat.icon;
+                        return (
+                            <div 
+                                key={index} 
+                                className={`relative rounded-3xl ${stat.bgColor} p-10 ${index === 1 || index === 2 ? 'text-white' : 'text-gray-900'}`}
+                            >
+                                <div className="flex flex-col gap-4">
+                                    <span className="text-4xl font-bold sm:text-5xl">
+                                        {stat.number}
+                                    </span>
+                                    <h3 className={`text-xl ${index === 2 ? 'text-gray-900' : 'text-gray-900'} font-semibold`}>
+                                        {stat.title}
+                                    </h3>
+                                    <p className={`text-sm ${index === 1 || index === 2 ? 'text-gray-50' : 'text-gray-500'}`}>
+                                        {stat.description}
+                                    </p>
+                                </div>
+                                
+                                {/* Icon in bottom right corner with background */}
+                                <div className="absolute bottom-6 right-6">
+                                    <div className={`${stat.iconBg} w-12 h-12 rounded-full flex items-center justify-center`}>
+                                        <Icon className={`w-6 h-6 ${index === 1 || index === 2 ? 'text-white' : 'text-sea-green-600'}`} />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>

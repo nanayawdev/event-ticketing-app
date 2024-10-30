@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import NoticeBar from './components/NoticeBar/NoticeBar'
+import Banner from './components/Banner/Banner'
 import EventCardGrid from './components/EventCardGrid/EventCardGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
@@ -99,7 +99,7 @@ const AppContent = () => {
 
 	return (
 		<>
-			{!isSignUpPage && !isDashboardPage && !isLoginPage && <NoticeBar />}
+			{!isSignUpPage && !isDashboardPage && !isLoginPage && <Banner />}
 			{!isSignUpPage && !isDashboardPage && !isLoginPage && <Navbar />}
 				<Routes>
 					<Route path="/" element={

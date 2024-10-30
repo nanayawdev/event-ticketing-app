@@ -33,9 +33,9 @@ const Navigation = () => {
           {/* Combobox */}
           <Listbox value={selectedSort} onChange={setSelectedSort}>
             <div className="relative">
-              <Listbox.Button className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 transition-colors min-w-[120px] border border-gray-200">
+              <Listbox.Button className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 transition-colors min-w-[100px] sm:min-w-[120px] border border-gray-200">
                 <span>{selectedSort.name}</span>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
               </Listbox.Button>
               <Transition
                 as={Fragment}
@@ -53,7 +53,7 @@ const Navigation = () => {
                       value={option}
                       className={({ active }) =>
                         `${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}
-                        cursor-pointer select-none relative py-2 px-4 text-sm`
+                        cursor-pointer select-none relative py-2 px-3 sm:px-4 text-xs sm:text-sm`
                       }
                     >
                       {({ selected }) => (
@@ -62,7 +62,7 @@ const Navigation = () => {
                             {option.name}
                           </span>
                           {selected && (
-                            <Check className="w-4 h-4 text-sea-green-600 ml-2" />
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-sea-green-600 ml-2" />
                           )}
                         </div>
                       )}
@@ -75,12 +75,12 @@ const Navigation = () => {
 
           {/* Tabs */}
           <nav className="flex-1 min-w-0">
-            <div className="flex space-x-8 overflow-x-auto hide-scrollbar">
+            <div className="flex space-x-4 sm:space-x-8 overflow-x-auto hide-scrollbar">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveTab(category)}
-                  className={`px-1 py-4 text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0
+                  className={`px-1 py-3 sm:py-4 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0
                     ${activeTab === category 
                       ? 'text-gray-900 border-b-2 border-gray-900' 
                       : 'text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700'
@@ -95,7 +95,7 @@ const Navigation = () => {
 
         {/* Filter Button */}
         <button 
-          className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors border border-gray-200 ml-8 flex-shrink-0"
+          className="hidden md:flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors border border-gray-200 ml-8 flex-shrink-0"
         >
           <Settings2 className="w-4 h-4" />
           <span>Filters</span>

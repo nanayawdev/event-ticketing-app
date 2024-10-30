@@ -44,8 +44,8 @@ export default function Example() {
         </div>
         <div className="mx-auto mt-16 flex justify-center">
           <p className="text-sm text-gray-600">
-            Over 2500 companies use our tools to better their business.{' '}
-            <a href="#" className="font-semibold text-[#444CE7] hover:text-indigo-500">
+            2500+ clients have used our app to manage their events.{' '}
+            <a href="#" className="font-semibold text-sea-green-400 hover:text-sea-green-500">
               Read our customer stories{' →'}
             </a>
           </p>

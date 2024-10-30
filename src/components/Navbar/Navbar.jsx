@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-sea-green-50 border-b border-sea-green-200 shadow-sm">
+    <nav className="fixed w-full z-50 bg-sea-green-50 border-b border-sea-green-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex justify-between h-16">
           {/* Logo section */}
@@ -29,49 +29,49 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:items-center lg:space-x-6">
             <Link
               to="/"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Home
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/events"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Events
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/about"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               About
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/services"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Services
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/pricing"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Pricing
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/contact"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Contact
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
               to="/clientguide"
-              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
+              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Client Guide
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
@@ -82,13 +82,13 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
             <Link
               to="/login"
-              className="border border-sea-green-600 text-sea-green-600 hover:bg-sea-green-50 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
+              className="border border-sea-green-950 text-sea-green-950 hover:bg-sea-green-50 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-sea-green-600 text-white hover:bg-sea-green-700 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+              className="bg-sea-green-400 text-white hover:bg-sea-green-500 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Sign Up
             </Link>

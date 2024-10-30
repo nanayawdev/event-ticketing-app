@@ -1,0 +1,250 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: 100px;
+}
+
+.signup-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 60px;
+}
+
+.signup-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.signup-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.form-group.error input {
+  border-color: #ff0000;
+  border-width: 2px;
+}
+
+.form-group.error input:focus {
+  border-color: #ff0000;
+}
+
+.register-btn, .google-btn, .phone-btn{
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  height: 50px;
+}
+
+.register-btn {
+  background-color: #000;
+  color: white;
+}
+
+.register-btn:hover {
+  background-color: #4caf50;
+}
+
+.google-btn, .phone-btn {
+  background-color: white;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-btn img {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.phone-btn img {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.terms, .login-link {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+
+/* Add this to your existing CSS */
+.MuiSnackbar-root {
+  z-index: 1400;
+  position: fixed;
+  border-radius: 50px;
+}
+
+.password-strength {
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+.password-strength p {
+  margin: 5px 0;
+  color: #ff0000;
+}
+
+.password-strength p.met {
+  color: #008000;
+}
+
+.password-strength-meter {
+  margin-top: 10px;
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.password-requirements {
+  margin-top: 15px;
+  font-size: 0.9em;
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.password-requirements ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.password-requirements li {
+  display: flex;
+  align-items: center;
+  color: #ff0000;
+  white-space: nowrap;
+}
+
+.password-requirements li.met {
+  color: #4caf50;
+}
+
+.password-requirements li::before {
+  margin-right: 5px;
+  font-size: 1.2em;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .password-requirements ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.register-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Customize the LinearProgress colors */
+.password-strength-meter.MuiLinearProgress-root {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.password-strength-meter .MuiLinearProgress-bar {
+  background-color: #4caf50;
+}
+
+input[type="password"]:focus + .password-strength-meter,
+input[type="password"]:focus ~ .password-requirements {
+  opacity: 1;
+  max-height: 1000px; /* Adjust this value as needed */
+}
+
+.password-requirements p {
+  margin-bottom: 5px;
+  font-weight: 700; /* This makes the text bold */
+  color: #333; /* Optional: you can adjust the color as needed */
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 0.8em;
+  margin-top: 5px;
+  display: block;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-input-wrapper input {
+  padding-right: 40px; /* Make room for the toggle button */
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+}
+
+.password-toggle-btn:focus {
+  outline: none;
+}
