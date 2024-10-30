@@ -20,6 +20,7 @@ import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
+import MyEventCard from './components/MyEventCard/MyEventCard';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -110,6 +111,7 @@ const AppContent = () => {
 							<Divider />
 							<Approach />
 							<Navigation />
+							<MyEventCard />
 							<EventCardGrid 
 								events={events}
 								loading={loading}
