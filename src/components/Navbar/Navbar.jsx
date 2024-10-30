@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Ellipsis, X, Sun, Moon, Monitor } from 'lucide-react';
+import { Ellipsis, X } from 'lucide-react';
 import tickrflyyLogo from '../../assets/icons/nylogo.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isThemeOpen, setIsThemeOpen] = useState(false);
-  const [theme, setTheme] = useState('system');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const toggleTheme = () => {
-    setIsThemeOpen(!isThemeOpen);
-  };
-
-  const handleThemeChange = (newTheme) => {
-    setTheme(newTheme);
-    // Add your theme logic here
-    setIsThemeOpen(false);
-  };
-
   return (
-    <nav className="fixed w-full z-50 bg-white/25 backdrop-blur-xl backdrop-saturate-200 border-b border-white/10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+    <nav className="fixed w-full z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo section */}
@@ -90,79 +78,24 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Theme Switcher and Auth buttons */}
+          {/* Auth buttons */}
           <div className="hidden md:flex md:items-center md:space-x-4">
-            {/* Theme Switcher */}
-            <div className="relative">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-md text-gray-800 hover:text-indigo-600 focus:outline-none transition-colors duration-300"
-              >
-                {theme === 'light' && <Sun className="h-5 w-5" />}
-                {theme === 'dark' && <Moon className="h-5 w-5" />}
-                {theme === 'system' && <Monitor className="h-5 w-5" />}
-              </button>
-
-              {/* Theme Dropdown */}
-              {isThemeOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white/90 backdrop-blur-xl backdrop-saturate-200 ring-1 ring-black ring-opacity-5">
-                  <div className="py-1" role="menu" aria-orientation="vertical">
-                    <button
-                      onClick={() => handleThemeChange('light')}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50/50"
-                      role="menuitem"
-                    >
-                      <Sun className="h-4 w-4 mr-2" />
-                      Light
-                    </button>
-                    <button
-                      onClick={() => handleThemeChange('dark')}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50/50"
-                      role="menuitem"
-                    >
-                      <Moon className="h-4 w-4 mr-2" />
-                      Dark
-                    </button>
-                    <button
-                      onClick={() => handleThemeChange('system')}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50/50"
-                      role="menuitem"
-                    >
-                      <Monitor className="h-4 w-4 mr-2" />
-                      System
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Auth buttons */}
             <Link
               to="/login"
-              className="border border-indigo-600/80 text-indigo-600 hover:bg-indigo-50/30 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
+              className="border border-indigo-600 text-indigo-600 hover:bg-indigo-50 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-indigo-600/90 text-white hover:bg-indigo-700 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+              className="bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Sign Up
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            {/* Theme Switcher for Mobile */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-800 hover:text-indigo-600 focus:outline-none transition-colors duration-300"
-            >
-              {theme === 'light' && <Sun className="h-5 w-5" />}
-              {theme === 'dark' && <Moon className="h-5 w-5" />}
-              {theme === 'system' && <Monitor className="h-5 w-5" />}
-            </button>
-
+          <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-indigo-600 focus:outline-none transition-colors duration-300"
@@ -181,7 +114,7 @@ const Navbar = () => {
       <div 
         className={`${
           isMenuOpen ? 'block' : 'hidden'
-        } md:hidden bg-white/25 backdrop-blur-xl backdrop-saturate-200 border-t border-white/10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]`}
+        } md:hidden bg-white border-t border-gray-200 shadow-sm`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
