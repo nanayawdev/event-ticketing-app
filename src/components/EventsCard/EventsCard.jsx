@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { SlLike } from 'react-icons/sl'
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
+import { useNavigate } from 'react-router-dom';
 
 const getEventStatus = (eventDate) => {
   const event = new Date(eventDate)
@@ -34,6 +35,7 @@ const EventsCard = ({ event }) => {
   const [status, setStatus] = useState(getEventStatus(event.Event_Start_Date))
   const [likes, setLikes] = useState(0)
   const [hasLiked, setHasLiked] = useState(false)
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,6 +59,11 @@ const EventsCard = ({ event }) => {
     setLikes(prev => hasLiked ? prev - 1 : prev + 1)
     setHasLiked(prev => !prev)
   }
+
+  const handleViewEvent = () => {
+    const eventSlug = event.Event_Name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/event/${eventSlug}`);
+  };
 
   return (
     <div className="bg-gray-50 rounded-lg overflow-hidden shadow-lg">
@@ -101,7 +108,10 @@ const EventsCard = ({ event }) => {
           <div className="text-2xl font-normal border border-gray-200 rounded-md px-3 py-1">
             ₵{event.Event_Price || '456'}
           </div>
-          <button className="bg-sea-green-400 text-white px-6 py-2 rounded-md hover:bg-sea-green-600 transition-colors">
+          <button 
+            onClick={handleViewEvent}
+            className="bg-sea-green-400 text-white px-4 py-1.5 rounded-md hover:bg-sea-green-600 transition-colors"
+          >
             View Event
           </button>
         </div>

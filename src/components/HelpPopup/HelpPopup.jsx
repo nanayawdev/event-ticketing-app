@@ -36,8 +36,8 @@ const HelpPopup = () => {
           {/* Icon and Content */}
           <div className="flex flex-col items-start text-left">            
             <div className="flex items-center gap-2 mb-2">
-              <div className="bg-sea-green-100 p-2 rounded-lg">
-                <Handshake className="w-6 h-6 text-sea-green-400" />
+              <div className="bg-red-100 p-2 rounded-lg">
+                <Handshake className="w-6 h-6 text-red-400" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900">
                 Become a Partner
@@ -51,7 +51,7 @@ const HelpPopup = () => {
             <div className="flex items-center justify-between w-full">
               <button 
                 onClick={() => {/* Add partner signup link/action */}}
-                className="bg-sea-green-400 text-white py-3 px-4 rounded-lg font-medium hover:bg-sea-green-700 transition-colors duration-300 flex items-center gap-2"
+                className="bg-red-400 text-white py-3 px-4 rounded-lg font-medium hover:bg-sea-green-700 transition-colors duration-300 flex items-center gap-2"
               >
                 <span>Join Us Now and Earn</span>
                 <SquareArrowOutUpRight className="w-4 h-4" />

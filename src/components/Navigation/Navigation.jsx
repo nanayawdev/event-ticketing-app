@@ -29,7 +29,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <div className="navigation-section bg-sea-green-50">
+    <div className="navigation-section bg-sea-green-50 mb-8">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 border-b border-sea-green-50 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8 flex-1 min-w-0">
