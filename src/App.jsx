@@ -21,6 +21,7 @@ import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import MyEventCard from './components/MyEventCard/MyEventCard';
+import NewEventCard from './components/NewEventCard/NewEventCard';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -112,6 +113,7 @@ const AppContent = () => {
 							<Approach />
 							<Navigation />
 							<MyEventCard />
+							<NewEventCard />
 							<EventCardGrid 
 								events={events}
 								loading={loading}
