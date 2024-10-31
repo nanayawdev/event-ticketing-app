@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ThumbsUp } from 'lucide-react'
+import { SlLike } from 'react-icons/sl'
 
 const getEventStatus = (eventDate) => {
   const now = new Date()
@@ -49,47 +49,49 @@ const EventsCard = ({ event }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+    <div className="bg-gray-50 rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img 
           src={event.Event_Image?.url || "/placeholder.svg?height=200&width=400"} 
           alt={event.Event_Name}
           className="w-full h-48 object-cover"
         />
-        <div className={`absolute top-4 left-4 ${status.className} text-white px-4 py-1 rounded-full text-sm font-medium`}>
+        <div className={`absolute top-2 right-2 ${status.className} text-white px-2 py-0.5 rounded-md text-xs font-normal`}>
           {status.text}
         </div>
       </div>
 
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h2 className="text-2xl font-bold">{event.Event_Name}</h2>
+          <h2 className="text-xl font-normal">{event.Event_Name}</h2>
           <button 
             onClick={handleLike}
             className={`flex items-center gap-1 transition-colors ${
-              hasLiked ? 'text-blue-500' : 'hover:text-blue-500'
+              hasLiked ? 'text-sea-green-500' : 'hover:text-sea-green-500'
             }`}
           >
-            <ThumbsUp className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
+            <SlLike className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
             {likes > 0 && <span>{likes}</span>}
           </button>
         </div>
 
         <div className="flex gap-4 mb-2">
           <div className="text-center">
-            <div className="text-blue-500 font-bold">{month}</div>
-            <div className="text-3xl font-bold">{day}</div>
+            <div className="text-sea-green-500 font-bold">{month}</div>
+            <div className="text-3xl font-normal text-sea-green-500">{day}</div>
           </div>
-          <p className="text-gray-600">{event.Event_Description}</p>
+          <p className="text-gray-600 font-normal">{event.Event_Description}</p>
         </div>
 
-        <div className="text-gray-500 mb-2">
+        <div className="text-gray-500 mb-2 text-lg font-medium">
           {event.Event_Venue}
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold">$456</div>
-          <button className="bg-gray-900 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors">
+          <div className="text-2xl font-normal border border-gray-200 rounded-md px-3 py-1">
+            ₵{event.Event_Price || '456'}
+          </div>
+          <button className="bg-sea-green-400 text-white px-6 py-2 rounded-md hover:bg-sea-green-600 transition-colors">
             View Event
           </button>
         </div>

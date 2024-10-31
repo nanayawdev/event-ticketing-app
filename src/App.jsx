@@ -25,6 +25,7 @@ import { ThemeProvider } from './context/ThemeContext';
 
 const AppContent = () => {
 	const location = useLocation();
+	const [activeCategory, setActiveCategory] = useState('All');
 
 	const isSignUpPage = location.pathname === '/signup';
 	const isDashboardPage = location.pathname.startsWith('/dashboard');
@@ -41,8 +42,11 @@ const AppContent = () => {
 						<Brands />
 						<Divider />
 						<Approach />
-						<Navigation />
-						<EventsGrid />
+						<Navigation 
+							activeCategory={activeCategory}
+							setActiveCategory={setActiveCategory}
+						/>
+						<EventsGrid activeCategory={activeCategory} />
 						<Footer />
 						<HelpPopup />
 					</>
