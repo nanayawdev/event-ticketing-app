@@ -20,8 +20,8 @@ const Navigation = () => {
     fetch('https://api-server.krontiva.africa/api:4S2X7JDM/event_category')
       .then(response => response.json())
       .then(data => {
-        const allCategories = ['All', ...data.map(cat => cat.Event_Category)]
-        setCategories(allCategories);
+        const uniqueCategories = ['All', ...new Set(data.map(cat => cat.Event_Category))];
+        setCategories(uniqueCategories);
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
@@ -80,9 +80,9 @@ const Navigation = () => {
             {/* Tabs */}
             <nav className="flex-1 min-w-0">
               <div className="flex space-x-8 overflow-x-auto hide-scrollbar">
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <button
-                    key={category}
+                    key={`${category}-${index}`}
                     onClick={() => setActiveTab(category)}
                     className={`px-1 py-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0
                       ${activeTab === category 

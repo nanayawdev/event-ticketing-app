@@ -1,21 +1,33 @@
 import { useState, useEffect } from 'react'
 import { SlLike } from 'react-icons/sl'
+import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 
 const getEventStatus = (eventDate) => {
-  const now = new Date()
   const event = new Date(eventDate)
-  const diffTime = event - now
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const now = new Date()
 
-  if (diffTime < 0) {
+  if (isPast(event) && !isToday(event)) {
     return { text: "Past Event", className: "bg-red-500" }
-  } else if (diffDays === 0) {
-    return { text: "Event Due Today", className: "bg-green-500" }
-  } else if (diffDays <= 5) {
-    return { text: `${diffDays} days until event`, className: "bg-gray-800" }
-  } else {
-    return { text: "Currently Live", className: "bg-pink-500" }
   }
+
+  if (isToday(event)) {
+    const timeStr = format(event, 'h:mm a')
+    return { text: `Today at ${timeStr}`, className: "bg-green-500" }
+  }
+
+  if (isTomorrow(event)) {
+    return { text: "Tomorrow", className: "bg-blue-500" }
+  }
+
+  if (isFuture(event)) {
+    const daysUntil = differenceInDays(event, now)
+    if (daysUntil <= 7) {
+      return { text: `${daysUntil} days until event`, className: "bg-yellow-500" }
+    }
+    return { text: `${daysUntil} days away`, className: "bg-gray-500" }
+  }
+
+  return { text: "Check dates", className: "bg-gray-400" }
 }
 
 const EventsCard = ({ event }) => {
@@ -44,8 +56,6 @@ const EventsCard = ({ event }) => {
   const handleLike = () => {
     setLikes(prev => hasLiked ? prev - 1 : prev + 1)
     setHasLiked(prev => !prev)
-    // Here you would typically make an API call to update likes in the backend
-    // updateEventLikes(event.id, hasLiked ? likes - 1 : likes + 1)
   }
 
   return (
