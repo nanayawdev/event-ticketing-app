@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import EventsCard from '../EventsCard/EventsCard'
+import EventsCard from '../EventsCard/Eventscard'
 
 const EventsGrid = ({ activeCategory }) => {
   const [events, setEvents] = useState([])
