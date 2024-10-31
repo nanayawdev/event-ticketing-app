@@ -10,10 +10,11 @@ const sortOptions = [
   { id: 4, name: 'Trending' }
 ];
 
-const Navigation = ({ activeCategory, setActiveCategory }) => {
+const Navigation = () => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
+  const [activeTab, setActiveTab] = useState('All');
 
   useEffect(() => {
     fetch('https://api-server.krontiva.africa/api:4S2X7JDM/event_category')
@@ -82,11 +83,11 @@ const Navigation = ({ activeCategory, setActiveCategory }) => {
                 {categories.map((category) => (
                   <button
                     key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-1 py-4 text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0
-                      ${activeCategory === category 
-                        ? 'text-gray-900 border-b-2 border-gray-900' 
-                        : 'text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700'
+                    onClick={() => setActiveTab(category)}
+                    className={`px-1 py-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0
+                      ${activeTab === category 
+                        ? 'text-gray-900 border-gray-900' 
+                        : 'text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700'
                       }`}
                   >
                     {category}
