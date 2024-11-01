@@ -1,15 +1,15 @@
 import React from 'react'
-
+import tickrflyevent from '../../assets/images/tickrflyatjoemettle.jpg'
 export default function Component() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
       <div className="grid lg:grid-cols-2 gap-12 items-start">
         <div className="space-y-8">
           <h2 className="text-4xl font-bold tracking-tight text-gray-900">
-            Making cities for people, not cars
+            Transforming Event Experiences Across Africa
           </h2>
           <p className="text-lg text-gray-600">
-            By sharing our knowledge of the industry and real-time data we're helping to improve our cities.
+            We're revolutionizing how events are discovered, organized, and experienced through innovative ticketing solutions and local expertise.
           </p>
 
           <div className="space-y-6">
@@ -18,9 +18,9 @@ export default function Component() {
                 1
               </div>
               <div>
-                <h3 className="font-semibold text-xl mb-2 text-gray-900">Sharing best practices</h3>
+                <h3 className="font-semibold text-xl mb-2 text-gray-900">Empowering Event Creators</h3>
                 <p className="text-gray-600">
-                  We're able to provide insights that help local authorities make their cities more connected and liveable.
+                  From seamless ticket management to real-time analytics, we provide organizers with the tools they need to create successful events.
                 </p>
               </div>
             </div>
@@ -30,9 +30,9 @@ export default function Component() {
                 2
               </div>
               <div>
-                <h3 className="font-semibold text-xl mb-2 text-gray-900">One app, many ways to move</h3>
+                <h3 className="font-semibold text-xl mb-2 text-gray-900">Secure & Simple Ticketing</h3>
                 <p className="text-gray-600">
-                  With multiple transport services inside a single app, getting around safely, in a more sustainable way, has never been easier.
+                  Our platform offers hassle-free ticket purchasing with multiple payment options and fraud protection for peace of mind.
                 </p>
               </div>
             </div>
@@ -42,9 +42,9 @@ export default function Component() {
                 3
               </div>
               <div>
-                <h3 className="font-semibold text-xl mb-2 text-gray-900">Less is more</h3>
+                <h3 className="font-semibold text-xl mb-2 text-gray-900">Event Discovery Made Easy</h3>
                 <p className="text-gray-600">
-                  Shared transport can transform our cities by lowering emissions, reducing congestion, and the demand for parking spaces.
+                  Helping attendees discover and access amazing events through personalized recommendations and an intuitive search experience.
                 </p>
               </div>
             </div>
@@ -53,8 +53,8 @@ export default function Component() {
 
         <div className="relative h-full">
           <img
-            src="/placeholder.svg?height=600&width=800"
-            alt="Modern city street with pedestrians and cyclists"
+            src={tickrflyevent}
+            alt="Event ticketing platform interface"
             className="w-full h-full object-cover rounded-lg shadow-lg"
           />
         </div>
