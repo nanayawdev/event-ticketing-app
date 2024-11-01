@@ -6,6 +6,7 @@ import { Snackbar, Alert, LinearProgress } from '@mui/material';
 import PhoneSignUp from '../PhoneSignUp/PhoneSignUp';
 import { FaPhoneAlt, FaGoogle, FaGithub, FaFacebookF, FaApple} from 'react-icons/fa';
 import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
+import SocialButton from '../Login/SocialButton';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -154,6 +155,14 @@ const SignUp = () => {
     setShowPhoneSignUp(false);
   };
 
+  const socialButtons = [
+    { icon: FaGoogle, name: 'Google', onClick: handlePhoneSignUp },
+    { icon: FaGithub, name: 'GitHub', onClick: handlePhoneSignUp },
+    { icon: FaFacebookF, name: 'Facebook', onClick: handlePhoneSignUp },
+    { icon: FaApple, name: 'Apple', onClick: handlePhoneSignUp },
+    { icon: FaPhoneAlt, name: 'Phone', onClick: handlePhoneSignUp }
+  ];
+
   if (showPhoneSignUp) {
     return <PhoneSignUp onBack={handleBackToSignUp} />;
   }
@@ -293,42 +302,14 @@ const SignUp = () => {
                 {isLoading ? 'Registering...' : 'Register'}
               </button>
 
-              <div className="grid grid-cols-5 gap-4">
-                <button
-                  type="button"
-                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FaGoogle className="h-5 w-5" />
-                </button>
-
-                <button
-                  type="button"
-                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FaGithub className="h-5 w-5" />
-                </button>
-
-                <button
-                  type="button"
-                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FaFacebookF className="h-5 w-5" />
-                </button>
-
-                <button
-                  type="button"
-                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FaApple className="h-5 w-5" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handlePhoneSignUp}
-                  className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FaPhoneAlt className="h-5 w-5" />
-                </button>
+              <div className="grid grid-cols-5 gap-3">
+                {socialButtons.map((props) => (
+                  <SocialButton 
+                    key={props.name} 
+                    {...props} 
+                    onClick={props.onClick} 
+                  />
+                ))}
               </div>
             </div>
           </form>

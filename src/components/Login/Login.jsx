@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaGoogle, FaGithub, FaFacebook, FaApple, FaPhoneAlt } from 'react-icons/fa';
 import { AtSign, Key, EyeClosed, Eye } from 'lucide-react';
 import logo from '../../assets/icons/nylogo.png';
+import SocialButton from './SocialButton';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const socialButtons = [
+    { icon: FaGoogle, name: 'Google', color: 'hover:bg-red-50' },
+    { icon: FaGithub, name: 'GitHub', color: 'hover:bg-gray-50' },
+    { icon: FaFacebook, name: 'Facebook', color: 'hover:bg-blue-50' },
+    { icon: FaApple, name: 'Apple', color: 'hover:bg-gray-50' },
+    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50' }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,41 +150,10 @@ const Login = () => {
             </button>
 
             {/* Social Login Buttons */}
-            <div className="grid grid-cols-5 gap-4">
-              <button
-                type="button"
-                className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <FaGoogle className="h-5 w-5" />
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <FaGithub className="h-5 w-5" />
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <FaFacebook className="h-5 w-5" />
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <FaApple className="h-5 w-5" />
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center justify-center h-12 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <FaPhoneAlt className="h-5 w-5" />
-              </button>
+            <div className="grid grid-cols-5 gap-3">
+              {socialButtons.map((props) => (
+                <SocialButton key={props.name} {...props} />
+              ))}
             </div>
           </div>
         </form>

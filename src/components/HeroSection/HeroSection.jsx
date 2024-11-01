@@ -1,5 +1,5 @@
 import React from 'react';
-import heroBg from '../../assets/images/amakyedede.jpeg';
+import heroBg from '../../assets/images/ska.jpg';
 
 const HeroSection = () => {
     const stats = [

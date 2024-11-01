@@ -3,7 +3,7 @@ import { SlLike } from 'react-icons/sl'
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 import { useNavigate } from 'react-router-dom';
 
-const getEventStatus = (eventDate) => {
+const getEventStatus = (eventDate, eventVenue) => {
   const event = new Date(eventDate)
   const now = new Date()
 
@@ -12,8 +12,7 @@ const getEventStatus = (eventDate) => {
   }
 
   if (isToday(event)) {
-    const timeStr = format(event, 'h:mm a')
-    return { text: `Today at ${timeStr}`, className: "bg-green-500" }
+    return { text: `Happening now at ${eventVenue}`, className: "bg-green-500" }
   }
 
   if (isTomorrow(event)) {
@@ -32,18 +31,18 @@ const getEventStatus = (eventDate) => {
 }
 
 const EventsCard = ({ event }) => {
-  const [status, setStatus] = useState(getEventStatus(event.Event_Start_Date))
+  const [status, setStatus] = useState(getEventStatus(event.Event_Start_Date, event.Event_Venue))
   const [likes, setLikes] = useState(0)
   const [hasLiked, setHasLiked] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStatus(getEventStatus(event.Event_Start_Date))
+      setStatus(getEventStatus(event.Event_Start_Date, event.Event_Venue))
     }, 60000) // Update status every minute
 
     return () => clearInterval(timer)
-  }, [event.Event_Start_Date])
+  }, [event.Event_Start_Date, event.Event_Venue])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -110,7 +109,12 @@ const EventsCard = ({ event }) => {
           </div>
           <button 
             onClick={handleViewEvent}
-            className="bg-sea-green-400 text-white px-4 py-1.5 rounded-md hover:bg-sea-green-600 transition-colors"
+            disabled={isPast(new Date(event.Event_Start_Date)) && !isToday(new Date(event.Event_Start_Date))}
+            className={`${
+              isPast(new Date(event.Event_Start_Date)) && !isToday(new Date(event.Event_Start_Date))
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-sea-green-400 hover:bg-sea-green-600'
+            } text-white px-4 py-1.5 rounded-md transition-colors`}
           >
             View Event
           </button>

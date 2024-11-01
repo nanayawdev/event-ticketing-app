@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { isFuture, parseISO, format } from 'date-fns';
 import { Hand } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const NoticeBar = () => {
   const [nextEvent, setNextEvent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
@@ -42,8 +44,13 @@ const NoticeBar = () => {
             )}
           </div>
           <button 
-            className="inline-flex items-center px-4 py-1 bg-white text-gray-900 rounded-full text-sm font-medium hover:bg-rose-50 transition-colors"
-            onClick={() => window.location.href = '/signup'}
+            className="inline-flex items-center px-4 py-1 bg-white text-gray-900 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors"
+            onClick={() => {
+              if (nextEvent) {
+                const eventSlug = nextEvent.Event_Name.toLowerCase().replace(/\s+/g, '-');
+                navigate(`/event/${eventSlug}`);
+              }
+            }}
           >
             Reserve Ticket
             <Hand className="w-4 h-4 ml-2" />
