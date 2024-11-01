@@ -14,12 +14,12 @@ import Contact from './components/Contacts/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
-import HeroSection from './components/HeroSection/HeroSection';
 import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
+import HeroAlt from './components/HeroAlt/HeroAlt';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -38,7 +38,7 @@ const AppContent = () => {
 			<Routes>
 				<Route path="/" element={
 					<>
-						<HeroSection />
+						<HeroAlt />
 						<Brands />
 						<Divider />
 						<Approach />
