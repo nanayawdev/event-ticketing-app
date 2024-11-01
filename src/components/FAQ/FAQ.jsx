@@ -57,7 +57,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="py-16 sm:py-24 bg-white">
+    <div className="py-16 sm:py-24">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold text-gray-900">
@@ -96,12 +96,6 @@ const FAQ = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <button className="px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-gray-900">
-            Load more
-          </button>
         </div>
       </div>
     </div>
