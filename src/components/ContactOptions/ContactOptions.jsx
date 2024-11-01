@@ -1,42 +1,105 @@
 import React from 'react';
-import './ContactOptions.css';
-import { HiOutlineChatBubbleLeftRight, HiOutlineChatBubbleBottomCenterText, HiOutlinePhone, HiOutlineMap } from 'react-icons/hi2';
+import { 
+  HiOutlineChatBubbleLeftRight, 
+  HiOutlineChatBubbleBottomCenterText, 
+  HiOutlinePhone, 
+  HiOutlineMap,
+  HiOutlineTicket,
+  HiOutlineUserGroup,
+  HiOutlineCreditCard,
+  HiOutlineQuestionMarkCircle,
+  HiOutlineShieldCheck
+} from 'react-icons/hi2';
+
 const ContactOptions = () => {
   const options = [
     {
-      icon: <HiOutlineChatBubbleLeftRight />,
-      title: 'Chat to sales',
-      description: 'Speak to our friendly team.',
-      action: 'sales@untitledul.com',
+      icon: <HiOutlineChatBubbleLeftRight className="w-6 h-6 text-sea-green-500" />,
+      title: 'Event Support',
+      description: 'Need help with tickets or event access?',
+      action: 'support@tickrfly.com',
+      href: 'mailto:support@tickrfly.com'
     },
     {
-      icon: <HiOutlineChatBubbleBottomCenterText />,
-      title: 'Chat to support',
-      description: 'We are here to help.',
-      action: 'support@untitledul.com',
+      icon: <HiOutlineChatBubbleBottomCenterText className="w-6 h-6 text-sea-green-500" />,
+      title: 'Event Organizers',
+      description: 'Want to host your event with us?',
+      action: 'partners@tickrfly.com',
+      href: 'mailto:partners@tickrfly.com'
     },
     {
-      icon: <HiOutlineMap />,
-      title: 'Visit us',
-      description: 'Visit our office HQ.',
-      action: 'View on Google Maps',
+      icon: <HiOutlinePhone className="w-6 h-6 text-sea-green-500" />,
+      title: 'Priority Support',
+      description: 'Urgent help on event day.',
+      action: '+233 (555) 000-0000',
+      href: 'tel:+233555000000'
     },
     {
-      icon: <HiOutlinePhone />,
-      title: 'Call us',
-      description: 'Mon-Fri from 8am to 5pm.',
-      action: '+1(555) 000-0000',
+      icon: <HiOutlineMap className="w-6 h-6 text-sea-green-500" />,
+      title: 'Corporate Office',
+      description: 'For business & partnership inquiries.',
+      action: 'Visit Our Office',
+      href: '#'
     },
+    {
+      icon: <HiOutlineTicket className="w-6 h-6 text-sea-green-500" />,
+      title: 'Ticket Issues',
+      description: 'Problems with your tickets?',
+      action: 'tickets@tickrfly.com',
+      href: 'mailto:tickets@tickrfly.com'
+    },
+    {
+      icon: <HiOutlineUserGroup className="w-6 h-6 text-sea-green-500" />,
+      title: 'Group Bookings',
+      description: 'Book tickets for large groups.',
+      action: 'groups@tickrfly.com',
+      href: 'mailto:groups@tickrfly.com'
+    },
+    {
+      icon: <HiOutlineCreditCard className="w-6 h-6 text-sea-green-500" />,
+      title: 'Payment Support',
+      description: 'Issues with payments or refunds?',
+      action: 'billing@tickrfly.com',
+      href: 'mailto:billing@tickrfly.com'
+    },
+    {
+      icon: <HiOutlineQuestionMarkCircle className="w-6 h-6 text-sea-green-500" />,
+      title: 'General Inquiries',
+      description: 'Other questions or concerns?',
+      action: 'info@tickrfly.com',
+      href: 'mailto:info@tickrfly.com'
+    },
+    {
+      icon: <HiOutlineShieldCheck className="w-6 h-6 text-sea-green-500" />,
+      title: 'Security & Trust',
+      description: 'Report security concerns or fraud.',
+      action: 'security@tickrfly.com',
+      href: 'mailto:security@tickrfly.com'
+    }
   ];
 
   return (
-    <div className="contact-options-container">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {options.map((option, index) => (
-        <div key={index} className="contact-option">
-          <div className="contact-option-icon">{option.icon}</div>
-          <h3 className="contact-option-title">{option.title}</h3>
-          <p className="contact-option-description">{option.description}</p>
-          <a href="#" className="contact-option-action">{option.action}</a>
+        <div 
+          key={index} 
+          className="flex flex-col items-center text-center p-6 rounded-md bg-white border border-gray-100"
+        >
+          <div className="mb-4 p-3 bg-sea-green-50 rounded-md border border-sea-green-200">
+            {option.icon}
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            {option.title}
+          </h3>
+          <p className="text-gray-600 mb-4">
+            {option.description}
+          </p>
+          <a 
+            href={option.href}
+            className="text-sea-green-500 font-medium"
+          >
+            {option.action}
+          </a>
         </div>
       ))}
     </div>
