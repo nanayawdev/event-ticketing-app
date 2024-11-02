@@ -20,6 +20,7 @@ import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import HeroAlt from './components/HeroAlt/HeroAlt';
+import OrganizerHero from './components/OrganizerHero/OrganizerHero';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -39,6 +40,7 @@ const AppContent = () => {
 				<Route path="/" element={
 					<>
 						<HeroAlt />
+						<OrganizerHero />
 						<Brands />
 						<Divider />
 						<Approach />

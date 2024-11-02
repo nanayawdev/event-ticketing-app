@@ -10,6 +10,10 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className="fixed w-full z-50 bg-sea-green-50 border-b border-sea-green-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
@@ -120,42 +124,49 @@ const Navbar = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <Link
               to="/"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Home
             </Link>
             <Link
               to="/events"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Events
             </Link>
             <Link
               to="/about"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               About
             </Link>
             <Link
               to="/services"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Services
             </Link>
             <Link
               to="/pricing"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Pricing
             </Link>
             <Link
               to="/contact"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Contact
             </Link>
             <Link
               to="/clientguide"
+              onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Client Guide
@@ -166,12 +177,14 @@ const Navbar = () => {
           <div className="flex items-center justify-center px-5 space-x-4 sm:px-6">
             <Link
               to="/login"
+              onClick={closeMenu}
               className="flex-1 sm:flex-none text-center border border-sea-green-600 text-sea-green-600 hover:bg-sea-green-50 px-4 py-2 rounded-md text-base font-medium transition-all duration-300"
             >
               Login
             </Link>
             <Link
               to="/signup"
+              onClick={closeMenu}
               className="flex-1 sm:flex-none text-center bg-sea-green-600 text-white hover:bg-sea-green-700 px-4 py-2 rounded-md text-base font-medium transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Sign Up

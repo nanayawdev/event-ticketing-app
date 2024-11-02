@@ -34,6 +34,9 @@ export default function HeroAlt() {
                 <button className="border border-gray-300 px-4 py-2 rounded-md">
                   Browse Events
                 </button>
+                <button className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-4 py-2 rounded-md">
+                  Hosting an Event?
+                </button>
               </div>
             </div>
           </div>

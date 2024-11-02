@@ -30,7 +30,7 @@ const NoticeBar = () => {
   }, []);
 
   return (
-    <div className="sticky top-0 z-50 bg-gray-900 text-white py-2">
+    <div className="sticky top-0 z-50 bg-red-600 text-white py-2">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-center gap-4">
           <div className="text-sm">
