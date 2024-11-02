@@ -80,6 +80,12 @@ const Navbar = () => {
               Client Guide
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
+            <Link
+              to="/event-organizer"
+              className="text-sea-green-800 hover:text-sea-green-600 px-3 py-2 text-sm font-medium rounded-md"
+            >
+              Organizers
+            </Link>
           </div>
 
           {/* Auth buttons */}
@@ -170,6 +176,13 @@ const Navbar = () => {
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Client Guide
+            </Link>
+            <Link
+              to="/event-organizer"
+              onClick={closeMenu}
+              className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
+            >
+              For Organizers
             </Link>
           </div>
         </div>

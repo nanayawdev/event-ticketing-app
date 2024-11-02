@@ -3,6 +3,11 @@ import maverickcity from '../../assets/clients/maverickcity.webp'
 import tbc from '../../assets/clients/tbc.png'
 import ipc from '../../assets/clients/ipc.png'
 import grassag from '../../assets/clients/grassag.jpg'
+import echo from '../../assets/clients/echo-logo.png'
+import tidalrave from '../../assets/clients/tidalrave.png'
+import sc from '../../assets/clients/sc.png'
+import beyondthereturn from '../../assets/clients/beyondthereturn.png'
+import gcb from '../../assets/clients/gcb.png'
 export default function Example() {
   return (
     <div className="bg-white py-24 sm:py-32">
@@ -42,6 +47,41 @@ export default function Example() {
           <img
             alt="Grassag"
             src={grassag}
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+          <img
+            alt="Echo"
+            src={echo}
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+          <img
+            alt="Tidal Rave"
+            src={tidalrave}
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+          <img
+            alt="Standard Chartered Bank"
+            src={sc}
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+          <img
+            alt="GCB Bank"
+            src={gcb}
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+          <img
+            alt="Beyond The Return"
+            src={beyondthereturn}
             width={158}
             height={48}
             className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"

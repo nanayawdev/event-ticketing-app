@@ -20,9 +20,9 @@ import Divider from './components/Divider/Divider';
 import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import HeroAlt from './components/HeroAlt/HeroAlt';
-import OrganizerHero from './components/OrganizerHero/OrganizerHero';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
+import EventOrganizer from "./pages/EventOrganizer";
 
 const AppContent = () => {
 	const location = useLocation();
@@ -40,7 +40,6 @@ const AppContent = () => {
 				<Route path="/" element={
 					<>
 						<HeroAlt />
-						<OrganizerHero />
 						<Brands />
 						<Divider />
 						<Approach />
@@ -63,6 +62,7 @@ const AppContent = () => {
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/clientguide" element={<ClientGuide />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/event-organizer" element={<EventOrganizer />} />
 			</Routes>
 		</>
 	);
