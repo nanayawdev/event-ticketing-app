@@ -56,10 +56,10 @@ const HeroSection = () => {
                             onClick={handleDiscoverClick}
                             className="rounded-lg bg-sea-green-600 px-6 py-3 font-semibold text-sea-green-50 transition-colors hover:bg-sea-green-400 sm:px-8 sm:py-4"
                         >
-                            DISCOVER EVENTS
+                            Start Organizing Events
                         </button>
                         <a href="#" className="font-medium text-sea-green-50 underline hover:text-sea-green-200">
-                            Hosting an event?
+                            Discover other events Organizers
                         </a>
                     </div>
 
