@@ -1,0 +1,81 @@
+Event Ticketing App - Project Structure
+=====================================
+
+Frontend Structure (React)
+------------------------
+
+/src
+  App.jsx                    # Main application component and routing
+  
+  /components
+    /About                   # About page component
+    /Approach               # Company approach/methodology section
+    /Brands                 # Brands/partners showcase section
+    /ClientGuide            # Client guidelines and documentation
+    /Contacts              # Contact page component
+    /Dashboard             # User dashboard interface
+    /Divider               # Visual divider component
+    /EventDetails          # Individual event details view
+    /Events                # Events listing page
+    /EventsGrid            # Grid display of events
+    /Footer                # Site footer component
+    /HelpPopup             # Help/support popup component
+    /HeroAlt               # Alternative hero section
+    /Login                 # User login component
+    /Navbar                # Navigation bar component
+    /Navigation            # Category navigation component
+    /NoticeBar             # Announcement/notice bar
+    /Pricing               # Pricing information page
+    /Services              # Services information page
+    /SignUp                # User registration component
+
+  /context
+    ThemeContext.js         # Theme management context
+
+  /pages
+    EventOrganizer.jsx      # Event organizer dashboard page
+
+Key Features
+-----------
+1. User Authentication (Login/Signup)
+2. Event Browsing and Filtering
+3. Event Details and Booking
+4. User Dashboard
+5. Event Organization Tools
+6. Responsive Design
+7. Theme Management
+
+Routes
+------
+/ - Home page with event grid
+/event/:eventName - Individual event details
+/signup - User registration
+/login - User login
+/dashboard/* - User dashboard
+/about - About page
+/events - Events listing
+/services - Services information
+/pricing - Pricing details
+/contact - Contact information
+/clientguide - Client guidelines
+/event-organizer - Event organizer interface
+
+Required Dependencies
+-------------------
+- react
+- react-router-dom
+- [Add other major dependencies used in your project]
+
+Development Setup
+---------------
+1. Clone repository
+2. Install dependencies: npm install
+3. Start development server: npm start
+4. Build for production: npm run build
+
+Notes
+-----
+- Implements responsive design
+- Uses context for theme management
+- Separate routes for user and organizer interfaces
+- Component-based architecture 
