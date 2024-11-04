@@ -1,44 +1,44 @@
-import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
+import { ChartLine, Key, QrCode } from 'lucide-react'
 
 const features = [
   {
-    name: 'Push to deploy.',
+    name: 'Real-time Analytics',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: CloudArrowUpIcon,
+      'Track ticket sales, attendance rates, and revenue in real-time. Make data-driven decisions to optimize your event success.',
+    icon: ChartLine,
   },
   {
-    name: 'SSL certificates.',
-    description: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
-    icon: LockClosedIcon,
+    name: 'Secure Payments',
+    description: 'Built-in payment processing with bank-level security. Support multiple payment methods and currencies for your attendees.',
+    icon: Key,
   },
   {
-    name: 'Database backups.',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: ServerIcon,
+    name: 'Automated Check-in',
+    description: 'Streamline your event entry with QR code scanning, digital tickets, and instant attendee verification.',
+    icon: QrCode,
   },
 ]
 
 export default function OrganizerFeatures2() {
   return (
-    <div className="overflow-hidden bg-white py-24 sm:py-32">
+    <div className="max-w-7xl mx-auto overflow-hidden bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pr-8 lg:pt-4">
             <div className="lg:max-w-lg">
-              <h2 className="text-base/7 font-semibold text-indigo-600">Deploy faster</h2>
-              <p className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                A better workflow
+              <h2 className="text-base/7 font-semibold text-sea-green-400">Event Management Made Simple</h2>
+              <p className="max-w-xl mt-2 text-pretty text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                Everything you need to run successful events
               </p>
-              <p className="mt-6 text-lg/8 text-gray-600">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
-                iste dolor cupiditate blanditiis ratione.
+              <p className="max-w-xl mt-6 text-lg/8 text-gray-600">
+                From ticket sales to check-in, we provide all the tools you need to manage your events efficiently. 
+                Focus on creating amazing experiences while we handle the technical details.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
                     <dt className="inline font-semibold text-gray-900">
-                      <feature.icon aria-hidden="true" className="absolute left-1 top-1 h-5 w-5 text-indigo-600" />
+                      <feature.icon aria-hidden="true" className="absolute left-1 top-1 h-6 w-6 text-sea-green-400" />
                       {feature.name}
                     </dt>{' '}
                     <dd className="inline">{feature.description}</dd>
