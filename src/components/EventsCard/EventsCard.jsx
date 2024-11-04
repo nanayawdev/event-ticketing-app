@@ -3,24 +3,27 @@ import { SlLike } from 'react-icons/sl'
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 import { useNavigate } from 'react-router-dom';
 
-const getEventStatus = (eventDate, eventVenue) => {
-  const event = new Date(eventDate)
+const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTime, eventVenue) => {
   const now = new Date()
+  
+  // Convert timestamps to Date objects
+  const startDateTime = new Date(eventStartTime)
+  const endDateTime = new Date(eventEndTime)
 
-  if (isPast(event) && !isToday(event)) {
-    return { text: "Past Event", className: "bg-red-500" }
+  if (now > endDateTime) {
+    return { text: "Event Closed", className: "bg-red-500" }
   }
 
-  if (isToday(event)) {
+  if (now >= startDateTime && now <= endDateTime) {
     return { text: `Happening now at ${eventVenue}`, className: "bg-green-500" }
   }
 
-  if (isTomorrow(event)) {
+  if (isTomorrow(startDateTime)) {
     return { text: "Tomorrow", className: "bg-blue-500" }
   }
 
-  if (isFuture(event)) {
-    const daysUntil = differenceInDays(event, now)
+  if (isFuture(startDateTime)) {
+    const daysUntil = differenceInDays(startDateTime, now)
     if (daysUntil <= 7) {
       return { text: `${daysUntil} days until event`, className: "bg-yellow-500" }
     }
@@ -31,18 +34,38 @@ const getEventStatus = (eventDate, eventVenue) => {
 }
 
 const EventsCard = ({ event }) => {
-  const [status, setStatus] = useState(getEventStatus(event.Event_Start_Date, event.Event_Venue))
+  console.log('Event Data:', {
+    startDate: event.Event_Start_Date,
+    endDate: event.Event_End_Date,
+    startTime: event.Event_Start_Time,
+    endTime: event.Event_End_Time,
+    venue: event.Event_Venue
+  });
+
+  const [status, setStatus] = useState(getEventStatus(
+    event.Event_Start_Date,
+    event.Event_End_Date,
+    event.Event_Start_Time,
+    event.Event_End_Time,
+    event.Event_Venue
+  ))
   const [likes, setLikes] = useState(0)
   const [hasLiked, setHasLiked] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStatus(getEventStatus(event.Event_Start_Date, event.Event_Venue))
-    }, 60000) // Update status every minute
+      setStatus(getEventStatus(
+        event.Event_Start_Date,
+        event.Event_End_Date,
+        event.Event_Start_Time,
+        event.Event_End_Time,
+        event.Event_Venue
+      ))
+    }, 60000)
 
     return () => clearInterval(timer)
-  }, [event.Event_Start_Date, event.Event_Venue])
+  }, [event.Event_Start_Date, event.Event_End_Date, event.Event_Start_Time, event.Event_End_Time, event.Event_Venue])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -52,16 +75,32 @@ const EventsCard = ({ event }) => {
     }
   }
 
-  const { month, day } = formatDate(event.Event_Start_Date)
+  const { month: startMonth, day: startDay } = formatDate(event.Event_Start_Date)
+  const { month: endMonth, day: endDay } = formatDate(event.Event_End_Date)
 
   const handleLike = () => {
+    if (isPastEvent()) return; // Early return if event is past
+    
     setLikes(prev => hasLiked ? prev - 1 : prev + 1)
     setHasLiked(prev => !prev)
   }
 
-  const handleViewEvent = () => {
+  const isPastEvent = () => {
+    const endDateTime = new Date(event.Event_End_Time)
+    return new Date() > endDateTime
+  }
+
+  const handleViewEvent = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isPastEvent()) return; // Early return if event is past
+
     const eventSlug = event.Event_Name.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/event/${eventSlug}`);
+    navigate(`/events/${eventSlug}`, { 
+      state: { event },
+      replace: false,
+      preventScrollReset: true
+    });
   };
 
   return (
@@ -70,7 +109,9 @@ const EventsCard = ({ event }) => {
         <img 
           src={event.Event_Image?.url || "/placeholder.svg?height=200&width=400"} 
           alt={event.Event_Name}
-          className="w-full h-48 object-cover"
+          className={`w-full h-48 object-cover ${!isPastEvent() ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
+          onClick={handleViewEvent}
+          loading="eager"
         />
         <div className={`absolute top-2 right-2 ${status.className} text-white px-2 py-0.5 rounded-md text-xs font-normal`}>
           {status.text}
@@ -79,45 +120,47 @@ const EventsCard = ({ event }) => {
 
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h2 className="text-xl font-normal">{event.Event_Name}</h2>
+          <h2 
+            onClick={handleViewEvent}
+            className={`text-xl font-bold ${
+              !isPastEvent() 
+                ? 'cursor-pointer hover:text-sea-green-500' 
+                : 'cursor-not-allowed text-gray-500'
+            } transition-colors`}
+          >
+            {event.Event_Name}
+          </h2>
           <button 
             onClick={handleLike}
             className={`flex items-center gap-1 transition-colors ${
-              hasLiked ? 'text-sea-green-500' : 'hover:text-sea-green-500'
+              isPastEvent() 
+                ? 'cursor-not-allowed text-gray-400' 
+                : hasLiked 
+                  ? 'text-sea-green-500' 
+                  : 'hover:text-sea-green-500'
             }`}
+            disabled={isPastEvent()}
           >
-            <SlLike className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
+            <SlLike className={`w-5 h-5 ${hasLiked && !isPastEvent() ? 'fill-current' : ''}`} />
             {likes > 0 && <span>{likes}</span>}
           </button>
         </div>
 
-        <div className="flex gap-4 mb-2">
-          <div className="text-center">
-            <div className="text-sea-green-500 font-bold">{month}</div>
-            <div className="text-3xl font-normal text-sea-green-500">{day}</div>
+        <div className="flex items-center gap-4 mb-2">
+          <div className="bg-sea-green-400 text-white px-2 py-1 rounded-sm text-md font-bold">
+            {startMonth} {startDay}
+            {event.Event_Start_Date !== event.Event_End_Date && 
+              <> - {endMonth} {endDay}</>
+            }
           </div>
-          <p className="text-gray-600 font-normal">{event.Event_Description}</p>
-        </div>
-
-        <div className="text-gray-500 mb-2 text-lg font-medium">
-          {event.Event_Venue}
-        </div>
-
-        <div className="flex justify-between items-center">
-          <div className="text-2xl font-normal border border-gray-200 rounded-md px-3 py-1">
+          <div className="h-6 w-px bg-gray-300"></div>
+          <div className="flex-1 text-gray-500 font-medium text-md">
+            {event.Event_Venue}
+          </div>
+          <div className="h-6 w-px bg-gray-300"></div>
+          <div className="text-md font-bold text-sea-green-400">
             ₵{event.Event_Price || '456'}
           </div>
-          <button 
-            onClick={handleViewEvent}
-            disabled={isPast(new Date(event.Event_Start_Date)) && !isToday(new Date(event.Event_Start_Date))}
-            className={`${
-              isPast(new Date(event.Event_Start_Date)) && !isToday(new Date(event.Event_Start_Date))
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-sea-green-400 hover:bg-sea-green-600'
-            } text-white px-4 py-1.5 rounded-md transition-colors`}
-          >
-            View Event
-          </button>
         </div>
       </div>
     </div>

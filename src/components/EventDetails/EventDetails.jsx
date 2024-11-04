@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import EventLabel from '../EventLabel/EventLabel';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 
 const EventDetails = () => {
   const { eventName } = useParams();
@@ -40,12 +41,7 @@ const EventDetails = () => {
 
   return (
     <div className="pt-24 pb-12 px-4 max-w-7xl mx-auto">
-      <Link 
-        to="/" 
-        className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-      >
-        <span className="mr-2">←</span> Back to Events
-      </Link>
+      <Breadcrumb />
 
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <img 

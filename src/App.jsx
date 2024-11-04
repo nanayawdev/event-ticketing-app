@@ -52,7 +52,7 @@ const AppContent = () => {
 						<HelpPopup />
 					</>
 				} />
-				<Route path="/event/:eventName" element={<EventDetails />} />
+				<Route path="/events/:eventName" element={<EventDetails />} />
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/dashboard/*" element={<Dashboard />} />
 				<Route path="/about" element={<About />} />
