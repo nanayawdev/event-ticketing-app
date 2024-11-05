@@ -1,16 +1,25 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function RevenueCalculatorProfessional() {
+  const [isLoading, setIsLoading] = useState(true)
   const [attendees, setAttendees] = useState(10)
   const [ticketPrice, setTicketPrice] = useState(70)
   const [avgOrder, setAvgOrder] = useState(2)
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
   // Calculate values
   const turnover = attendees * ticketPrice * avgOrder
-  const commissionFee = turnover * 0.03 // 3% for Professional
+  const commissionFee = turnover * 0.03
   const youReceive = turnover - commissionFee
 
   const roundToNearestTen = (value) => Math.round(value / 10) * 10
@@ -23,65 +32,100 @@ export default function RevenueCalculatorProfessional() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label className="text-sm font-medium">ATTENDEES EXPECTED</Label>
-            <span className="text-3xl font-bold text-sea-green-500">{attendees}</span>
+            {isLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <span className="text-3xl font-bold text-sea-green-500">{attendees}</span>
+            )}
           </div>
-          <Slider
-            value={[attendees]}
-            onValueChange={(value) => setAttendees(value[0])}
-            max={100}
-            min={0}
-            step={1}
-          />
+          {isLoading ? (
+            <Skeleton className="h-2 w-full" />
+          ) : (
+            <Slider
+              value={[attendees]}
+              onValueChange={(value) => setAttendees(value[0])}
+              max={100}
+              min={0}
+              step={1}
+            />
+          )}
         </div>
 
         {/* Ticket Price Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label className="text-sm font-medium">TICKET PRICE (₵)</Label>
-            <span className="text-3xl font-bold text-sea-green-500">{ticketPrice}</span>
+            {isLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <span className="text-3xl font-bold text-sea-green-500">{ticketPrice}</span>
+            )}
           </div>
-          <Slider
-            value={[ticketPrice]}
-            onValueChange={(value) => setTicketPrice(roundToNearestTen(value[0]))}
-            max={200}
-            min={0}
-            step={10}
-          />
+          {isLoading ? (
+            <Skeleton className="h-2 w-full" />
+          ) : (
+            <Slider
+              value={[ticketPrice]}
+              onValueChange={(value) => setTicketPrice(roundToNearestTen(value[0]))}
+              max={200}
+              min={0}
+              step={10}
+            />
+          )}
         </div>
 
         {/* Average Order Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label className="text-sm font-medium">AVG. TICKET ORDER</Label>
-            <span className="text-3xl font-bold text-sea-green-500">{avgOrder}</span>
+            {isLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <span className="text-3xl font-bold text-sea-green-500">{avgOrder}</span>
+            )}
           </div>
-          <Slider
-            value={[avgOrder]}
-            onValueChange={(value) => setAvgOrder(value[0])}
-            max={10}
-            min={1}
-            step={1}
-          />
+          {isLoading ? (
+            <Skeleton className="h-2 w-full" />
+          ) : (
+            <Slider
+              value={[avgOrder]}
+              onValueChange={(value) => setAvgOrder(value[0])}
+              max={10}
+              min={1}
+              step={1}
+            />
+          )}
         </div>
 
         {/* Calculations */}
         <div className="space-y-4 pt-6 border-t border-gray-200">
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Turnover:</span>
-            <span className="font-medium">₵{turnover.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Ticket:</span>
-            <span className="font-medium">₵{ticketPrice.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Commission Fee (3%):</span>
-            <span className="font-medium">₵{commissionFee.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between items-center text-lg font-bold">
-            <span>You Receive:</span>
-            <span className="text-sea-green-500">₵{youReceive.toFixed(2)}</span>
-          </div>
+          {isLoading ? (
+            <>
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-8 w-full" />
+            </>
+          ) : (
+            <>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Turnover:</span>
+                <span className="font-medium">₵{turnover.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Ticket:</span>
+                <span className="font-medium">₵{ticketPrice.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Commission Fee (3%):</span>
+                <span className="font-medium">₵{commissionFee.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center text-lg font-bold">
+                <span>You Receive:</span>
+                <span className="text-sea-green-500">₵{youReceive.toFixed(2)}</span>
+              </div>
+            </>
+          )}
         </div>
       </CardContent>
     </div>

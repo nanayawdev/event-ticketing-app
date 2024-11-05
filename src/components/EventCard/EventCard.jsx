@@ -5,7 +5,6 @@ import './EventCard.css';
 
 const EventCard = ({ event }) => {
   const { Event_Name, Event_Start_Date, Event_Image, Event_Venue } = event;
-
   const eventUrlName = Event_Name.toLowerCase().replace(/\s+/g, '-');
 
   return (
