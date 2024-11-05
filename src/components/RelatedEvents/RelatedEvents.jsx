@@ -5,7 +5,7 @@ import EventsCard from '../EventsCard/EventsCard'
 import { ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-const RelatedEvents = ({ currentEventCategory }) => {
+const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -24,16 +24,19 @@ const RelatedEvents = ({ currentEventCategory }) => {
       })
   }, [])
 
-  // Filter out closed events, current event's category, and limit to 8
+  // Filter out closed events, current event, and limit to same category
   const filteredEvents = events.filter(event => {
     const endDateTime = new Date(event.Event_End_Time)
     const isNotClosed = new Date() <= endDateTime
-    return isNotClosed && event.Event_Category === currentEventCategory
+    const isNotCurrentEvent = event.id !== currentEventId
+    return isNotClosed && 
+           isNotCurrentEvent && 
+           event.Event_Category === currentEventCategory
   });
 
   const handleViewAllEvents = () => {
     navigate('/events', { 
-      state: { category: currentEventCategory }, // Pass the current category as state
+      state: { category: currentEventCategory },
       replace: false 
     });
   }
@@ -49,7 +52,7 @@ const RelatedEvents = ({ currentEventCategory }) => {
           <h2 className="text-2xl font-bold">Related Events</h2>
           <button
             onClick={handleViewAllEvents}
-            className="text-gray-900 font-semibold py-2 px-4 flex items-center gap-2 hover:underline"
+            className="border border-sea-green-500 text-sea-green-500 font-semibold py-2 px-4 rounded-md transition-colors flex items-center gap-2 hover:bg-sea-green-50"
           >
             View All Events
             <ArrowRight className="h-4 w-4" />

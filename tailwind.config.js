@@ -8,7 +8,9 @@ module.exports = {
   theme: {
   	extend: {
   		animation: {
-  			gradient: 'gradient 8s ease infinite'
+  			gradient: 'gradient 8s ease infinite',
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
   		keyframes: {
   			gradient: {
@@ -19,6 +21,22 @@ module.exports = {
   				'50%': {
   					'background-size': '300% 300%',
   					'background-position': 'right center'
+  				}
+  			},
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
   				}
   			}
   		},

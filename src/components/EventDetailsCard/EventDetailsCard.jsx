@@ -27,7 +27,7 @@ const EventDetailsCard = ({ event }) => {
               : 'TBA'}
           </p>
           <p className="text-lg text-gray-600 mb-8">
-            {event.Event_Venue || 'Venue TBA'}
+            {event.Event_Venue || 'Venue Not Assigned'}
           </p>
         </div>
 
