@@ -130,7 +130,7 @@ const EventsCard = ({ event }) => {
   };
 
   return (
-    <div className="bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+    <div className="bg-gray-50 overflow-hidden shadow-lg">
       <div className="relative">
         <img 
           src={event.Event_Image?.url || eventplaceholder} 

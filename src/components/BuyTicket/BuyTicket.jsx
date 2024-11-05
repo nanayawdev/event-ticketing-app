@@ -247,7 +247,7 @@ const BuyTicket = ({ event }) => {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 bg-white text-black hover:bg-gray-100"
                         onClick={() => handleDecrease(index)}
                         aria-label="Decrease quantity"
                       >
@@ -263,7 +263,7 @@ const BuyTicket = ({ event }) => {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 bg-white text-black hover:bg-gray-100"
                         onClick={() => handleIncrease(index)}
                         aria-label="Increase quantity"
                       >
@@ -323,36 +323,7 @@ const BuyTicket = ({ event }) => {
             </Button>
           </div>
 
-          {/* New Ad Box */}
-          <Card className="overflow-hidden">
-            <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-xl">Advertisement</CardTitle>
-              <CardDescription>Special offers and promotions</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="relative aspect-video overflow-hidden rounded-lg">
-                <img 
-                  src="your-ad-image-url.jpg" 
-                  alt="Advertisement"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold">Special Promotion Title</h3>
-                <p className="text-sm text-muted-foreground">
-                  Brief description of the promotion or advertisement goes here.
-                </p>
-                <Button 
-                  variant="outline" 
-                  className="w-full flex items-center justify-center gap-2"
-                  onClick={() => window.open('your-ad-link', '_blank')}
-                >
-                  Learn More
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Advertisement Component */}
         </div>
       </div>
     </div>

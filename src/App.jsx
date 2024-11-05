@@ -23,6 +23,7 @@ import HeroAlt from './components/HeroAlt/HeroAlt';
 // Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
+import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentBanner';
 
 const AppContent = () => {
 	const location = useLocation();
@@ -64,6 +65,7 @@ const AppContent = () => {
 				<Route path="/login" element={<Login />} />
 				<Route path="/event-organizer" element={<EventOrganizer />} />
 			</Routes>
+			<CookieConsentBanner />
 		</>
 	);
 };
