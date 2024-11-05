@@ -17,6 +17,7 @@ export default function RevenueCalculatorProfessional() {
 
   return (
     <div className="mt-8">
+      <h2 className="text-2xl font-bold mb-4">Revenue Calculator</h2>
       <CardContent className="p-6 space-y-8">
         {/* Attendees Slider */}
         <div className="space-y-4">

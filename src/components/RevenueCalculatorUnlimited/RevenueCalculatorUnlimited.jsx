@@ -17,6 +17,7 @@ export default function RevenueCalculatorUnlimited() {
 
   return (
     <div className="mt-8">
+      <h2 className="text-2xl font-bold text-white mb-4">Revenue Calculator</h2>
       <CardContent className="p-6 space-y-8">
         {/* Attendees Slider */}
         <div className="space-y-4">
@@ -30,6 +31,12 @@ export default function RevenueCalculatorUnlimited() {
             max={100}
             min={0}
             step={1}
+            className="relative flex items-center select-none touch-none w-full"
+            style={{
+              '--slider-track': '#4A4A4A',
+              '--slider-range': '#CCFF00',
+              '--slider-thumb': '#CCFF00',
+            }}
           />
         </div>
 
@@ -45,6 +52,12 @@ export default function RevenueCalculatorUnlimited() {
             max={200}
             min={0}
             step={10}
+            className="relative flex items-center select-none touch-none w-full"
+            style={{
+              '--slider-track': '#4A4A4A',
+              '--slider-range': '#CCFF00',
+              '--slider-thumb': '#CCFF00',
+            }}
           />
         </div>
 
@@ -60,6 +73,12 @@ export default function RevenueCalculatorUnlimited() {
             max={10}
             min={1}
             step={1}
+            className="relative flex items-center select-none touch-none w-full"
+            style={{
+              '--slider-track': '#4A4A4A',
+              '--slider-range': '#CCFF00',
+              '--slider-thumb': '#CCFF00',
+            }}
           />
         </div>
 
