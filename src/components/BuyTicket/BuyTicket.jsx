@@ -4,7 +4,8 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
+  CardDescription
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import {
@@ -17,16 +18,27 @@ import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { 
   Percent, 
-  Package, 
   Truck, 
   Calendar,
   Minus,
-  Plus 
+  Plus,
+  MapPin,
+  ExternalLink
 } from 'lucide-react'
 import { useState } from 'react';
+import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 
 const BuyTicket = ({ event }) => {
   const [selectedImage, setSelectedImage] = useState(0)
+  
+  // Create array with main image and placeholders for thumbnails
+  const images = [
+    event.Event_Image?.url || '/assets/images/herobg.jpg',
+    event.Event_Image?.url || '/assets/images/herobg.jpg',
+    event.Event_Image?.url || '/assets/images/herobg.jpg',
+    event.Event_Image?.url || '/assets/images/herobg.jpg'
+  ]
+
   const [tickets, setTickets] = useState([
     {
       date: event.Event_Start_Date,
@@ -48,6 +60,11 @@ const BuyTicket = ({ event }) => {
     }
   ])
 
+  // Calculate order summary
+  const subtotal = tickets.reduce((sum, ticket) => sum + (ticket.price * ticket.quantity), 0);
+  const momoCharges = subtotal * 0.01; // 1% MOMO charges
+  const total = subtotal + momoCharges;
+
   const handleDecrease = (index) => {
     setTickets(tickets.map((ticket, i) => {
       if (i === index && ticket.quantity > 0) {
@@ -65,26 +82,61 @@ const BuyTicket = ({ event }) => {
       return ticket
     }))
   }
-  
-  const images = [
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg'
-  ]
 
-  // Calculate order summary
-  const subtotal = tickets.reduce((sum, ticket) => sum + (ticket.price * ticket.quantity), 0);
-  const momoCharges = subtotal * 0.01; // Changed to 1% MOMO charges
-  const total = subtotal + momoCharges;
+  const getEventStatus = () => {
+    const now = new Date()
+    const startDateTime = new Date(event.Event_Start_Time)
+    const endDateTime = new Date(event.Event_End_Time)
 
-  // Helper function to format category names
-  const formatCategory = (category) => {
-    return category
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
-  };
+    if (now > endDateTime) {
+      return { text: "Event Closed", className: "bg-red-500" }
+    }
+
+    // Check if event is ongoing and calculate time until end
+    if (now >= startDateTime && now <= endDateTime) {
+      const hoursUntilEnd = (endDateTime - now) / (1000 * 60 * 60)
+      
+      if (hoursUntilEnd <= 3) {
+        if (hoursUntilEnd <= 1) {
+          const minutesLeft = Math.floor(hoursUntilEnd * 60)
+          return { text: `Event ending in ${minutesLeft}m`, className: "bg-orange-500" }
+        }
+        const hours = Math.floor(hoursUntilEnd)
+        const minutes = Math.floor((hoursUntilEnd - hours) * 60)
+        return { text: `Event ending in ${hours}h ${minutes}m`, className: "bg-orange-500" }
+      }
+      return { text: `Happening now at ${event.Event_Venue}`, className: "bg-green-500" }
+    }
+
+    // Calculate time difference in hours until start
+    const hoursUntil = (startDateTime - now) / (1000 * 60 * 60)
+    
+    // If less than 24 hours away
+    if (hoursUntil <= 24 && hoursUntil > 0) {
+      const hours = Math.floor(hoursUntil)
+      const minutes = Math.floor((hoursUntil - hours) * 60)
+      if (hours > 0) {
+        return { text: `${hours}h ${minutes}m until event`, className: "bg-yellow-500" }
+      }
+      return { text: `${minutes}m until event`, className: "bg-yellow-500" }
+    }
+
+    if (isTomorrow(startDateTime)) {
+      return { text: "Tomorrow", className: "bg-blue-500" }
+    }
+
+    if (isFuture(startDateTime)) {
+      const daysUntil = differenceInDays(startDateTime, now)
+      if (daysUntil <= 7) {
+        return { text: `${daysUntil} days until event`, className: "bg-yellow-500" }
+      }
+      return { text: `${daysUntil} days away`, className: "bg-gray-500" }
+    }
+
+    return { text: "Check dates", className: "bg-gray-400" }
+  }
+
+  const status = getEventStatus()
 
   return (
     <div className="container max-w-[1600px] mx-auto px-4 py-8">
@@ -116,74 +168,59 @@ const BuyTicket = ({ event }) => {
             ))}
           </div>
         </div>
+
         <div className="space-y-8">
           <div>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {Array.isArray(event.Event_Category) ? (
-                event.Event_Category.map((category, index) => (
-                  <Badge key={index} variant="outline">
-                    {formatCategory(category)}
-                  </Badge>
-                ))
-              ) : (
-                <Badge variant="outline">
-                  {formatCategory(event.Event_Category || 'Uncategorized')}
-                </Badge>
+            <Badge 
+              className={cn(
+                "mb-2 text-white",
+                status.className
               )}
-            </div>
+            >
+              {status.text}
+            </Badge>
             <h1 className="text-3xl font-bold">{event.Event_Name}</h1>
             <p className="text-2xl font-bold mt-2">GH₵ {event.Event_Price?.toFixed(2) || '0.00'}</p>
           </div>
           
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible defaultValue="description" className="w-full">
             <AccordionItem value="description" className="border-b-0">
               <AccordionTrigger className="hover:no-underline">
                 <span className="text-base font-semibold">Description & Details</span>
               </AccordionTrigger>
-              <AccordionContent className="text-sm text-muted-foreground whitespace-pre-line">
-                {event.Event_Description || 'No description available.'}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="shipping" className="border-t border-b-0">
-              <AccordionTrigger className="hover:no-underline">
-                <span className="text-base font-semibold">Shipping</span>
-              </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-2 gap-6 text-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-sea-green-50 p-2 rounded-lg">
-                      <Percent className="h-5 w-5 text-sea-green-500" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Discount</p>
-                      <p className="text-muted-foreground">Disc 50%</p>
-                    </div>
+                <div className="space-y-4">
+                  <div className="text-sm text-muted-foreground whitespace-pre-line">
+                    {event.Event_Description || 'No description available.'}
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="bg-sea-green-50 p-2 rounded-lg">
-                      <Package className="h-5 w-5 text-sea-green-500" />
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm pt-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-sea-green-50 p-2.5 rounded-xl">
+                        <div className="bg-sea-green-100 p-2 rounded-lg">
+                          <MapPin className="h-5 w-5 text-sea-green-500" />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="font-medium">Venue</p>
+                        <p className="text-muted-foreground">{event.Event_Venue || 'TBA'}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">Package</p>
-                      <p className="text-muted-foreground">Regular Package</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="bg-sea-green-50 p-2 rounded-lg">
-                      <Truck className="h-5 w-5 text-sea-green-500" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Delivery Time</p>
-                      <p className="text-muted-foreground">3-4 Working Days</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="bg-sea-green-50 p-2 rounded-lg">
-                      <Calendar className="h-5 w-5 text-sea-green-500" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Estimation Arrive</p>
-                      <p className="text-muted-foreground">10 - 12 October 2024</p>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-sea-green-50 p-2.5 rounded-xl">
+                        <div className="bg-sea-green-100 p-2 rounded-lg">
+                          <Calendar className="h-5 w-5 text-sea-green-500" />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="font-medium">Event Date</p>
+                        <p className="text-muted-foreground">
+                          {format(new Date(event.Event_Start_Date), 'dd MMM yyyy')}
+                          {event.Event_Start_Date !== event.Event_End_Date && (
+                            <> - {format(new Date(event.Event_End_Date), 'dd MMM yyyy')}</>
+                          )}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -242,11 +279,12 @@ const BuyTicket = ({ event }) => {
             </div>
           </div>
         </div>
+
+        {/* Order Summary */}
         <div className="space-y-8">
           <div className="bg-gray-50 rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-6">Order Summary</h3>
             
-            {/* Selected Tickets */}
             <div className="space-y-4 mb-6">
               {tickets.filter(ticket => ticket.quantity > 0).map((ticket, index) => (
                 <div key={index} className="flex justify-between text-sm">
@@ -256,10 +294,8 @@ const BuyTicket = ({ event }) => {
               ))}
             </div>
 
-            {/* Divider */}
             <div className="h-px bg-gray-200 my-4" />
 
-            {/* Subtotal and MOMO Charges */}
             <div className="space-y-2 mb-4">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
@@ -271,10 +307,8 @@ const BuyTicket = ({ event }) => {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="h-px bg-gray-200 my-4" />
 
-            {/* Total */}
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
               <span>GH₵ {total.toFixed(2)}</span>
@@ -288,6 +322,37 @@ const BuyTicket = ({ event }) => {
               Proceed to Checkout
             </Button>
           </div>
+
+          {/* New Ad Box */}
+          <Card className="overflow-hidden">
+            <CardHeader className="space-y-1 pb-4">
+              <CardTitle className="text-xl">Advertisement</CardTitle>
+              <CardDescription>Special offers and promotions</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="relative aspect-video overflow-hidden rounded-lg">
+                <img 
+                  src="your-ad-image-url.jpg" 
+                  alt="Advertisement"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-semibold">Special Promotion Title</h3>
+                <p className="text-sm text-muted-foreground">
+                  Brief description of the promotion or advertisement goes here.
+                </p>
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center justify-center gap-2"
+                  onClick={() => window.open('your-ad-link', '_blank')}
+                >
+                  Learn More
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

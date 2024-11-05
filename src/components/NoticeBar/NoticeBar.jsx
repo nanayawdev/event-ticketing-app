@@ -44,11 +44,11 @@ const NoticeBar = () => {
             )}
           </div>
           <button 
-            className="inline-flex items-center px-4 py-1 bg-gray-950 text-white rounded-full text-sm font-medium hover:bg-sea-green-300 transition-colors"
+            className="inline-flex items-center px-4 py-1 bg-gray-950 text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
             onClick={() => {
               if (nextEvent) {
                 const eventSlug = nextEvent.Event_Name.toLowerCase().replace(/\s+/g, '-');
-                navigate(`/event/${eventSlug}`);
+                navigate(`/events/${eventSlug}`);
               }
             }}
           >
