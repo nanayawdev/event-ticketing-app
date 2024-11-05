@@ -30,7 +30,7 @@ const NoticeBar = () => {
   }, []);
 
   return (
-    <div className="sticky top-0 z-50 bg-red-600 text-white py-2">
+    <div className="sticky top-0 z-50 bg-sea-green-1000 text-black py-2">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-center gap-4">
           <div className="text-sm">
@@ -44,7 +44,7 @@ const NoticeBar = () => {
             )}
           </div>
           <button 
-            className="inline-flex items-center px-4 py-1 bg-white text-gray-900 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center px-4 py-1 bg-gray-950 text-white rounded-full text-sm font-medium hover:bg-sea-green-300 transition-colors"
             onClick={() => {
               if (nextEvent) {
                 const eventSlug = nextEvent.Event_Name.toLowerCase().replace(/\s+/g, '-');

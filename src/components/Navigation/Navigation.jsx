@@ -36,7 +36,7 @@ const Navigation = () => {
             {/* Sort Combobox */}
             <Listbox value={selectedSort} onChange={setSelectedSort}>
               <div className="relative">
-                <Listbox.Button className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 bg-sea-green-50 rounded-md hover:bg-sea-green-100 transition-colors min-w-[100px] sm:min-w-[120px] border border-gray-200">
+                <Listbox.Button className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 bg-sea-green-50 rounded-md hover:bg-sea-green-50 transition-colors min-w-[100px] sm:min-w-[120px] border border-gray-200">
                   <Settings2 className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
                   <span>{selectedSort.name}</span>
                   <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />

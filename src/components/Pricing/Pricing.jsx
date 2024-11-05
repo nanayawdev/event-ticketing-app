@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
+import RevenueCalculatorProfessional from '../RevenueCalculatorProfessional/RevenueCalculatorProfessional'
+import RevenueCalculatorUnlimited from '../RevenueCalculatorUnlimited/RevenueCalculatorUnlimited'
+import RevenueCalculatorBasic from '../RevenueCalculatorBasic/RevenueCalculatorBasic'
 
 export default function Component() {
   return (
@@ -69,12 +72,13 @@ export default function Component() {
                 </Button>
               </div>
             </div>
+            <RevenueCalculatorBasic />
           </CardContent>
         </Card>
 
         <Card className="relative bg-muted/50 rounded-3xl flex flex-col h-full shadow-none">
           <CardHeader>
-            <CardTitle className="text-2xl font-medium">Professional</CardTitle>
+            <CardTitle className="text-2xl text-sea-green-400 font-medium">Professional</CardTitle>
             <p className="text-sm text-muted-foreground mt-2">
               An affordable plan for small to medium events, with essential ticketing features and low fees to grow your audience effortlessly.
             </p>
@@ -112,19 +116,20 @@ export default function Component() {
                   <span className="text-2xl font-bold">3%</span>
                   <span className="text-muted-foreground ml-1">/ ticket</span>
                 </div>
-                <Button variant="default" className="bg-black text-white hover:bg-black/90 flex items-center gap-2">
+                <Button variant="default" className="bg-sea-green-400 text-white hover:bg-sea-green-400 flex items-center gap-2">
                   Start now
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
+            <RevenueCalculatorProfessional />
           </CardContent>
         </Card>
 
         <Card className="relative bg-black text-white rounded-3xl flex flex-col h-full transform md:-translate-y-4 md:scale-110 md:translate-x-4 shadow-none">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl text-white font-medium">Unlimited</CardTitle>
+              <CardTitle className="text-2xl text-sea-green-1000 font-medium">Unlimited</CardTitle>
               <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">
                 MOST POPULAR
               </Badge>
@@ -172,6 +177,7 @@ export default function Component() {
                 </Button>
               </div>
             </div>
+            <RevenueCalculatorUnlimited />
           </CardContent>
         </Card>
       </div>
