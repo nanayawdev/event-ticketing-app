@@ -4,17 +4,22 @@ import EventLabel from '../EventLabel/EventLabel';
 import './EventCard.css';
 
 const EventCard = ({ event }) => {
-  const { Event_Name, Event_Start_Date, Event_Image, Event_Venue } = event;
+  const { Event_Name, Event_Start_Date, Event_Start_Time, Event_Image, Event_Venue } = event;
   const eventUrlName = Event_Name.toLowerCase().replace(/\s+/g, '-');
+
+  // Combine date and time into a single Date object
+  const eventDateTime = Event_Start_Date && Event_Start_Time
+    ? new Date(`${Event_Start_Date}T${Event_Start_Time}`)
+    : new Date(Event_Start_Date);
 
   return (
     <div className="event-card">
       <Link to={`/event/${eventUrlName}`} className="event-image-link">
         <div 
           className="event-image" 
-          style={{ backgroundImage: `url(${Event_Image?.url || '/assets/images/herobg.jpg'})` }}
+          style={{ backgroundImage: `url(${Event_Image?.url || '../assets/images/eventplaceholder.jpg'})` }}
         >
-          <EventLabel date={Event_Start_Date} />
+          <EventLabel date={eventDateTime} />
         </div>
       </Link>
       <div className="event-details">

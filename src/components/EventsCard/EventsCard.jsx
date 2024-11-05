@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { SlLike } from 'react-icons/sl'
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 import { useNavigate } from 'react-router-dom';
+import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
 
 const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTime, eventVenue) => {
   const now = new Date()
@@ -14,8 +15,33 @@ const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTi
     return { text: "Event Closed", className: "bg-red-500" }
   }
 
+  // Check if event is ongoing and calculate time until end
   if (now >= startDateTime && now <= endDateTime) {
+    const hoursUntilEnd = (endDateTime - now) / (1000 * 60 * 60)
+    
+    if (hoursUntilEnd <= 3) {
+      if (hoursUntilEnd <= 1) {
+        const minutesLeft = Math.floor(hoursUntilEnd * 60)
+        return { text: `Event ending in ${minutesLeft}m`, className: "bg-orange-500" }
+      }
+      const hours = Math.floor(hoursUntilEnd)
+      const minutes = Math.floor((hoursUntilEnd - hours) * 60)
+      return { text: `Event ending in ${hours}h ${minutes}m`, className: "bg-orange-500" }
+    }
     return { text: `Happening now at ${eventVenue}`, className: "bg-green-500" }
+  }
+
+  // Calculate time difference in hours until start
+  const hoursUntil = (startDateTime - now) / (1000 * 60 * 60)
+  
+  // If less than 24 hours away
+  if (hoursUntil <= 24 && hoursUntil > 0) {
+    const hours = Math.floor(hoursUntil)
+    const minutes = Math.floor((hoursUntil - hours) * 60)
+    if (hours > 0) {
+      return { text: `${hours}h ${minutes}m until event`, className: "bg-yellow-500" }
+    }
+    return { text: `${minutes}m until event`, className: "bg-yellow-500" }
   }
 
   if (isTomorrow(startDateTime)) {
@@ -107,7 +133,7 @@ const EventsCard = ({ event }) => {
     <div className="bg-gray-50 rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img 
-          src={event.Event_Image?.url || "/placeholder.svg?height=200&width=400"} 
+          src={event.Event_Image?.url || eventplaceholder} 
           alt={event.Event_Name}
           className={`w-full h-48 object-cover ${!isPastEvent() ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
           onClick={handleViewEvent}

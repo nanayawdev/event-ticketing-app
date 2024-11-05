@@ -1,40 +1,57 @@
-import React from 'react';
-import './EventLabel.css';
+import React, { useState, useEffect } from 'react';
 
 const EventLabel = ({ date }) => {
-  console.log('Date received in EventLabel:', date);
+  const [timeLeft, setTimeLeft] = useState('');
 
-  const calculateDaysFromNow = (dateString) => {
-    if (!dateString) return null;
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = date - now;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to midnight for accurate day calculation
-    
-    const eventDate = new Date(dateString);
-    eventDate.setHours(0, 0, 0, 0);
-    
-    const diffTime = eventDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
+      // If event has passed
+      if (difference < 0) {
+        return 'Event ended';
+      }
 
-  if (!date) {
-    return <div className="event-label error">NO DATE</div>;
-  }
+      // Calculate days and hours
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / 1000 / 60) % 60);
 
-  const days = calculateDaysFromNow(date);
+      // If more than 24 hours away
+      if (days > 0) {
+        return `${days} days to event`;
+      }
 
-  if (days === null || isNaN(days)) {
-    return <div className="event-label error">INVALID DATE</div>;
-  } else if (days < 0) {
-    return <div className="event-label past-due">PAST EVENT</div>;
-  } else if (days === 0) {
-    return <div className="event-label today">TODAY</div>;
-  } else if (days === 1) {
-    return <div className="event-label upcoming">TOMORROW</div>;
-  } else {
-    return <div className="event-label upcoming">IN {days} DAYS</div>;
-  }
+      // If less than 24 hours but more than 1 hour
+      if (hours > 0) {
+        return `${hours}h ${minutes}m to event`;
+      }
+
+      // If less than 1 hour
+      if (minutes > 0) {
+        return `${minutes}m to event`;
+      }
+
+      return 'Starting soon';
+    };
+
+    // Initial calculation
+    setTimeLeft(calculateTimeLeft());
+
+    // Update every minute
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 60000);
+
+    return () => clearInterval(timer);
+  }, [date]);
+
+  return (
+    <div className="absolute top-3 right-3 bg-black/70 text-white px-3 py-2 rounded-md text-sm font-medium">
+      <span>{timeLeft}</span>
+    </div>
+  );
 };
 
 export default EventLabel;

@@ -63,16 +63,16 @@ const Footer = () => {
             <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
               <li className="text-sm">
-                123 Business Street
+                The Octagon, Accra
               </li>
               <li className="text-sm">
-                New York, NY 10001
+                Accra, Ghana
               </li>
               <li className="text-sm">
-                Phone: (555) 123-4567
+                  Phone: +233 555 123 456
               </li>
               <li className="text-sm">
-                Email: info@example.com
+                Email: info@tickrfly.com
               </li>
             </ul>
           </div>
@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="mx-auto max-w-[1200px] px-6 lg:px-8 py-6">
           <div className="md:flex md:items-center md:justify-between">
             <div className="text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Your Company Name. All rights reserved.
+              © {new Date().getFullYear()} Tickrfly. All rights reserved.
             </div>
             <div className="mt-4 md:mt-0">
               <ul className="flex flex-wrap justify-center md:justify-end space-x-6">
