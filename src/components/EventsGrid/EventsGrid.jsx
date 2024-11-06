@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
+import EventHeroCard from '../EventHeroCard/EventHeroCard'
 import { ArrowRight } from 'lucide-react'
 
 const EventsGrid = ({ activeCategory }) => {
@@ -39,10 +40,21 @@ const EventsGrid = ({ activeCategory }) => {
 
   return (
     <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 mb-8 max-w-[1300px]">
+      {console.log('Events in grid:', events)}
+      
+      {events && events.length > 0 && (
+        <div className="mb-12">
+          <EventHeroCard events={events} />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
-        {filteredEvents.slice(0, visibleEvents).map((event, index) => (
-          <div className="col-span-1 w-full max-w-[280px]">
-            <EventsCard key={event.id || index} event={event} />
+        {filteredEvents.slice(0, visibleEvents).map((event) => (
+          <div 
+            key={event.id || `event-${event.Event_Name}-${event.Event_Start_Date}`} 
+            className="col-span-1 w-full max-w-[280px]"
+          >
+            <EventsCard event={event} />
           </div>
         ))}
       </div>

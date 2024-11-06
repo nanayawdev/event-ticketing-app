@@ -46,13 +46,6 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
-              to="/about"
-              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
-            >
-              About
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-            </Link>
-            <Link
               to="/services"
               className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
@@ -64,20 +57,6 @@ const Navbar = () => {
               className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
             >
               Pricing
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-            </Link>
-            <Link
-              to="/contact"
-              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
-            >
-              Contact
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-            </Link>
-            <Link
-              to="/clientguide"
-              className="text-sea-green-950 hover:text-sea-green-600 px-3 py-2 text-sm font-medium relative group transition-colors duration-300"
-            >
-              Client Guide
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
@@ -143,13 +122,6 @@ const Navbar = () => {
               Events
             </Link>
             <Link
-              to="/about"
-              onClick={closeMenu}
-              className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
-            >
-              About
-            </Link>
-            <Link
               to="/services"
               onClick={closeMenu}
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
@@ -162,20 +134,6 @@ const Navbar = () => {
               className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
             >
               Pricing
-            </Link>
-            <Link
-              to="/contact"
-              onClick={closeMenu}
-              className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
-            >
-              Contact
-            </Link>
-            <Link
-              to="/clientguide"
-              onClick={closeMenu}
-              className="text-sea-green-800 hover:text-sea-green-600 hover:bg-sea-green-100 px-3 py-2 text-base font-medium rounded-md transition-all duration-300"
-            >
-              Client Guide
             </Link>
             <Link
               to="/event-organizer"

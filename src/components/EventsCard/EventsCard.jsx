@@ -4,7 +4,7 @@ import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 
 import { useNavigate } from 'react-router-dom';
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
 
-const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTime, eventVenue) => {
+export const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTime, eventVenue) => {
   const now = new Date()
   
   // Convert timestamps to Date objects

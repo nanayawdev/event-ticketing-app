@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Handshake, SquareArrowOutUpRight } from 'lucide-react';
-import tickrflyevent from '../../assets/images/tickrflyatjoemettle.jpg'
+import tickrflyevent from '../../assets/images/photoshoot2.jpeg'
+import tickrflyevent2 from '../../assets/images/jkstudio.jpeg'
+import tickrflyevent3 from '../../assets/images/jkstudiios3.jpeg'
+import tickrflyevent4 from '../../assets/images/photoshoot.jpeg'
 const HelpPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
@@ -53,7 +56,7 @@ const HelpPopup = () => {
                 onClick={() => {/* Add partner signup link/action */}}
                 className="bg-gray-900 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-300 flex items-center gap-2"
               >
-                <span>Join Us Now and Earn</span>
+                <span>Join Us</span>
                 <SquareArrowOutUpRight className="w-4 h-4" />
               </button>
 
@@ -61,22 +64,22 @@ const HelpPopup = () => {
                 <img
                   alt=""
                   src={tickrflyevent}
-                  className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                  className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
                 />
                 <img
                   alt=""
-                  src={tickrflyevent}
-                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white"
+                  src={tickrflyevent2}
+                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white object-cover"
                 />
                 <img
                   alt=""
-                  src={tickrflyevent}
-                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white"
+                  src={tickrflyevent3}
+                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white object-cover"
                 />
                 <img
                   alt=""
-                  src={tickrflyevent}
-                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white"
+                  src={tickrflyevent4}
+                  className="inline-block h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-white object-cover"
                 />
               </div>
             </div>
