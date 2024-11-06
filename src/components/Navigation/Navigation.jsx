@@ -10,23 +10,35 @@ const sortOptions = [
   { id: 4, name: 'Trending' }
 ];
 
-const Navigation = () => {
+const Navigation = ({ activeCategory, onCategoryChange, searchQuery, onSearch }) => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [activeTab, setActiveTab] = useState('All');
+  const [categories, setCategories] = useState(['All']);
 
+  // Fetch categories
   useEffect(() => {
     fetch('https://api-server.krontiva.africa/api:4S2X7JDM/event_category')
       .then(response => response.json())
       .then(data => {
+        console.log('Fetched categories:', data); // Log fetched categories
         const uniqueCategories = ['All', ...new Set(data.map(cat => cat.Event_Category))];
+        console.log('Unique categories:', uniqueCategories); // Log unique categories
         setCategories(uniqueCategories);
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
       });
   }, []);
+
+  const handleCategoryClick = (category) => {
+    console.log('Navigation - Category clicked:', category); // Log category click
+    console.log('Navigation - Current active category:', activeCategory); // Log current active category
+    onCategoryChange(category);
+  };
+
+  const handleSearchChange = (e) => {
+    console.log('Search changed:', e.target.value); // Debug log
+    onSearch(e.target.value);
+  };
 
   return (
     <div className="navigation-section bg-sea-green-50 mb-8">
@@ -77,15 +89,15 @@ const Navigation = () => {
               </div>
             </Listbox>
 
-            {/* Tabs */}
+            {/* Category Tabs */}
             <nav className="flex-1 min-w-0">
               <div className="flex space-x-8 overflow-x-auto hide-scrollbar">
                 {categories.map((category, index) => (
                   <button
                     key={`${category}-${index}`}
-                    onClick={() => setActiveTab(category)}
+                    onClick={() => handleCategoryClick(category)}
                     className={`px-1 py-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0
-                      ${activeTab === category 
+                      ${activeCategory === category 
                         ? 'text-gray-900 border-gray-900' 
                         : 'text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700'
                       }`}
@@ -105,7 +117,7 @@ const Navigation = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               placeholder="Search events..."
               className="block w-full pl-10 pr-4 py-1.5 text-sm border border-gray-200 rounded-md bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent"
             />

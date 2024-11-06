@@ -14,13 +14,16 @@ export default function EventHeroCard({ events }) {
 
   // Get featured events once when events prop changes
   const featuredEvents = useMemo(() => {
+    if (!events || !Array.isArray(events)) return []
+    
     return events
-      ?.filter(event => {
+      .filter(event => {
+        if (!event || !event.Event_End_Time) return false
         const endDateTime = new Date(event.Event_End_Time)
         return new Date() <= endDateTime
       })
       .sort((a, b) => new Date(a.Event_Start_Time) - new Date(b.Event_Start_Time))
-      .slice(0, 5) || []
+      .slice(0, 5)
   }, [events])
 
   const handlePrevious = () => {
@@ -89,13 +92,14 @@ export default function EventHeroCard({ events }) {
   }
 
   const currentEvent = featuredEvents[currentIndex]
+  if (!currentEvent) return null
 
   return (
     <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden">
       {/* Background Image */}
       <img
         src={currentEvent.Event_Image?.url || eventplaceholder}
-        alt={`Cover for ${currentEvent.Event_Name}`}
+        alt={`Cover for ${currentEvent.Event_Name || 'Event'}`}
         className={`object-cover w-full h-full transition-opacity duration-500 ${
           !isPastEvent() ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'
         }`}

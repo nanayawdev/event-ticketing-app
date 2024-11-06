@@ -17,7 +17,6 @@ import Login from './components/Login/Login';
 import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
-import Navigation from './components/Navigation/Navigation';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import HeroAlt from './components/HeroAlt/HeroAlt';
 // Import ThemeProvider
@@ -44,10 +43,6 @@ const AppContent = () => {
 						<Brands />
 						<Divider />
 						<Approach />
-						<Navigation 
-							activeCategory={activeCategory}
-							setActiveCategory={setActiveCategory}
-						/>
 						<EventsGrid activeCategory={activeCategory} />
 						<Footer />
 						<HelpPopup />
