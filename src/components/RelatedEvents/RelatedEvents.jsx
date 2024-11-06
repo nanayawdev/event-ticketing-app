@@ -59,9 +59,11 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
           </button>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-          {filteredEvents.slice(0, 8).map((event, index) => (
-            <EventsCard key={event.id || index} event={event} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
+          {filteredEvents.slice(0, 5).map((event, index) => (
+            <div className="col-span-1 w-full max-w-[280px]">
+              <EventsCard key={event.id || index} event={event} />
+            </div>
           ))}
         </div>
       </div>

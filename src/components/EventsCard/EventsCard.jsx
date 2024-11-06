@@ -96,7 +96,7 @@ const EventsCard = ({ event }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return {
-      month: date.toLocaleString('default', { month: 'short' }).toUpperCase(),
+      month: date.toLocaleString('default', { month: 'short' }),
       day: date.getDate()
     }
   }
@@ -130,12 +130,12 @@ const EventsCard = ({ event }) => {
   };
 
   return (
-    <div className="bg-gray-50 overflow-hidden shadow-lg">
+    <div className="bg-gray-50 overflow-hidden shadow-lg max-w-[280px]">
       <div className="relative">
         <img 
           src={event.Event_Image?.url || eventplaceholder} 
           alt={event.Event_Name}
-          className={`w-full h-48 object-cover ${!isPastEvent() ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
+          className={`w-full h-32 object-cover ${!isPastEvent() ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
           onClick={handleViewEvent}
           loading="eager"
         />
@@ -144,11 +144,11 @@ const EventsCard = ({ event }) => {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         <div className="flex justify-between items-start mb-2">
           <h2 
             onClick={handleViewEvent}
-            className={`text-xl font-bold ${
+            className={`text-sm font-bold truncate max-w-[180px] ${
               !isPastEvent() 
                 ? 'cursor-pointer hover:text-sea-green-500' 
                 : 'cursor-not-allowed text-gray-500'
@@ -167,24 +167,24 @@ const EventsCard = ({ event }) => {
             }`}
             disabled={isPastEvent()}
           >
-            <SlLike className={`w-5 h-5 ${hasLiked && !isPastEvent() ? 'fill-current' : ''}`} />
+            <SlLike className={`w-4 h-4 ${hasLiked && !isPastEvent() ? 'fill-current' : ''}`} />
             {likes > 0 && <span>{likes}</span>}
           </button>
         </div>
 
-        <div className="flex items-center gap-4 mb-2">
-          <div className="bg-sea-green-400 text-white px-2 py-1 rounded-sm text-md font-bold">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="bg-sea-green-500 text-white px-2 py-0.5 rounded-sm text-xs font-normal">
             {startMonth} {startDay}
             {event.Event_Start_Date !== event.Event_End_Date && 
               <> - {endMonth} {endDay}</>
             }
           </div>
-          <div className="h-6 w-px bg-gray-300"></div>
-          <div className="flex-1 text-gray-500 font-medium text-md">
+          <div className="h-5 w-px bg-gray-300"></div>
+          <div className="flex-1 text-gray-500 font-normal text-xs truncate">
             {event.Event_Venue}
           </div>
-          <div className="h-6 w-px bg-gray-300"></div>
-          <div className="text-md font-bold text-sea-green-400">
+          <div className="h-5 w-px bg-gray-300"></div>
+          <div className="text-xs font-bold text-sea-green-500">
             ₵{event.Event_Price || '456'}
           </div>
         </div>

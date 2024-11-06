@@ -38,10 +38,12 @@ const EventsGrid = ({ activeCategory }) => {
   if (error) return <div className="text-center py-10 text-red-500">{error}</div>
 
   return (
-    <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+    <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 mb-8 max-w-[1300px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
         {filteredEvents.slice(0, visibleEvents).map((event, index) => (
-          <EventsCard key={event.id || index} event={event} />
+          <div className="col-span-1 w-full max-w-[280px]">
+            <EventsCard key={event.id || index} event={event} />
+          </div>
         ))}
       </div>
       
