@@ -22,6 +22,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
 import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentBanner';
 import HeroAlt from './components/HeroAlt/HeroAlt';
+import NewsGrid from './components/NewsGrid/NewsGrid';
+import NewsRead from './pages/NewsRead';
 
 const AppContent = () => {
 	const location = useLocation();
@@ -56,6 +58,7 @@ const AppContent = () => {
 						<Divider />
 						<Approach />
 						<EventsGrid activeCategory={activeCategory} />
+						<NewsGrid />
 						<Footer />
 						<HelpPopup />
 					</>
@@ -71,6 +74,7 @@ const AppContent = () => {
 				<Route path="/clientguide" element={<ClientGuide />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/event-organizer" element={<EventOrganizer />} />
+				<Route path="/news/:id" element={<NewsRead />} />
 			</Routes>
 			<CookieConsentBanner />
 		</>
