@@ -8,6 +8,8 @@ const EventListing = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
@@ -32,6 +34,16 @@ const EventListing = () => {
     navigate(`/events/${eventSlug}`);
   };
 
+  const filteredEvents = events.filter(event => 
+    event.Event_Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setShowDropdown(value.length > 0);
+  };
+
   if (loading) return <div className="text-center py-10">Loading events...</div>;
   if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
 
@@ -53,10 +65,36 @@ const EventListing = () => {
         <div className="relative">
           <input
             type="text"
+            value={searchTerm}
+            onChange={handleSearchInput}
+            onFocus={() => setShowDropdown(searchTerm.length > 0)}
             placeholder="Search events..."
-            className="pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent"
+            className="pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent w-[300px]"
           />
           <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+          
+          {showDropdown && (
+            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+              {filteredEvents.length > 0 ? (
+                filteredEvents.map((event, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      handleNavigation(event.Event_Name);
+                      setShowDropdown(false);
+                      setSearchTerm('');
+                    }}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    <div className="font-medium">{event.Event_Name}</div>
+                    <div className="text-sm text-gray-500">{event.Event_Venue}</div>
+                  </div>
+                ))
+              ) : (
+                <div className="px-4 py-2 text-gray-500">No events found</div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -116,7 +154,7 @@ const EventListing = () => {
               <div className="flex items-center min-w-[180px] justify-end">
                 <button 
                   onClick={() => handleNavigation(event.Event_Name)}
-                  className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-colors"
+                  className="px-4 py-2 rounded bg-sea-green-500 text-white hover:bg-sea-green-600 transition-colors"
                 >
                   BUY TICKETS
                 </button>

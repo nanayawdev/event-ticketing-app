@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
 import EventHeroCard from '../EventHeroCard/EventHeroCard'
-import { ArrowRight, Search } from 'lucide-react'
+import { ArrowRight, Search, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const EventsGrid = () => {
@@ -12,61 +12,9 @@ const EventsGrid = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [visibleEvents, setVisibleEvents] = useState(12)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef(null)
-
-  // Get search suggestions based on current input
-  const getSuggestions = () => {
-    if (!searchQuery.trim()) return [];
-
-    const searchLower = searchQuery.toLowerCase().trim()
-    const suggestions = new Set() // Use Set to avoid duplicates
-
-    events.forEach(event => {
-      if (!event) return;
-
-      // Add event name to suggestions if it matches
-      if (event.Event_Name && String(event.Event_Name).toLowerCase().includes(searchLower)) {
-        suggestions.add(event.Event_Name)
-      }
-      // Add venue to suggestions if it matches
-      if (event.Event_Venue && String(event.Event_Venue).toLowerCase().includes(searchLower)) {
-        suggestions.add(event.Event_Venue)
-      }
-      // Add category to suggestions if it matches
-      if (event.Event_Category && String(event.Event_Category).toLowerCase().includes(searchLower)) {
-        suggestions.add(String(event.Event_Category))
-      }
-    })
-
-    return Array.from(suggestions).slice(0, 5) // Limit to 5 suggestions
-  }
-
-  // Close suggestions when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSuggestions(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const handleSearch = (e) => {
-    const value = e.target.value
-    setSearchQuery(value)
-    setShowSuggestions(true)
-    setVisibleEvents(12)
-  }
-
-  const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion)
-    setShowSuggestions(false)
-    setVisibleEvents(12)
-  }
 
   // Fetch events
   useEffect(() => {
@@ -85,26 +33,19 @@ const EventsGrid = () => {
   // Filter events based on search and closed status (for grid only)
   const filteredEvents = events.filter(event => {
     if (!event || !event.Event_End_Time) return false;
-
-    const endDateTime = new Date(event.Event_End_Time)
-    const isNotClosed = new Date() <= endDateTime
+    const endDateTime = new Date(event.Event_End_Time);
+    const isNotClosed = new Date() <= endDateTime;
     
-    // If no search query, just check if event is not closed
-    if (!searchQuery.trim()) return isNotClosed;
+    if (!searchTerm.trim()) return isNotClosed;
+    
+    return isNotClosed && event.Event_Name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
-    // Search filter
-    const searchLower = searchQuery.toLowerCase().trim()
-    const eventName = String(event.Event_Name || '').toLowerCase()
-    const eventVenue = String(event.Event_Venue || '').toLowerCase()
-    const eventCategory = String(event.Event_Category || '').toLowerCase()
-
-    const matchesSearch = 
-      eventName.includes(searchLower) ||
-      eventVenue.includes(searchLower) ||
-      eventCategory.includes(searchLower)
-
-    return isNotClosed && matchesSearch
-  })
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setShowDropdown(value.length > 0);
+  };
 
   const handleLoadMore = () => {
     navigate('/events')
@@ -123,37 +64,40 @@ const EventsGrid = () => {
       {/* Search Section with Dropdown */}
       <div className="mb-8">
         <div className="relative max-w-md mx-auto" ref={searchRef}>
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
           <input
             type="text"
-            value={searchQuery}
-            onChange={handleSearch}
-            onFocus={() => setShowSuggestions(true)}
-            placeholder="Search events by name, venue, or category..."
+            value={searchTerm}
+            onChange={handleSearchInput}
+            onFocus={() => setShowDropdown(searchTerm.length > 0)}
+            placeholder="Search events..."
             className="block w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent"
           />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           
-          {/* Suggestions Dropdown */}
-          {showSuggestions && searchQuery.trim() && (
-            <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
-              {getSuggestions().map((suggestion, index) => (
-                <div
-                  key={index}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-gray-700 first:rounded-t-lg last:rounded-b-lg"
-                  onClick={() => handleSuggestionClick(suggestion)}
-                >
-                  <div className="flex items-center gap-2">
-                    <Search className="h-4 w-4 text-gray-400" />
-                    <span>{suggestion}</span>
+          {showDropdown && (
+            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+              {filteredEvents.length > 0 ? (
+                filteredEvents.slice(0, 5).map((event, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      navigate(`/events/${event.Event_Name.toLowerCase().replace(/\s+/g, '-')}`);
+                      setShowDropdown(false);
+                      setSearchTerm('');
+                    }}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    <div className="font-medium">{event.Event_Name}</div>
+                    <div className="text-sm text-gray-500">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4" />
+                        {event.Event_Venue}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
-              {getSuggestions().length === 0 && (
-                <div className="px-4 py-2 text-sm text-gray-500">
-                  No suggestions found
-                </div>
+                ))
+              ) : (
+                <div className="px-4 py-2 text-gray-500">No events found</div>
               )}
             </div>
           )}
