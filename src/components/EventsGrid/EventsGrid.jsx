@@ -1,16 +1,72 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
 import EventHeroCard from '../EventHeroCard/EventHeroCard'
 import { ArrowRight, Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const EventsGrid = () => {
+  const navigate = useNavigate()
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [visibleEvents, setVisibleEvents] = useState(12)
   const [searchQuery, setSearchQuery] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const searchRef = useRef(null)
+
+  // Get search suggestions based on current input
+  const getSuggestions = () => {
+    if (!searchQuery.trim()) return [];
+
+    const searchLower = searchQuery.toLowerCase().trim()
+    const suggestions = new Set() // Use Set to avoid duplicates
+
+    events.forEach(event => {
+      if (!event) return;
+
+      // Add event name to suggestions if it matches
+      if (event.Event_Name && String(event.Event_Name).toLowerCase().includes(searchLower)) {
+        suggestions.add(event.Event_Name)
+      }
+      // Add venue to suggestions if it matches
+      if (event.Event_Venue && String(event.Event_Venue).toLowerCase().includes(searchLower)) {
+        suggestions.add(event.Event_Venue)
+      }
+      // Add category to suggestions if it matches
+      if (event.Event_Category && String(event.Event_Category).toLowerCase().includes(searchLower)) {
+        suggestions.add(String(event.Event_Category))
+      }
+    })
+
+    return Array.from(suggestions).slice(0, 5) // Limit to 5 suggestions
+  }
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleSearch = (e) => {
+    const value = e.target.value
+    setSearchQuery(value)
+    setShowSuggestions(true)
+    setVisibleEvents(12)
+  }
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion)
+    setShowSuggestions(false)
+    setVisibleEvents(12)
+  }
 
   // Fetch events
   useEffect(() => {
@@ -51,13 +107,7 @@ const EventsGrid = () => {
   })
 
   const handleLoadMore = () => {
-    setVisibleEvents(prev => prev + 12)
-  }
-
-  const handleSearch = (e) => {
-    const value = e.target.value
-    setSearchQuery(value)
-    setVisibleEvents(12) // Reset visible events when searching
+    navigate('/events')
   }
 
   if (loading) return <div className="text-center py-10">Loading events...</div>
@@ -65,14 +115,14 @@ const EventsGrid = () => {
 
   return (
     <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 mb-8 max-w-[1300px]">
-      {/* Hero Card - using all events, not filtered ones */}
+      {/* Hero Card */}
       <div className="mb-12">
         <EventHeroCard events={events} />
       </div>
 
-      {/* Search Section */}
+      {/* Search Section with Dropdown */}
       <div className="mb-8">
-        <div className="relative max-w-md mx-auto">
+        <div className="relative max-w-md mx-auto" ref={searchRef}>
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-400" />
           </div>
@@ -80,9 +130,33 @@ const EventsGrid = () => {
             type="text"
             value={searchQuery}
             onChange={handleSearch}
+            onFocus={() => setShowSuggestions(true)}
             placeholder="Search events by name, venue, or category..."
             className="block w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent"
           />
+          
+          {/* Suggestions Dropdown */}
+          {showSuggestions && searchQuery.trim() && (
+            <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
+              {getSuggestions().map((suggestion, index) => (
+                <div
+                  key={index}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-gray-700 first:rounded-t-lg last:rounded-b-lg"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  <div className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-gray-400" />
+                    <span>{suggestion}</span>
+                  </div>
+                </div>
+              ))}
+              {getSuggestions().length === 0 && (
+                <div className="px-4 py-2 text-sm text-gray-500">
+                  No suggestions found
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       
@@ -112,7 +186,7 @@ const EventsGrid = () => {
             onClick={handleLoadMore}
             className="border border-sea-green-500 text-sea-green-500 font-semibold py-2 px-6 rounded-md transition-colors flex items-center gap-2 mx-auto hover:bg-sea-green-50"
           >
-            Find More Events
+            View All Events
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

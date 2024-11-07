@@ -95,7 +95,7 @@ export default function EventHeroCard({ events }) {
   if (!currentEvent) return null
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden mt-[72px] sm:mt-[80px]">
       {/* Background Image */}
       <img
         src={currentEvent.Event_Image?.url || eventplaceholder}

@@ -18,15 +18,27 @@ import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 import HelpPopup from './components/HelpPopup/HelpPopup';
-import HeroAlt from './components/HeroAlt/HeroAlt';
-// Import ThemeProvider
 import { ThemeProvider } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
 import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentBanner';
+import HeroAlt from './components/HeroAlt/HeroAlt';
 
 const AppContent = () => {
 	const location = useLocation();
 	const [activeCategory, setActiveCategory] = useState('All');
+	const [events, setEvents] = useState([]);
+
+	// Fetch events for EventHeroCard
+	useEffect(() => {
+		fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
+			.then(response => response.json())
+			.then(data => {
+				setEvents(data);
+			})
+			.catch(err => {
+				console.error('Error fetching events:', err);
+			});
+	}, []);
 
 	const isSignUpPage = location.pathname === '/signup';
 	const isDashboardPage = location.pathname.startsWith('/dashboard');
@@ -67,7 +79,7 @@ const AppContent = () => {
 
 const App = () => {
 	return (
-		<ThemeProvider> {/* Wrap the Router with ThemeProvider */}
+		<ThemeProvider>
 			<Router>
 				<AppContent />
 			</Router>
