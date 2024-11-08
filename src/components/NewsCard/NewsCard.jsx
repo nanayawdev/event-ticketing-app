@@ -4,10 +4,11 @@ import { ArrowRight } from "lucide-react"
 import { Link } from 'react-router-dom'
 
 export default function NewsCard({
-  id,
+  event_news_table_id,
   title,
   imageUrl,
 }) {
+  console.log('NewsCard ID:', event_news_table_id);
   return (
     <Card className="overflow-hidden max-w-sm group">
       <div className="relative flex flex-col h-full">
@@ -34,7 +35,7 @@ export default function NewsCard({
             className="p-0 h-auto font-semibold text-sea-green-400 hover:text-sea-green-500"
             asChild
           >
-            <Link to={`/news/${id}`} className="flex items-center gap-1">
+            <Link to={`/news/${event_news_table_id}`} className="flex items-center gap-1">
               Continue reading
               <ArrowRight className="w-4 h-4" />
             </Link>

@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getEventStatus } from '../EventsCard/EventsCard';
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { useEvents } from '../../hooks/useEvents';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
 
 const EventListingGrid = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { events, loading, error } = useEvents();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 6;
-
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => {
-        // Filter out past events
-        const filteredEvents = data.filter(event => {
-          const endDateTime = new Date(event.Event_End_Time);
-          return new Date() <= endDateTime;
-        });
-        setEvents(filteredEvents);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to load events');
-        setLoading(false);
-      });
-  }, []);
 
   const handleViewEvent = (eventName) => {
     const eventSlug = eventName.toLowerCase().replace(/\s+/g, '-');
@@ -53,8 +36,7 @@ const EventListingGrid = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading events...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-7xl mx-auto p-8">
@@ -81,7 +63,10 @@ const EventListingGrid = () => {
           console.log('Event Status:', status);
 
           return (
-            <div key={event.id} className="flex flex-col bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div 
+              key={event.id || `event-${event.Event_Name}`} 
+              className="flex flex-col bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            >
               <div className="relative h-48">
                 <img
                   src={event.Event_Image?.url || eventplaceholder}
@@ -129,7 +114,7 @@ const EventListingGrid = () => {
                   </button>
                   <div className="text-right">
                     <p className="text-sm text-gray-500">from</p>
-                    <p className="text-xl font-bold text-sea-green-600">₵{event.Event_Price || '456'}</p>
+                    <PriceDisplay priceInGHS={event.Event_Price} />
                   </div>
                 </div>
               </div>

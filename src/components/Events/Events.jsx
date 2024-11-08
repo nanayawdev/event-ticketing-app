@@ -2,7 +2,6 @@ import React from 'react';
 import EventListing from '../../components/EventListing/EventListing';
 import EventListingAlt from '../../components/EventListingAlt/EventListingAlt';
 import EventListingGrid from '../../components/EventListingGrid/EventListingGrid';
-import Footer from '../../components/Footer/Footer';
 const Events = () => {
   return (
     <main className="min-h-screen bg-white pt-16">
@@ -11,7 +10,6 @@ const Events = () => {
         <EventListingAlt />
         <EventListingGrid />
       </div>
-      <Footer />
     </main>
   );
 };

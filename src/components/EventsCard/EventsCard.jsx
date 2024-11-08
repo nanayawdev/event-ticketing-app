@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { SlLike } from 'react-icons/sl'
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
 
 export const getEventStatus = (eventStartDate, eventEndDate, eventStartTime, eventEndTime, eventVenue) => {
   const now = new Date()
@@ -185,9 +186,18 @@ const EventsCard = ({ event }) => {
           </div>
           <div className="h-5 w-px bg-gray-300"></div>
           <div className="text-xs font-bold text-sea-green-500">
-            ₵{event.Event_Price || '456'}
+            <PriceDisplay priceInGHS={event.Event_Price} />
           </div>
         </div>
+      </div>
+
+      <div className="mt-auto">
+        <Link 
+          to={`/events/${event.Event_Name.toLowerCase().replace(/\s+/g, '-')}`}
+          className="bg-sea-green-500 text-white px-4 py-2 rounded block text-center"
+        >
+          Buy Tickets
+        </Link>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import NoticeBar from './components/NoticeBar/NoticeBar'
+import NoticeBar from './components/NoticeBar/NoticeBar';
 import EventsGrid from './components/EventsGrid/EventsGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
@@ -24,71 +24,148 @@ import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentB
 import HeroAlt from './components/HeroAlt/HeroAlt';
 import NewsGrid from './components/NewsGrid/NewsGrid';
 import NewsRead from './pages/NewsRead';
+import { Toaster } from 'sonner';
+import { PaymentProvider } from './context/PaymentContext';
+import BuyTicket from './components/BuyTicket/BuyTicket';
+import PaymentStatus from './components/PaymentStatus/PaymentStatus';
+
+const StandardLayout = ({ children }) => {
+  return (
+    <>
+      <NoticeBar />
+      <Navbar />
+      <main className="min-h-screen">
+        {children}
+      </main>
+      <Footer />
+      <HelpPopup />
+    </>
+  );
+};
 
 const AppContent = () => {
-	const location = useLocation();
-	const [activeCategory, setActiveCategory] = useState('All');
-	const [events, setEvents] = useState([]);
+  const location = useLocation();
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [events, setEvents] = useState([]);
 
-	// Fetch events for EventHeroCard
-	useEffect(() => {
-		fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-			.then(response => response.json())
-			.then(data => {
-				setEvents(data);
-			})
-			.catch(err => {
-				console.error('Error fetching events:', err);
-			});
-	}, []);
+  useEffect(() => {
+    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
+      .then(response => response.json())
+      .then(data => setEvents(data))
+      .catch(err => console.error('Error fetching events:', err));
+  }, []);
 
-	const isSignUpPage = location.pathname === '/signup';
-	const isDashboardPage = location.pathname.startsWith('/dashboard');
-	const isLoginPage = location.pathname === '/login';
+  // Special pages without standard layout
+  if (location.pathname === '/signup') return <SignUp />;
+  if (location.pathname.startsWith('/dashboard')) return <Dashboard />;
+  if (location.pathname === '/login') return <Login />;
 
-	return (
-		<>
-			{!isSignUpPage && !isDashboardPage && !isLoginPage && <NoticeBar />}
-			{!isSignUpPage && !isDashboardPage && !isLoginPage && <Navbar />}
-			<Routes>
-				<Route path="/" element={
-					<>
-						<HeroAlt />
-						<Brands />
-						<Divider />
-						<Approach />
-						<EventsGrid activeCategory={activeCategory} />
-						<NewsGrid />
-						<Footer />
-						<HelpPopup />
-					</>
-				} />
-				<Route path="/events/:eventName" element={<EventDetails />} />
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/dashboard/*" element={<Dashboard />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/events" element={<Events />} />
-				<Route path="/services" element={<Services />} />
-				<Route path="/pricing" element={<Pricing />} />
-				<Route path="/contact" element={<Contact />} />
-				<Route path="/clientguide" element={<ClientGuide />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/event-organizer" element={<EventOrganizer />} />
-				<Route path="/news/:id" element={<NewsRead />} />
-			</Routes>
-			<CookieConsentBanner />
-		</>
-	);
+  return (
+    <>
+      <Routes>
+        {/* Home page */}
+        <Route path="/" element={
+          <StandardLayout>
+            <HeroAlt />
+            <Brands />
+            <Divider />
+            <Approach />
+            <EventsGrid activeCategory={activeCategory} />
+            <NewsGrid />
+          </StandardLayout>
+        } />
+
+        {/* Main navigation routes */}
+        <Route path="/about" element={
+          <StandardLayout>
+            <About />
+          </StandardLayout>
+        } />
+
+        <Route path="/services" element={
+          <StandardLayout>
+            <Services />
+          </StandardLayout>
+        } />
+
+        <Route path="/pricing" element={
+          <StandardLayout>
+            <Pricing />
+          </StandardLayout>
+        } />
+
+        <Route path="/contact" element={
+          <StandardLayout>
+            <Contact />
+          </StandardLayout>
+        } />
+
+        <Route path="/clientguide" element={
+          <StandardLayout>
+            <ClientGuide />
+          </StandardLayout>
+        } />
+
+        <Route path="/event-organizer" element={
+          <StandardLayout>
+            <EventOrganizer />
+          </StandardLayout>
+        } />
+
+        {/* Event routes */}
+        <Route path="/events" element={
+          <StandardLayout>
+            <Events />
+          </StandardLayout>
+        } />
+
+        <Route path="/events/:eventName" element={
+          <StandardLayout>
+            <EventDetails />
+          </StandardLayout>
+        } />
+
+        <Route path="/events/:eventName/buy" element={
+          <StandardLayout>
+            <BuyTicket />
+          </StandardLayout>
+        } />
+
+        <Route path="/payment/status" element={
+          <StandardLayout>
+            <PaymentStatus />
+          </StandardLayout>
+        } />
+
+        {/* News routes */}
+        <Route path="/news" element={
+          <StandardLayout>
+            <NewsGrid />
+          </StandardLayout>
+        } />
+
+        <Route path="/news/:id" element={
+          <StandardLayout>
+            <NewsRead />
+          </StandardLayout>
+        } />
+      </Routes>
+      <CookieConsentBanner />
+    </>
+  );
 };
 
 const App = () => {
-	return (
-		<ThemeProvider>
-			<Router>
-				<AppContent />
-			</Router>
-		</ThemeProvider>
-	);
+  return (
+    <ThemeProvider>
+      <PaymentProvider>
+        <Toaster position="top-center" richColors />
+        <Router>
+          <AppContent />
+        </Router>
+      </PaymentProvider>
+    </ThemeProvider>
+  );
 };
 
 export default App;

@@ -1,54 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { CalendarIcon, Twitter, Facebook, Linkedin } from 'lucide-react';
-
+import React, { useState, useEffect } from 'react'
+import { format } from 'date-fns'
+import { useParams } from 'react-router-dom' // Add this import
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { CalendarIcon, Twitter, Facebook, Linkedin } from 'lucide-react'
+import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 export default function NewsRead() {
-  const { id } = useParams();
-  const [newsItem, setNewsItem] = useState(null);
-  const [error, setError] = useState(null);
+  // Get the ID from URL parameters instead of props
+  const { id } = useParams()
+  const [blogData, setBlogData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    console.log('Fetching news with ID:', id);
-    fetch(`https://api-server.krontiva.africa/api:BnSaGAXN/event_news_table/{event_news_table_id}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('News item data:', data);
-        setNewsItem(data);
-      })
-      .catch(error => {
-        console.error('Error fetching news item:', error);
-        setError(error.message);
-      });
-  }, [id]);
+    const fetchBlogData = async () => {
+      if (!id) {
+        setError('No article ID provided')
+        setIsLoading(false)
+        return
+      }
 
-  if (error) return <div>Error loading news: {error}</div>;
-  if (!newsItem) return <div>Loading...</div>;
+      try {
+        const response = await fetch(`https://api-server.krontiva.africa/api:BnSaGAXN/event_news_table/${id}`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch blog data')
+        }
+        const data = await response.json()
+        setBlogData(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  const shareUrl = encodeURIComponent(window.location.href);
-  const shareText = encodeURIComponent(newsItem.newsTitle);
-  const publishDate = newsItem.publishedDate ? parseISO(newsItem.publishedDate) : new Date();
+    fetchBlogData()
+  }, [id]) // Update dependency to id
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <LoadingSpinner />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center text-red-500">
+          <p>Error: {error}</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!blogData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p>No article found</p>
+      </div>
+    )
+  }
+
+  const { newsTitle, newsImage, publishedDate, newsBody } = blogData
+  const shareUrl = encodeURIComponent(window.location.href)
+  const shareText = encodeURIComponent(newsTitle)
 
   return (
-    <article className="max-w-3xl mx-auto px-4 py-8 mt-20">
+    <article className="max-w-3xl mx-auto px-4 py-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{newsItem.newsTitle}</h1>
+        <h1 className="text-4xl font-bold mb-4">{newsTitle}</h1>
         <div className="flex items-center justify-between flex-wrap gap-4 text-muted-foreground mb-6">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <CalendarIcon className="w-5 h-5" />
-              <time dateTime={newsItem.publishedDate}>
-                {format(publishDate, 'MMMM d, yyyy')}
+              <time dateTime={publishedDate}>
+                {format(new Date(publishedDate), 'MMMM d, yyyy')}
               </time>
-            </div>
-            <div className="flex items-center gap-2">
-              <Avatar className="w-8 h-8">
-                <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Author" />
-                <AvatarFallback>AU</AvatarFallback>
-              </Avatar>
-              <span>Author</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -69,17 +98,19 @@ export default function NewsRead() {
             </Button>
           </div>
         </div>
-        <img
-          src={newsItem.newsImage}
-          alt=""
-          className="w-full h-[400px] object-cover rounded-lg mb-8"
-        />
+        {newsImage && (
+          <img
+            src={newsImage}
+            alt={newsTitle}
+            className="w-full h-[400px] object-cover rounded-lg mb-8"
+          />
+        )}
       </header>
       <div className="prose prose-lg max-w-none">
-        {newsItem.newsBody?.split('\n\n').map((paragraph, index) => (
+        {newsBody.split('\n\n').map((paragraph, index) => (
           <p key={index} className="mb-4">{paragraph}</p>
         ))}
       </div>
     </article>
-  );
-} 
+  )
+}

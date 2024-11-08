@@ -1,37 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronRight, MapPin, Clock, Search } from 'lucide-react';
 import { getEventStatus } from '../EventsCard/EventsCard';
 import { useNavigate } from 'react-router-dom';
+import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { toast } from 'sonner'
+import { useEvents } from '../../hooks/useEvents';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
 
 const EventListing = () => {
   const navigate = useNavigate();
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { events, loading, error } = useEvents();
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => {
-        const filteredEvents = data.filter(event => {
-          if (!event || !event.Event_End_Time) return false;
-          const endDateTime = new Date(event.Event_End_Time);
-          return new Date() <= endDateTime;
-        });
-        setEvents(filteredEvents);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to load events');
-        setLoading(false);
-      });
-  }, []);
 
   const handleNavigation = (eventName) => {
     const eventSlug = eventName.toLowerCase().replace(/\s+/g, '-');
     navigate(`/events/${eventSlug}`);
+  };
+
+  const formatEventDate = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      day: date.getDate(),
+      month: date.toLocaleString('default', { month: 'short' }),
+      year: date.getFullYear()
+    };
   };
 
   const filteredEvents = events.filter(event => 
@@ -44,8 +37,7 @@ const EventListing = () => {
     setShowDropdown(value.length > 0);
   };
 
-  if (loading) return <div className="text-center py-10">Loading events...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-6xl mx-auto p-8">
@@ -99,14 +91,8 @@ const EventListing = () => {
       </div>
 
       <div className="space-y-8">
-        {events.map((event, index) => {
-          const eventDate = new Date(event.Event_Start_Date);
-          const formattedDate = {
-            day: eventDate.getDate().toString(),
-            month: eventDate.toLocaleString('default', { month: 'long' }),
-            year: eventDate.getFullYear().toString()
-          };
-
+        {events.map((event) => {
+          const formattedDate = formatEventDate(event.Event_Start_Date);
           const status = getEventStatus(
             event.Event_Start_Date,
             event.Event_End_Date,
@@ -116,7 +102,10 @@ const EventListing = () => {
           );
 
           return (
-            <div key={index} className="border-t border-gray-200 pt-8 flex justify-between items-center">
+            <div 
+              key={event.id || `event-${event.Event_Name}`} 
+              className="border-t border-gray-200 pt-8 flex justify-between items-center"
+            >
               <div className="flex items-center gap-12 min-w-[180px]">
                 <div className="flex items-center gap-2">
                   <span className="text-6xl font-bold leading-none">{formattedDate.day}</span>
@@ -126,7 +115,7 @@ const EventListing = () => {
                   </div>
                 </div>
               </div>
-                
+              
               <div className="flex-1 space-y-3 text-left">
                 <div className="flex items-center gap-3">
                   <h3 
@@ -152,12 +141,15 @@ const EventListing = () => {
               </div>
 
               <div className="flex items-center min-w-[180px] justify-end">
-                <button 
-                  onClick={() => handleNavigation(event.Event_Name)}
-                  className="px-4 py-2 rounded bg-sea-green-500 text-white hover:bg-sea-green-600 transition-colors"
-                >
-                  BUY TICKETS
-                </button>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => handleNavigation(event.Event_Name)}
+                    className="px-4 py-2 rounded bg-sea-green-500 text-white hover:bg-sea-green-600 transition-colors"
+                  >
+                    BUY TICKETS
+                  </button>
+                  <PriceDisplay priceInGHS={event.Event_Price} />
+                </div>
               </div>
             </div>
           );

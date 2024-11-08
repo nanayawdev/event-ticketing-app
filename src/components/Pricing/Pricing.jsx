@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react"
 import RevenueCalculatorProfessional from '../RevenueCalculatorProfessional/RevenueCalculatorProfessional'
 import RevenueCalculatorUnlimited from '../RevenueCalculatorUnlimited/RevenueCalculatorUnlimited'
 import RevenueCalculatorBasic from '../RevenueCalculatorBasic/RevenueCalculatorBasic'
-import Footer from '../Footer/Footer'
 
 export default function Component() {
   return (
@@ -237,7 +236,6 @@ export default function Component() {
           </Card>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

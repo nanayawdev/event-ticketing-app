@@ -27,10 +27,17 @@ import {
 } from 'lucide-react'
 import { useState } from 'react';
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
+import { usePayment } from '../../context/PaymentContext';
+import { PaystackButton } from 'react-paystack';
+import { toast } from 'sonner';
+import CurrencySelector from '../CurrencySelector/CurrencySelector';
 
 const BuyTicket = ({ event }) => {
   const [selectedImage, setSelectedImage] = useState(0)
-  
+  const [quantity, setQuantity] = useState(1);
+  const [email, setEmail] = useState('');
+  const { selectedCurrency, convertCurrency } = usePayment();
+
   // Create array with main image and placeholders for thumbnails
   const images = [
     event.Event_Image?.url || '/assets/images/herobg.jpg',
@@ -64,6 +71,28 @@ const BuyTicket = ({ event }) => {
   const subtotal = tickets.reduce((sum, ticket) => sum + (ticket.price * ticket.quantity), 0);
   const momoCharges = subtotal * 0.01; // 1% MOMO charges
   const total = subtotal + momoCharges;
+
+  const totalAmount = event.Event_Price * quantity;
+  const amountInGHS = convertCurrency(totalAmount, selectedCurrency, 'GHS');
+
+  const componentProps = {
+    email,
+    amount: amountInGHS * 100, // Convert to pesewas
+    publicKey: 'your-paystack-public-key',
+    text: "Pay Now",
+    onSuccess: () => {
+      toast.success("Payment successful!");
+      // Handle successful payment
+    },
+    onClose: () => {
+      toast.error("Payment cancelled");
+    },
+    metadata: {
+      eventId: event.id,
+      eventName: event.Event_Name,
+      quantity: quantity,
+    },
+  };
 
   const handleDecrease = (index) => {
     setTickets(tickets.map((ticket, i) => {
@@ -314,13 +343,10 @@ const BuyTicket = ({ event }) => {
               <span>GH₵ {total.toFixed(2)}</span>
             </div>
 
-            <Button 
-              className="w-full h-12 text-base mt-6" 
-              size="lg"
-              disabled={!tickets.some(ticket => ticket.quantity > 0)}
-            >
-              Proceed to Checkout
-            </Button>
+            <PaystackButton 
+              {...componentProps}
+              className="w-full bg-sea-green-500 text-white py-2 px-4 rounded hover:bg-sea-green-600"
+            />
           </div>
 
           {/* Advertisement Component */}

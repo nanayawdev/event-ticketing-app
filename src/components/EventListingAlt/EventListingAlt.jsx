@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getEventStatus } from '../EventsCard/EventsCard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
+import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { useEvents } from '../../hooks/useEvents';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
 
 const EventListingAlt = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 3;
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { events, loading, error } = useEvents();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => {
-        setEvents(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to load events');
-        setLoading(false);
-      });
-  }, []);
 
   const handleViewEvent = (eventName) => {
     const eventSlug = eventName.toLowerCase().replace(/\s+/g, '-');
     navigate(`/events/${eventSlug}`);
   };
 
-  const filteredEvents = events.filter(event => {
-    const endDateTime = new Date(event.Event_End_Time);
-    return new Date() <= endDateTime;
-  });
-
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-  const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-  const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+  const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
+  const totalPages = Math.ceil(events.length / eventsPerPage);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -52,8 +35,7 @@ const EventListingAlt = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading events...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-16">
@@ -76,7 +58,10 @@ const EventListingAlt = () => {
           );
 
           return (
-            <div key={event.id} className="max-w-7xl mx-auto p-6">
+            <div 
+              key={event.id || `event-${event.Event_Name}`} 
+              className="max-w-7xl mx-auto p-6"
+            >
               <div className="flex gap-8">
                 <div className="text-center min-w-[80px]">
                   <p className="text-6xl font-bold leading-none text-sea-green-500">
@@ -120,7 +105,7 @@ const EventListingAlt = () => {
                       >
                         GET TICKETS
                       </button>
-                      <span className="text-xl font-bold">₵{event.Event_Price || '456'}</span>
+                      <PriceDisplay priceInGHS={event.Event_Price} />
                     </div>
                   </div>
                 </div>

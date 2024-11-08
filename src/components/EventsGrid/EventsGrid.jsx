@@ -5,30 +5,16 @@ import EventsCard from '../EventsCard/EventsCard'
 import EventHeroCard from '../EventHeroCard/EventHeroCard'
 import { ArrowRight, Search, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { useEvents } from '../../hooks/useEvents'
 
 const EventsGrid = () => {
   const navigate = useNavigate()
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const [visibleEvents, setVisibleEvents] = useState(12)
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef(null)
-
-  // Fetch events
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => {
-        setEvents(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        setError('Failed to load events')
-        setLoading(false)
-      })
-  }, [])
+  const { events, loading, error } = useEvents();
 
   // Filter events based on search and closed status (for grid only)
   const filteredEvents = events.filter(event => {
@@ -51,7 +37,7 @@ const EventsGrid = () => {
     navigate('/events')
   }
 
-  if (loading) return <div className="text-center py-10">Loading events...</div>
+  if (loading) return <LoadingSpinner />
   if (error) return <div className="text-center py-10 text-red-500">{error}</div>
 
   return (

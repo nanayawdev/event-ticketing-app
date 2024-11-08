@@ -4,35 +4,18 @@ import { useState, useEffect } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
 import { ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { toast } from 'sonner'
+import { useEvents } from '../../hooks/useEvents'
 
 const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const { events, loading, error } = useEvents();
   const navigate = useNavigate()
 
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => {
-        setEvents(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        setError('Failed to load events')
-        setLoading(false)
-      })
-  }, [])
-
-  // Filter out closed events, current event, and limit to same category
-  const filteredEvents = events.filter(event => {
-    const endDateTime = new Date(event.Event_End_Time)
-    const isNotClosed = new Date() <= endDateTime
-    const isNotCurrentEvent = event.id !== currentEventId
-    return isNotClosed && 
-           isNotCurrentEvent && 
-           event.Event_Category === currentEventCategory
-  });
+  const filteredEvents = events.filter(event => 
+    event.id !== currentEventId && 
+    event.Event_Category === currentEventCategory
+  );
 
   const handleViewAllEvents = () => {
     navigate('/events', { 
@@ -41,8 +24,16 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
     });
   }
 
-  if (loading) return <div className="text-center py-10">Loading related events...</div>
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>
+  if (loading) {
+    return (
+      <section className="bg-gray-50 py-12">
+        <div className="container mx-auto px-4">
+          <LoadingSpinner />
+        </div>
+      </section>
+    );
+  }
+
   if (filteredEvents.length === 0) return null // Don't show section if no related events
 
   return (
@@ -60,9 +51,12 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
-          {filteredEvents.slice(0, 5).map((event, index) => (
-            <div className="col-span-1 w-full max-w-[280px]">
-              <EventsCard key={event.id || index} event={event} />
+          {filteredEvents.slice(0, 5).map((event) => (
+            <div 
+              key={event.id || `event-${event.Event_Name}`} 
+              className="col-span-1 w-full max-w-[280px]"
+            >
+              <EventsCard event={event} />
             </div>
           ))}
         </div>
