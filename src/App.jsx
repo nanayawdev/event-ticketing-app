@@ -12,7 +12,6 @@ import Services from './components/Services/Services';
 import Pricing from './components/Pricing/Pricing';
 import Contact from './components/Contacts/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
-import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
@@ -28,6 +27,7 @@ import { Toaster } from 'sonner';
 import { PaymentProvider } from './context/PaymentContext';
 import BuyTicket from './components/BuyTicket/BuyTicket';
 import PaymentStatus from './components/PaymentStatus/PaymentStatus';
+import EventManagementDashboard from './pages/EventManagementDashboard';
 
 const StandardLayout = ({ children }) => {
   return (
@@ -55,9 +55,7 @@ const AppContent = () => {
       .catch(err => console.error('Error fetching events:', err));
   }, []);
 
-  // Special pages without standard layout
   if (location.pathname === '/signup') return <SignUp />;
-  if (location.pathname.startsWith('/dashboard')) return <Dashboard />;
   if (location.pathname === '/login') return <Login />;
 
   return (
@@ -149,6 +147,8 @@ const AppContent = () => {
             <NewsRead />
           </StandardLayout>
         } />
+
+        <Route path="/dashboard" element={<EventManagementDashboard />} />
       </Routes>
       <CookieConsentBanner />
     </>
