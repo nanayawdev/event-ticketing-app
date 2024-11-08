@@ -25,7 +25,7 @@ import {
   MapPin,
   ExternalLink
 } from 'lucide-react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
 import { usePayment } from '../../context/PaymentContext';
 import { PaystackButton } from 'react-paystack';
@@ -34,7 +34,6 @@ import CurrencySelector from '../CurrencySelector/CurrencySelector';
 
 const BuyTicket = ({ event }) => {
   const [selectedImage, setSelectedImage] = useState(0)
-  const [quantity, setQuantity] = useState(1);
   const [email, setEmail] = useState('');
   const { selectedCurrency, convertCurrency } = usePayment();
 
@@ -46,43 +45,77 @@ const BuyTicket = ({ event }) => {
     event.Event_Image?.url || '/assets/images/herobg.jpg'
   ]
 
-  const [tickets, setTickets] = useState([
-    {
-      date: event.Event_Start_Date,
-      title: "Regular Day Pass",
-      price: event.Event_Price || 200.00,
-      quantity: 0
-    },
-    {
-      date: event.Event_Start_Date,
-      title: "Regular Festival Pass",
-      price: (event.Event_Price || 200.00) * 1.5,
-      quantity: 0
-    },
-    {
-      date: event.Event_Start_Date,
-      title: "VIP Day Pass",
-      price: (event.Event_Price || 200.00) * 2,
-      quantity: 0
-    }
-  ])
+  // Initialize tickets state without the date field
+  const [tickets, setTickets] = useState(
+    event.Ticket_Price?.length > 0
+      ? event.Ticket_Price.map(ticket => ({
+          title: ticket.ticket_type,
+          price: Number(ticket.price),
+          quantity: 0,
+          available: Number(ticket.ticket_quantity)
+        }))
+      : [{
+          title: "Regular Ticket",
+          price: Number(event.Event_Price) || 0,
+          quantity: 0,
+          available: 100
+        }]
+  );
 
-  // Calculate order summary
+  useEffect(() => {
+    // Update tickets when event changes
+    if (event.Ticket_Price?.length > 0) {
+      setTickets(
+        event.Ticket_Price.map(ticket => ({
+          title: ticket.ticket_type,
+          price: Number(ticket.price),
+          quantity: 0,
+          available: Number(ticket.ticket_quantity)
+        }))
+      );
+    }
+  }, [event]);
+
+  // Rest of your existing code remains the same
+  const handleDecrease = (index) => {
+    setTickets(prevTickets => 
+      prevTickets.map((ticket, i) => {
+        if (i === index && ticket.quantity > 0) {
+          return { ...ticket, quantity: ticket.quantity - 1 };
+        }
+        return ticket;
+      })
+    );
+  };
+
+  const handleIncrease = (index) => {
+    setTickets(prevTickets => 
+      prevTickets.map((ticket, i) => {
+        if (i === index && ticket.quantity < ticket.available) {
+          return { ...ticket, quantity: ticket.quantity + 1 };
+        }
+        return ticket;
+      })
+    );
+  };
+
+  // Calculate order summary based on current ticket quantities
   const subtotal = tickets.reduce((sum, ticket) => sum + (ticket.price * ticket.quantity), 0);
   const momoCharges = subtotal * 0.01; // 1% MOMO charges
   const total = subtotal + momoCharges;
 
-  const totalAmount = event.Event_Price * quantity;
-  const amountInGHS = convertCurrency(totalAmount, selectedCurrency, 'GHS');
-
+  // Update componentProps to use the new total
   const componentProps = {
     email,
-    amount: amountInGHS * 100, // Convert to pesewas
+    amount: total * 100, // Convert to pesewas
     publicKey: 'your-paystack-public-key',
     text: "Pay Now",
     onSuccess: () => {
       toast.success("Payment successful!");
-      // Handle successful payment
+      // Reset ticket quantities after successful payment
+      setTickets(prevTickets => 
+        prevTickets.map(ticket => ({ ...ticket, quantity: 0 }))
+      );
     },
     onClose: () => {
       toast.error("Payment cancelled");
@@ -90,27 +123,12 @@ const BuyTicket = ({ event }) => {
     metadata: {
       eventId: event.id,
       eventName: event.Event_Name,
-      quantity: quantity,
+      tickets: tickets.filter(t => t.quantity > 0).map(t => ({
+        type: t.title,
+        quantity: t.quantity
+      }))
     },
   };
-
-  const handleDecrease = (index) => {
-    setTickets(tickets.map((ticket, i) => {
-      if (i === index && ticket.quantity > 0) {
-        return { ...ticket, quantity: ticket.quantity - 1 }
-      }
-      return ticket
-    }))
-  }
-
-  const handleIncrease = (index) => {
-    setTickets(tickets.map((ticket, i) => {
-      if (i === index) {
-        return { ...ticket, quantity: ticket.quantity + 1 }
-      }
-      return ticket
-    }))
-  }
 
   const getEventStatus = () => {
     const now = new Date()
@@ -259,8 +277,8 @@ const BuyTicket = ({ event }) => {
 
           <div className="w-full">
             <div className="mb-4">
-              <h3 className="text-xl font-semibold text-sea-green-500">
-                Ticket Currency | GH₵
+              <h3 className="text-xl font-semibold text-sea-gray-500">
+                Ticket Purchase Information
               </h3>
             </div>
             <div className="space-y-0">
@@ -268,9 +286,11 @@ const BuyTicket = ({ event }) => {
                 <div key={index}>
                   <div className="py-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div className="space-y-1">
-                      <p className="text-sm text-muted-foreground">{ticket.date}</p>
-                      <h3 className="font-medium">{ticket.title}</h3>
+                      <h3 className="text-lg font-semibold">{ticket.title}</h3>
                       <p className="font-semibold">GH₵ {ticket.price.toFixed(2)}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {ticket.available - ticket.quantity} tickets remaining
+                      </p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
@@ -278,6 +298,7 @@ const BuyTicket = ({ event }) => {
                         size="icon"
                         className="h-8 w-8 bg-white text-black hover:bg-gray-100"
                         onClick={() => handleDecrease(index)}
+                        disabled={ticket.quantity === 0}
                         aria-label="Decrease quantity"
                       >
                         <Minus className="h-4 w-4" />
@@ -287,6 +308,7 @@ const BuyTicket = ({ event }) => {
                         value={ticket.quantity}
                         className="h-8 w-16 text-center"
                         min="0"
+                        max={ticket.available}
                         readOnly
                       />
                       <Button
@@ -294,6 +316,7 @@ const BuyTicket = ({ event }) => {
                         size="icon"
                         className="h-8 w-8 bg-white text-black hover:bg-gray-100"
                         onClick={() => handleIncrease(index)}
+                        disabled={ticket.quantity >= ticket.available}
                         aria-label="Increase quantity"
                       >
                         <Plus className="h-4 w-4" />
