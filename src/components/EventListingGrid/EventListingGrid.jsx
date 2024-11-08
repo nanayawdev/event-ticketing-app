@@ -60,7 +60,10 @@ const EventListingGrid = () => {
             event.Event_Venue
           );
 
-          console.log('Event Status:', status);
+          // Get minimum price from Ticket_Price array
+          const minPrice = event.Ticket_Price?.length > 0 
+            ? Math.min(...event.Ticket_Price.map(ticket => Number(ticket.price)))
+            : Number(event.Event_Price) || 0;
 
           return (
             <div 
@@ -114,7 +117,7 @@ const EventListingGrid = () => {
                   </button>
                   <div className="text-right">
                     <p className="text-sm text-gray-500">from</p>
-                    <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
+                    <PriceDisplay priceInGHS={minPrice} />
                   </div>
                 </div>
               </div>
@@ -123,7 +126,7 @@ const EventListingGrid = () => {
         })}
       </div>
 
-      {/* Modified Pagination Controls */}
+      {/* Pagination Controls */}
       <div className="flex justify-end items-center gap-2 mt-8">
         <button
           onClick={handlePrevPage}
@@ -152,4 +155,4 @@ const EventListingGrid = () => {
   );
 };
 
-export default EventListingGrid; 
+export default EventListingGrid;

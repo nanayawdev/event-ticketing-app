@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
-import EventLabel from '../EventLabel/EventLabel';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import RelatedEvents from '../RelatedEvents/RelatedEvents';
 import BuyTicket from '../BuyTicket/BuyTicket';
@@ -19,13 +18,22 @@ const EventDetails = () => {
       const foundEvent = events.find(e => 
         e.Event_Name.toLowerCase().replace(/\s+/g, '-') === eventName.toLowerCase()
       );
+      
       if (foundEvent) {
-        setEvent(foundEvent);
+        // Transform the event to include the minimum price from Ticket_Price array
+        const transformedEvent = {
+          ...foundEvent,
+          Event_Price: foundEvent.Ticket_Price?.length > 0 
+            ? Math.min(...foundEvent.Ticket_Price.map(ticket => Number(ticket.price)))
+            : foundEvent.Event_Price
+        };
+        setEvent(transformedEvent);
       } else {
         toast.error('Event not found');
+        navigate('/events');
       }
     }
-  }, [events, eventName]);
+  }, [events, eventName, navigate]);
 
   if (loading) {
     return (
@@ -45,7 +53,6 @@ const EventDetails = () => {
         </div>
         <BuyTicket event={event} />
       </div>
-
       <RelatedEvents 
         currentEventCategory={event.Event_Category} 
         currentEventId={event.id}

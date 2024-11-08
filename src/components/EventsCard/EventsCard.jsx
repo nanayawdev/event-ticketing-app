@@ -130,6 +130,15 @@ const EventsCard = ({ event }) => {
     });
   };
 
+  // Get minimum ticket price from the Ticket_Price array
+  const getMinTicketPrice = () => {
+    if (!event.Ticket_Price?.length) {
+      return Number(event.Event_Price) || 0;
+    }
+    
+    return Math.min(...event.Ticket_Price.map(ticket => Number(ticket.price)));
+  };
+
   return (
     <div className="bg-gray-50 overflow-hidden shadow-lg max-w-[280px]">
       <div className="relative">
@@ -186,7 +195,7 @@ const EventsCard = ({ event }) => {
           </div>
           <div className="h-5 w-px bg-gray-300"></div>
           <div className="text-xs font-bold text-sea-green-500">
-            <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
+            <PriceDisplay priceInGHS={getMinTicketPrice()} />
           </div>
         </div>
       </div>

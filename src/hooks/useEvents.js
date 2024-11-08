@@ -9,22 +9,25 @@ export const useEvents = (filterClosed = true) => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event');
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_table');
         if (!response.ok) throw new Error('Failed to fetch events');
         const data = await response.json();
 
-        // Filter out closed events if requested
-        const filteredData = filterClosed ? data.filter(event => {
-          if (!event || !event.Event_End_Time) return false;
-          const endDateTime = new Date(event.Event_End_Time);
-          return new Date() <= endDateTime;
-        }) : data;
+        // Transform the ticket table data to match expected event structure
+        const transformedEvents = data.map(item => ({
+          ...item.ticketEventTable,
+          Ticket_Price: item.Ticket_Price
+        }));
 
-        setEvents(filteredData);
+        // Filter closed events if requested
+        const filteredEvents = filterClosed 
+          ? transformedEvents.filter(event => new Date(event.Event_End_Time) > new Date())
+          : transformedEvents;
+
+        setEvents(filteredEvents);
       } catch (err) {
-        toast.error('Failed to load events', {
-          description: 'Please try again later or contact support if the problem persists.',
-        });
+        console.error('Error fetching events:', err);
+        toast.error('Failed to load events');
         setError(err);
       } finally {
         setLoading(false);

@@ -35,6 +35,13 @@ const EventListingAlt = () => {
     }
   };
 
+  const getMinTicketPrice = (event) => {
+    if (!event.Ticket_Price?.length) {
+      return Number(event.Event_Price) || 0;
+    }
+    return Math.min(...event.Ticket_Price.map(ticket => Number(ticket.price)));
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -105,7 +112,7 @@ const EventListingAlt = () => {
                       >
                         GET TICKETS
                       </button>
-                      <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
+                      <PriceDisplay priceInGHS={getMinTicketPrice(event)} />
                     </div>
                   </div>
                 </div>
