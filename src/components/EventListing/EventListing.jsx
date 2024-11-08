@@ -148,7 +148,7 @@ const EventListing = () => {
                   >
                     BUY TICKETS
                   </button>
-                  <PriceDisplay priceInGHS={event.Event_Price} />
+                  <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
                 </div>
               </div>
             </div>

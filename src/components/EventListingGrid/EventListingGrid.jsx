@@ -114,7 +114,7 @@ const EventListingGrid = () => {
                   </button>
                   <div className="text-right">
                     <p className="text-sm text-gray-500">from</p>
-                    <PriceDisplay priceInGHS={event.Event_Price} />
+                    <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
                   </div>
                 </div>
               </div>

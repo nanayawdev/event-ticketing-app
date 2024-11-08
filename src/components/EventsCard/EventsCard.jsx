@@ -186,18 +186,9 @@ const EventsCard = ({ event }) => {
           </div>
           <div className="h-5 w-px bg-gray-300"></div>
           <div className="text-xs font-bold text-sea-green-500">
-            <PriceDisplay priceInGHS={event.Event_Price} />
+            <PriceDisplay priceInGHS={Number(event.Event_Price) || 0} />
           </div>
         </div>
-      </div>
-
-      <div className="mt-auto">
-        <Link 
-          to={`/events/${event.Event_Name.toLowerCase().replace(/\s+/g, '-')}`}
-          className="bg-sea-green-500 text-white px-4 py-2 rounded block text-center"
-        >
-          Buy Tickets
-        </Link>
       </div>
     </div>
   )

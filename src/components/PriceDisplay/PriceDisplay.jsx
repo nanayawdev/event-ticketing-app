@@ -1,18 +1,17 @@
 import React from 'react';
-import { usePayment } from '../../context/PaymentContext';
-import { formatCurrency } from '../../utils/currencyConverter';
 
 const PriceDisplay = ({ priceInGHS }) => {
-  const { selectedCurrency, convertCurrency, loading } = usePayment();
+  // Handle undefined, null, or invalid price values
+  if (!priceInGHS && priceInGHS !== 0) {
+    return <span className="text-gray-500">Price TBA</span>;
+  }
 
-  if (loading) return <span className="animate-pulse">...</span>;
-
-  const price = priceInGHS || 0; // Fallback to 0 if no price
-  const convertedPrice = convertCurrency(price, 'GHS', selectedCurrency);
+  // Format the price with 2 decimal places
+  const formattedPrice = Number(priceInGHS).toFixed(2);
   
   return (
-    <span className="font-bold">
-      {formatCurrency(convertedPrice, selectedCurrency)}
+    <span className="font-bold text-sea-green-500">
+      GH₵ {formattedPrice}
     </span>
   );
 };
