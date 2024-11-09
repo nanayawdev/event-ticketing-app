@@ -31,6 +31,7 @@ import EventManagementDashboard from './pages/EventManagementDashboard';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
+import { AuthProvider } from './context/AuthContext';
 
 const StandardLayout = ({ children }) => {
   return (
@@ -163,14 +164,16 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <PaymentProvider>
-        <Toaster position="top-center" richColors />
-        <Router>
-          <AppContent />
-        </Router>
-      </PaymentProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <PaymentProvider>
+          <Toaster position="top-center" richColors />
+          <Router>
+            <AppContent />
+          </Router>
+        </PaymentProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 
