@@ -64,11 +64,11 @@ const EventManagementDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Overlay for mobile and small tablets */}
+    <div className="flex h-screen bg-gray-50/95">
+      {/* Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 lg:hidden transition-all duration-300"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -77,23 +77,32 @@ const EventManagementDashboard = () => {
       <div className={`
         fixed lg:static inset-y-0 left-0 
         transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        lg:translate-x-0 transition duration-200 ease-in-out
-        w-64 md:w-20 xl:w-64 bg-white border-r border-gray-200 z-30
+        lg:translate-x-0 transition duration-300 ease-in-out
+        w-64 md:w-20 xl:w-64 
+        bg-white/80 backdrop-blur-xl border-r border-gray-200/80 
+        shadow-xl lg:shadow-none
+        z-30
       `}>
         <div className="flex flex-col h-full justify-between">
+          {/* Logo Section */}
           <div>
             <div className="p-4 flex justify-between items-center">
-              <h1 className="text-xl font-bold text-gray-800 md:hidden xl:block">EventDash</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent md:hidden xl:block">
+                EventDash
+              </h1>
               <button 
-                className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100/80 transition-colors"
                 onClick={() => setSidebarOpen(false)}
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <nav className="mt-4 space-y-1">
+
+            {/* Navigation */}
+            <nav className="mt-6 px-3 space-y-1">
               {menuItems.map((item) => {
                 const Icon = item.icon;
+                const isActive = activeMenu === item.name;
                 return (
                   <button
                     key={item.name}
@@ -102,26 +111,34 @@ const EventManagementDashboard = () => {
                       setSidebarOpen(false);
                     }}
                     className={`
-                      w-full flex items-center px-4 py-3 text-sm group relative
-                      ${activeMenu === item.name
-                        ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
-                        : 'text-gray-600 hover:bg-gray-50'
+                      w-full flex items-center px-3 py-2.5 text-sm group relative
+                      rounded-xl transition-all duration-200
+                      ${isActive
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                        : 'text-gray-600 hover:bg-gray-100/80'
                       }
                     `}
                   >
-                    <Icon className="w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0" />
-                    <span className="md:hidden xl:inline">{item.name}</span>
+                    <Icon className={`
+                      w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0
+                      transition-transform group-hover:scale-110 duration-200
+                    `} />
+                    <span className="md:hidden xl:inline font-medium">{item.name}</span>
                     
-                    {/* Tooltip for tablet view */}
+                    {/* Modern Tooltip */}
                     <div className="
                       hidden md:block xl:hidden 
-                      absolute left-full ml-2 px-2 py-1 
-                      bg-gray-800 text-white text-xs rounded-md 
+                      absolute left-full ml-4 px-3 py-2
+                      bg-gray-900 text-white text-sm rounded-lg
                       whitespace-nowrap opacity-0 
                       group-hover:opacity-100 
-                      transition-opacity duration-200
+                      transition-all duration-200
                       pointer-events-none
                       z-50
+                      before:content-[''] before:absolute before:left-[-6px]
+                      before:top-1/2 before:-translate-y-1/2
+                      before:border-[6px] before:border-transparent
+                      before:border-r-gray-900
                     ">
                       {item.name}
                     </div>
@@ -134,21 +151,27 @@ const EventManagementDashboard = () => {
           {/* Logout Button */}
           <button
             onClick={handleLogoutClick}
-            className="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 m-4 rounded group relative"
+            className="mx-3 mb-4 flex items-center px-3 py-2.5 text-sm text-red-600 hover:bg-red-50/80 
+              rounded-xl group relative transition-all duration-200"
           >
-            <LogOut className="w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0" />
-            <span className="md:hidden xl:inline">Logout</span>
+            <LogOut className="w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0 
+              transition-transform group-hover:scale-110 duration-200" />
+            <span className="md:hidden xl:inline font-medium">Logout</span>
             
-            {/* Tooltip for tablet view */}
+            {/* Logout Tooltip */}
             <div className="
               hidden md:block xl:hidden 
-              absolute left-full ml-2 px-2 py-1 
-              bg-gray-800 text-white text-xs rounded-md 
+              absolute left-full ml-4 px-3 py-2
+              bg-gray-900 text-white text-sm rounded-lg
               whitespace-nowrap opacity-0 
               group-hover:opacity-100 
-              transition-opacity duration-200
+              transition-all duration-200
               pointer-events-none
               z-50
+              before:content-[''] before:absolute before:left-[-6px]
+              before:top-1/2 before:-translate-y-1/2
+              before:border-[6px] before:border-transparent
+              before:border-r-gray-900
             ">
               Logout
             </div>
@@ -159,27 +182,35 @@ const EventManagementDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Navigation */}
-        <header className="bg-white border-b border-gray-200">
+        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/80">
           <div className="flex items-center justify-between p-4">
-            {/* Menu button for mobile and small tablets */}
             <button 
-              className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-xl hover:bg-gray-100/80 transition-colors"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="w-5 h-5" />
             </button>
             
             <div className="flex items-center space-x-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
+              {/* Notification Button */}
+              <button className="relative p-2 hover:bg-gray-100/80 rounded-xl transition-colors">
                 <Bell className="w-5 h-5 text-gray-600" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
-                <span className="text-sm font-medium">John Doe</span>
+
+              {/* User Profile */}
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
+                  flex items-center justify-center text-white font-medium shadow-lg shadow-blue-500/20">
+                  JD
+                </div>
+                <span className="text-sm font-medium text-gray-700">John Doe</span>
               </div>
+
+              {/* Mobile Logout */}
               <button
                 onClick={handleLogoutClick}
-                className="p-2 hover:bg-gray-100 rounded-full lg:hidden"
+                className="p-2 hover:bg-gray-100/80 rounded-xl lg:hidden transition-colors"
               >
                 <LogOut className="w-5 h-5 text-gray-600" />
               </button>
