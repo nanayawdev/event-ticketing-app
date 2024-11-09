@@ -1,12 +1,57 @@
 import React from 'react';
-import { Users, Calendar, Ticket, TrendingUp } from 'lucide-react';
+import { Users, Clock, Ticket, TrendingUp, Tag, Eye, Percent } from 'lucide-react';
 
 const Overview = () => {
   const stats = [
-    { title: 'Total Events', value: '24', icon: Calendar, change: '+12%', color: 'blue' },
-    { title: 'Total Attendees', value: '1,234', icon: Users, change: '+18%', color: 'green' },
-    { title: 'Tickets Sold', value: '2,456', icon: Ticket, change: '+25%', color: 'purple' },
-    { title: 'Revenue', value: '$12,345', icon: TrendingUp, change: '+15%', color: 'yellow' },
+    { 
+      title: 'Registrations', 
+      value: '0 / 0', 
+      icon: Users, 
+      subtitle: 'Current / Capacity',
+      color: 'blue' 
+    },
+    { 
+      title: 'Revenue Achieved', 
+      value: '₵ 0', 
+      icon: TrendingUp, 
+      subtitle: 'Total confirmed payments',
+      color: 'green' 
+    },
+    { 
+      title: 'Revenue Expected', 
+      value: '₵ 0', 
+      icon: Ticket, 
+      subtitle: 'Based on total registrations',
+      color: 'purple' 
+    },
+    { 
+      title: 'Revenue Pending', 
+      value: '₵ 0', 
+      icon: Clock,
+      subtitle: 'Awaiting payment',
+      color: 'yellow' 
+    },
+    { 
+      title: 'Total Discount', 
+      value: '₵ 0', 
+      icon: Tag,
+      subtitle: 'Applied discounts',
+      color: 'pink' 
+    },
+    { 
+      title: 'Event Views', 
+      value: '0', 
+      icon: Eye,
+      subtitle: 'Total page views',
+      color: 'indigo' 
+    },
+    { 
+      title: 'Commission Rate', 
+      value: '7.50%', 
+      icon: Percent,
+      subtitle: 'Platform fee',
+      color: 'gray' 
+    }
   ];
 
   return (
@@ -18,18 +63,18 @@ const Overview = () => {
           const Icon = stat.icon;
           return (
             <div key={stat.title} className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <Icon className={`w-8 h-8 text-${stat.color}-500`} />
-                <span className={`text-${stat.color}-500 text-sm font-medium`}>{stat.change}</span>
+              <div className="flex items-center justify-between mb-2">
+                <div className={`p-2 rounded-lg bg-${stat.color}-100`}>
+                  <Icon className={`w-6 h-6 text-${stat.color}-600`} />
+                </div>
               </div>
-              <h3 className="text-gray-500 text-sm">{stat.title}</h3>
-              <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+              <h3 className="text-gray-500 text-sm mb-1">{stat.title}</h3>
+              <p className="text-2xl font-bold text-gray-800 mb-1">{stat.value}</p>
+              <p className="text-sm text-gray-500">{stat.subtitle}</p>
             </div>
           );
         })}
       </div>
-
-      {/* Add more dashboard widgets here */}
     </div>
   );
 };

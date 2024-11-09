@@ -28,6 +28,9 @@ import { PaymentProvider } from './context/PaymentContext';
 import BuyTicket from './components/BuyTicket/BuyTicket';
 import PaymentStatus from './components/PaymentStatus/PaymentStatus';
 import EventManagementDashboard from './pages/EventManagementDashboard';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Cookies from './pages/Cookies';
 
 const StandardLayout = ({ children }) => {
   return (
@@ -149,6 +152,9 @@ const AppContent = () => {
         } />
 
         <Route path="/dashboard" element={<EventManagementDashboard />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/cookies" element={<Cookies />} />
       </Routes>
       <CookieConsentBanner />
     </>
