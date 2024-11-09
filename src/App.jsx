@@ -32,6 +32,8 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
 import { AuthProvider } from './context/AuthContext';
+import SettingsLayout from './pages/settings/SettingsLayout';
+import ProfileSettings from './pages/settings/ProfileSettings';
 
 const StandardLayout = ({ children }) => {
   return (
@@ -156,6 +158,7 @@ const AppContent = () => {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/cookies" element={<Cookies />} />
+        <Route path="/settings/*" element={<SettingsLayout />} />
       </Routes>
       <CookieConsentBanner />
     </>
