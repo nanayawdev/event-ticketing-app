@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Camera, Mail, Phone, AlertCircle } from 'lucide-react';
+import { Camera, Mail, Phone, MapPin, User, Briefcase } from 'lucide-react';
 
 const ProfileSettings = () => {
   const [formData, setFormData] = useState({
@@ -7,107 +7,46 @@ const ProfileSettings = () => {
     lastName: 'Doe',
     email: 'john.doe@example.com',
     phone: '+233 24 123 4567',
-    alternativeEmail: '',
-    alternativePhone: '',
-    company: 'Acme Inc',
-    role: 'Event Manager'
+    title: 'Event Manager',
+    company: 'Acme Events',
+    bio: 'Experienced event manager with a passion for creating memorable experiences.',
+    location: 'Accra, Ghana'
   });
 
-  const [errors, setErrors] = useState({});
-
-  const validatePhone = (phone) => {
-    // Basic Ghanaian phone number validation
-    const phoneRegex = /^(\+233|0)(20|24|23|26|27|23|54|55|59)\d{7}$/;
-    return phoneRegex.test(phone.replace(/\s+/g, ''));
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: ''
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = {};
-
-    // Validate primary email
-    if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    // Validate alternative email if provided
-    if (formData.alternativeEmail && !validateEmail(formData.alternativeEmail)) {
-      newErrors.alternativeEmail = 'Please enter a valid email address';
-    }
-
-    // Validate primary phone
-    if (!validatePhone(formData.phone)) {
-      newErrors.phone = 'Please enter a valid Ghanaian phone number';
-    }
-
-    // Validate alternative phone if provided
-    if (formData.alternativePhone && !validatePhone(formData.alternativePhone)) {
-      newErrors.alternativePhone = 'Please enter a valid Ghanaian phone number';
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      // Handle form submission
-      console.log('Form submitted:', formData);
-    }
-  };
-
   return (
-    <div className="p-6">
-      <div className="space-y-6">
+    <div className="p-4 sm:p-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Personal Information</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Profile Settings</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Update your personal information and how others see you on the platform.
+            Manage your personal information and preferences.
           </p>
         </div>
 
         {/* Profile Photo */}
-        <div className="flex items-center space-x-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="relative">
-            <div className="w-24 h-24 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
-              flex items-center justify-center text-white text-3xl font-medium">
-              {formData.firstName[0]}{formData.lastName[0]}
+            <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
+              <User className="w-12 h-12 text-gray-400" />
             </div>
-            <button className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white shadow-lg
-              hover:bg-gray-50 transition-colors border border-gray-200">
+            <button className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white 
+              shadow-md border border-gray-200 hover:bg-gray-50 transition-colors">
               <Camera className="w-4 h-4 text-gray-600" />
             </button>
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-900">Profile Photo</h3>
-            <p className="text-sm text-gray-500">
-              JPG, GIF or PNG. Max size of 800K
+            <p className="mt-1 text-sm text-gray-500">
+              Recommended: Square image, at least 400x400px
             </p>
           </div>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-4 sm:space-y-6">
           {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 First Name
@@ -115,9 +54,13 @@ const ProfileSettings = () => {
               <input
                 type="text"
                 value={formData.firstName}
-                onChange={(e) => handleChange('firstName', e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  firstName: e.target.value
+                }))}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
+                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                  focus:border-blue-500"
               />
             </div>
             <div>
@@ -127,140 +70,155 @@ const ProfileSettings = () => {
               <input
                 type="text"
                 value={formData.lastName}
-                onChange={(e) => handleChange('lastName', e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  lastName: e.target.value
+                }))}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
+                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                  focus:border-blue-500"
               />
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Primary Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email Address <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className={`block w-full pl-10 rounded-lg border ${
-                      errors.email ? 'border-red-300' : 'border-gray-300'
-                    } px-3 py-2 focus:outline-none focus:ring-1 ${
-                      errors.email 
-                        ? 'focus:border-red-500 focus:ring-red-500' 
-                        : 'focus:border-blue-500 focus:ring-blue-500'
-                    }`}
-                  />
-                </div>
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
-              </div>
-
-              {/* Alternative Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Alternative Email
-                </label>
-                <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="email"
-                    value={formData.alternativeEmail}
-                    onChange={(e) => handleChange('alternativeEmail', e.target.value)}
-                    className={`block w-full pl-10 rounded-lg border ${
-                      errors.alternativeEmail ? 'border-red-300' : 'border-gray-300'
-                    } px-3 py-2 focus:outline-none focus:ring-1 ${
-                      errors.alternativeEmail 
-                        ? 'focus:border-red-500 focus:ring-red-500' 
-                        : 'focus:border-blue-500 focus:ring-blue-500'
-                    }`}
-                  />
-                </div>
-                {errors.alternativeEmail && (
-                  <p className="mt-1 text-sm text-red-600">{errors.alternativeEmail}</p>
-                )}
-              </div>
-
-              {/* Primary Phone */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Phone Number <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Phone className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    placeholder="+233 24 123 4567"
-                    className={`block w-full pl-10 rounded-lg border ${
-                      errors.phone ? 'border-red-300' : 'border-gray-300'
-                    } px-3 py-2 focus:outline-none focus:ring-1 ${
-                      errors.phone 
-                        ? 'focus:border-red-500 focus:ring-red-500' 
-                        : 'focus:border-blue-500 focus:ring-blue-500'
-                    }`}
-                  />
-                </div>
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
-                )}
-              </div>
-
-              {/* Alternative Phone */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Alternative Phone
-                </label>
-                <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Phone className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="tel"
-                    value={formData.alternativePhone}
-                    onChange={(e) => handleChange('alternativePhone', e.target.value)}
-                    placeholder="+233 24 123 4567"
-                    className={`block w-full pl-10 rounded-lg border ${
-                      errors.alternativePhone ? 'border-red-300' : 'border-gray-300'
-                    } px-3 py-2 focus:outline-none focus:ring-1 ${
-                      errors.alternativePhone 
-                        ? 'focus:border-red-500 focus:ring-red-500' 
-                        : 'focus:border-blue-500 focus:ring-blue-500'
-                    }`}
-                  />
-                </div>
-                {errors.alternativePhone && (
-                  <p className="mt-1 text-sm text-red-600">{errors.alternativePhone}</p>
-                )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <div className="mt-1 flex rounded-lg shadow-sm">
+                <span className="inline-flex items-center px-3 rounded-l-lg border 
+                  border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                  <Mail className="w-4 h-4" />
+                </span>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    email: e.target.value
+                  }))}
+                  className="flex-1 block w-full px-3 py-2 rounded-none rounded-r-lg 
+                    border border-gray-300 focus:outline-none focus:ring-1 
+                    focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </div>
-
-            {/* Phone Number Format Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start space-x-3">
-              <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-blue-600">
-                <p className="font-medium">Phone Number Format</p>
-                <p>Please enter phone numbers in the format: +233 XX XXX XXXX or 0XX XXX XXXX</p>
-                <p>Example: +233 24 123 4567 or 024 123 4567</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <div className="mt-1 flex rounded-lg shadow-sm">
+                <span className="inline-flex items-center px-3 rounded-l-lg border 
+                  border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                  <Phone className="w-4 h-4" />
+                </span>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    phone: e.target.value
+                  }))}
+                  className="flex-1 block w-full px-3 py-2 rounded-none rounded-r-lg 
+                    border border-gray-300 focus:outline-none focus:ring-1 
+                    focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-3">
+          {/* Professional Information */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Job Title
+              </label>
+              <div className="mt-1 flex rounded-lg shadow-sm">
+                <span className="inline-flex items-center px-3 rounded-l-lg border 
+                  border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                  <Briefcase className="w-4 h-4" />
+                </span>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    title: e.target.value
+                  }))}
+                  className="flex-1 block w-full px-3 py-2 rounded-none rounded-r-lg 
+                    border border-gray-300 focus:outline-none focus:ring-1 
+                    focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Company
+              </label>
+              <input
+                type="text"
+                value={formData.company}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  company: e.target.value
+                }))}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
+                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                  focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Location
+            </label>
+            <div className="mt-1 flex rounded-lg shadow-sm">
+              <span className="inline-flex items-center px-3 rounded-l-lg border 
+                border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                <MapPin className="w-4 h-4" />
+              </span>
+              <input
+                type="text"
+                value={formData.location}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  location: e.target.value
+                }))}
+                className="flex-1 block w-full px-3 py-2 rounded-none rounded-r-lg 
+                  border border-gray-300 focus:outline-none focus:ring-1 
+                  focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Bio */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Bio
+            </label>
+            <textarea
+              rows={4}
+              value={formData.bio}
+              onChange={(e) => setFormData(prev => ({
+                ...prev,
+                bio: e.target.value
+              }))}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
+                shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                focus:border-blue-500"
+              placeholder="Tell us about yourself..."
+            />
+            <p className="mt-2 text-sm text-gray-500">
+              Brief description for your profile.
+            </p>
+          </div>
+
+          {/* Form Actions */}
+          <div className="flex justify-end gap-3">
             <button
               type="button"
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 

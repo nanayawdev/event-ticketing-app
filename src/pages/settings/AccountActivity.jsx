@@ -61,22 +61,23 @@ const AccountActivity = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="space-y-6">
+    <div className="p-4 sm:p-6">
+      <div className="space-y-4 sm:space-y-6">
+        {/* Header */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Account Activity</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Account Activity</h2>
           <p className="mt-1 text-sm text-gray-500">
             Review your recent account activity and security events.
           </p>
         </div>
 
         {/* Current Session */}
-        <div className="bg-blue-50 rounded-lg p-4">
+        <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center space-x-3">
             <Monitor className="w-5 h-5 text-blue-600" />
             <div>
               <h3 className="text-sm font-medium text-gray-900">Current Session</h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500">
                 Chrome on Windows • New York, USA
               </p>
             </div>
@@ -84,28 +85,28 @@ const AccountActivity = () => {
         </div>
 
         {/* Activity List */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {activities.map((activity) => {
             const ActivityIcon = getActivityIcon(activity.type);
             const StatusIcon = getStatusIcon(activity.status);
             const statusColor = getStatusColor(activity.status);
 
             return (
-              <div key={activity.id} className="bg-gray-50 rounded-lg p-4">
+              <div key={activity.id} className="bg-gray-50 rounded-lg p-3 sm:p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
                     <div className="mt-1">
                       <ActivityIcon className="w-5 h-5 text-gray-600" />
                     </div>
                     <div>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-sm font-medium text-gray-900">
                           {activity.type.replace('_', ' ').toUpperCase()}
                         </h3>
                         <StatusIcon className={`w-4 h-4 ${statusColor}`} />
                       </div>
-                      <p className="text-sm text-gray-500">{activity.device}</p>
-                      <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">{activity.device}</p>
+                      <div className="mt-1 flex flex-wrap items-center gap-4 text-xs text-gray-500">
                         <span className="flex items-center">
                           <Globe className="w-3 h-3 mr-1" />
                           {activity.location}
@@ -117,7 +118,7 @@ const AccountActivity = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="text-sm text-blue-600 hover:text-blue-700">
+                  <button className="text-xs sm:text-sm text-blue-600 hover:text-blue-700">
                     Details
                   </button>
                 </div>

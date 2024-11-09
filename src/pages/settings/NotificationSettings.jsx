@@ -1,139 +1,169 @@
 import { useState } from 'react';
-import { Bell, Mail, MessageSquare, Calendar, Ticket } from 'lucide-react';
+import { Bell, Mail, Phone, MessageSquare } from 'lucide-react';
 
 const NotificationSettings = () => {
-  const [notifications, setNotifications] = useState({
-    email: {
-      newBooking: true,
-      eventReminders: true,
-      marketing: false,
-      updates: true
-    },
-    push: {
-      newBooking: true,
-      eventReminders: true,
-      marketing: false,
-      updates: false
-    }
+  const [emailNotifications, setEmailNotifications] = useState({
+    accountUpdates: true,
+    newEvents: true,
+    ticketSales: true,
+    paymentUpdates: true,
+    marketing: false
   });
 
-  const toggleNotification = (type, setting) => {
-    setNotifications(prev => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        [setting]: !prev[type][setting]
-      }
-    }));
-  };
+  const [pushNotifications, setPushNotifications] = useState({
+    accountUpdates: true,
+    newEvents: false,
+    ticketSales: true,
+    paymentUpdates: true,
+    marketing: false
+  });
 
-  const NotificationToggle = ({ type, setting, label, description }) => (
-    <div className="flex items-center justify-between py-4">
-      <div className="flex-1">
-        <p className="text-sm font-medium text-gray-900">{label}</p>
-        <p className="text-sm text-gray-500">{description}</p>
-      </div>
-      <button
-        onClick={() => toggleNotification(type, setting)}
-        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full 
-          border-2 border-transparent transition-colors duration-200 ease-in-out 
-          ${notifications[type][setting] ? 'bg-blue-600' : 'bg-gray-200'}`}
-      >
-        <span
-          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full 
-            bg-white shadow ring-0 transition duration-200 ease-in-out
-            ${notifications[type][setting] ? 'translate-x-5' : 'translate-x-0'}`}
-        />
-      </button>
-    </div>
-  );
+  const [smsNotifications, setSmsNotifications] = useState({
+    accountUpdates: false,
+    ticketSales: true,
+    paymentUpdates: true,
+    marketing: false
+  });
 
   return (
-    <div className="p-6">
-      <div className="space-y-6">
+    <div className="p-4 sm:p-6">
+      <div className="space-y-4 sm:space-y-6">
+        {/* Header */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Notification Settings</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Notification Settings</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Choose how and when you want to be notified about activity on your account.
+            Manage how you receive notifications and updates.
           </p>
         </div>
 
         {/* Email Notifications */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <div className="flex items-center space-x-3">
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 mb-4">
             <Mail className="w-5 h-5 text-gray-600" />
             <h3 className="text-lg font-medium text-gray-900">Email Notifications</h3>
           </div>
-          <div className="mt-4 space-y-4 divide-y divide-gray-200">
-            <NotificationToggle
-              type="email"
-              setting="newBooking"
-              label="New Bookings"
-              description="When someone books tickets for your event"
-            />
-            <NotificationToggle
-              type="email"
-              setting="eventReminders"
-              label="Event Reminders"
-              description="Reminders about upcoming events you're organizing"
-            />
-            <NotificationToggle
-              type="email"
-              setting="marketing"
-              label="Marketing Communications"
-              description="News, updates, and promotional offers"
-            />
-            <NotificationToggle
-              type="email"
-              setting="updates"
-              label="Platform Updates"
-              description="Important updates about our service"
-            />
+          <div className="space-y-3">
+            {Object.entries(emailNotifications).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between p-3 
+                bg-white rounded-lg border border-gray-200">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Receive email notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={value}
+                    onChange={(e) => setEmailNotifications(prev => ({
+                      ...prev,
+                      [key]: e.target.checked
+                    }))}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none 
+                    peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer 
+                    peer-checked:after:translate-x-full peer-checked:after:border-white 
+                    after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                    after:bg-white after:border-gray-300 after:border after:rounded-full 
+                    after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Push Notifications */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <div className="flex items-center space-x-3">
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 mb-4">
             <Bell className="w-5 h-5 text-gray-600" />
             <h3 className="text-lg font-medium text-gray-900">Push Notifications</h3>
           </div>
-          <div className="mt-4 space-y-4 divide-y divide-gray-200">
-            <NotificationToggle
-              type="push"
-              setting="newBooking"
-              label="New Bookings"
-              description="When someone books tickets for your event"
-            />
-            <NotificationToggle
-              type="push"
-              setting="eventReminders"
-              label="Event Reminders"
-              description="Reminders about upcoming events you're organizing"
-            />
-            <NotificationToggle
-              type="push"
-              setting="marketing"
-              label="Marketing Communications"
-              description="News, updates, and promotional offers"
-            />
-            <NotificationToggle
-              type="push"
-              setting="updates"
-              label="Platform Updates"
-              description="Important updates about our service"
-            />
+          <div className="space-y-3">
+            {Object.entries(pushNotifications).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between p-3 
+                bg-white rounded-lg border border-gray-200">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Receive push notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={value}
+                    onChange={(e) => setPushNotifications(prev => ({
+                      ...prev,
+                      [key]: e.target.checked
+                    }))}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none 
+                    peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer 
+                    peer-checked:after:translate-x-full peer-checked:after:border-white 
+                    after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                    after:bg-white after:border-gray-300 after:border after:rounded-full 
+                    after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SMS Notifications */}
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 mb-4">
+            <MessageSquare className="w-5 h-5 text-gray-600" />
+            <h3 className="text-lg font-medium text-gray-900">SMS Notifications</h3>
+          </div>
+          <div className="space-y-3">
+            {Object.entries(smsNotifications).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between p-3 
+                bg-white rounded-lg border border-gray-200">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Receive SMS notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={value}
+                    onChange={(e) => setSmsNotifications(prev => ({
+                      ...prev,
+                      [key]: e.target.checked
+                    }))}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none 
+                    peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer 
+                    peer-checked:after:translate-x-full peer-checked:after:border-white 
+                    after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                    after:bg-white after:border-gray-300 after:border after:rounded-full 
+                    after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Save Button */}
         <div className="flex justify-end">
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 
-              hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
-          >
-            Save Notification Preferences
+          <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 
+            hover:bg-blue-700 rounded-lg shadow-sm transition-colors">
+            Save Changes
           </button>
         </div>
       </div>

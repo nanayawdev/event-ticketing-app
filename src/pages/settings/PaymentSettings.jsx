@@ -1,202 +1,176 @@
 import { useState } from 'react';
-import { CreditCard, Plus, Phone, Wallet } from 'lucide-react';
+import { CreditCard, Wallet, Plus, AlertCircle } from 'lucide-react';
 
 const PaymentSettings = () => {
-  const [paymentMethods, setPaymentMethods] = useState([
+  const [paymentMethods] = useState([
     {
       id: 1,
-      type: 'card',
-      subtype: 'Visa',
+      type: 'Visa',
       last4: '4242',
-      expiry: '12/24'
+      expiry: '12/24',
+      isDefault: true
     },
     {
       id: 2,
-      type: 'momo',
-      subtype: 'MTN',
-      number: '0241234567',
-      name: 'John Doe'
+      type: 'Mastercard',
+      last4: '8888',
+      expiry: '08/25',
+      isDefault: false
+    },
+    {
+      id: 3,
+      type: 'MTN MoMo',
+      last4: '6789',
+      expiry: null,
+      isDefault: false
     }
   ]);
 
-  const [showAddNew, setShowAddNew] = useState(false);
-  const [newMethodType, setNewMethodType] = useState('card');
-
-  const getMethodIcon = (type) => {
-    switch (type) {
-      case 'card':
-        return <CreditCard className="w-6 h-6 text-gray-600" />;
-      case 'momo':
-        return <Phone className="w-6 h-6 text-yellow-600" />;
-      default:
-        return <Wallet className="w-6 h-6 text-gray-600" />;
+  const [billingHistory] = useState([
+    {
+      id: 1,
+      date: 'Mar 15, 2024',
+      amount: 299.99,
+      status: 'Paid',
+      invoice: '#INV-2024-001'
+    },
+    {
+      id: 2,
+      date: 'Feb 15, 2024',
+      amount: 299.99,
+      status: 'Paid',
+      invoice: '#INV-2024-002'
     }
-  };
-
-  const removeMethod = (id) => {
-    setPaymentMethods(methods => methods.filter(method => method.id !== id));
-  };
+  ]);
 
   return (
-    <div className="p-6">
-      <div className="space-y-6">
+    <div className="p-4 sm:p-6">
+      <div className="space-y-4 sm:space-y-6">
+        {/* Header */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Payment Methods</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Payment Settings</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Manage your payment methods for purchasing tickets and services.
+            Manage your payment methods and view billing history.
           </p>
         </div>
 
-        {/* Payment Methods List */}
-        <div className="space-y-4">
-          {paymentMethods.map(method => (
-            <div key={method.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center
-                  ${method.type === 'momo' ? 'bg-yellow-50' : 'bg-white'}`}>
-                  {getMethodIcon(method.type)}
-                </div>
-                <div>
-                  {method.type === 'card' ? (
-                    <>
-                      <p className="text-sm font-medium text-gray-900">
-                        {method.subtype} ending in {method.last4}
-                      </p>
+        {/* Payment Methods */}
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <CreditCard className="w-5 h-5 text-gray-600" />
+              <h3 className="text-lg font-medium text-gray-900">Payment Methods</h3>
+            </div>
+            <button className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium 
+              text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <Plus className="w-4 h-4" />
+              Add New
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            {paymentMethods.map((method) => (
+              <div key={method.id} className="flex flex-col sm:flex-row sm:items-center 
+                justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center 
+                    justify-center">
+                    {method.type === 'Visa' ? 'V' : 
+                     method.type === 'Mastercard' ? 'M' : 
+                     'MTN'}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-medium text-gray-900">
+                        {method.type} {method.last4 && `ending in ${method.last4}`}
+                      </h4>
+                      {method.isDefault && (
+                        <span className="px-2 py-0.5 text-xs font-medium text-blue-600 
+                          bg-blue-50 rounded-full">
+                          Default
+                        </span>
+                      )}
+                    </div>
+                    {method.expiry && (
                       <p className="text-sm text-gray-500">Expires {method.expiry}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-sm font-medium text-gray-900">
-                        {method.subtype} MOMO - {method.number}
-                      </p>
-                      <p className="text-sm text-gray-500">Registered to {method.name}</p>
-                    </>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {!method.isDefault && (
+                    <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 
+                      rounded-lg transition-colors">
+                      Set as Default
+                    </button>
                   )}
+                  <button className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 
+                    rounded-lg transition-colors">
+                    Remove
+                  </button>
                 </div>
               </div>
-              <button 
-                onClick={() => removeMethod(method.id)}
-                className="text-red-600 text-sm font-medium hover:text-red-700"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Add New Payment Method */}
-        {!showAddNew ? (
-          <button
-            onClick={() => setShowAddNew(true)}
-            className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-blue-600 
-              hover:bg-blue-50 rounded-lg transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Payment Method</span>
-          </button>
-        ) : (
-          <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Add New Payment Method</h3>
-            
-            {/* Method Type Selection */}
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() => setNewMethodType('card')}
-                className={`p-4 rounded-lg border-2 flex items-center space-x-3
-                  ${newMethodType === 'card' 
-                    ? 'border-blue-500 bg-blue-50' 
-                    : 'border-gray-200 hover:border-gray-300'}`}
-              >
-                <CreditCard className="w-5 h-5 text-blue-600" />
-                <span className="font-medium">Credit/Debit Card</span>
-              </button>
-
-              <button
-                onClick={() => setNewMethodType('momo')}
-                className={`p-4 rounded-lg border-2 flex items-center space-x-3
-                  ${newMethodType === 'momo' 
-                    ? 'border-yellow-500 bg-yellow-50' 
-                    : 'border-gray-200 hover:border-gray-300'}`}
-              >
-                <Phone className="w-5 h-5 text-yellow-600" />
-                <span className="font-medium">MTN MOMO</span>
-              </button>
-            </div>
-
-            {/* Form Fields */}
-            {newMethodType === 'card' ? (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Card Number</label>
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                      focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Expiry Date</label>
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                        focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">CVV</label>
-                    <input
-                      type="text"
-                      placeholder="123"
-                      className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                        focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">MOMO Number</label>
-                  <input
-                    type="tel"
-                    placeholder="024 123 4567"
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                      focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Account Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter the registered name"
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2
-                      focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowAddNew(false)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 
-                  rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 
-                  hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
-              >
-                Add {newMethodType === 'card' ? 'Card' : 'MOMO'}
-              </button>
-            </div>
+        {/* Billing History */}
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 mb-4">
+            <Wallet className="w-5 h-5 text-gray-600" />
+            <h3 className="text-lg font-medium text-gray-900">Billing History</h3>
           </div>
-        )}
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left text-sm text-gray-500">
+                  <th className="pb-3 font-medium">Date</th>
+                  <th className="pb-3 font-medium">Amount</th>
+                  <th className="pb-3 font-medium">Status</th>
+                  <th className="pb-3 font-medium">Invoice</th>
+                  <th className="pb-3 font-medium sr-only">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {billingHistory.map((bill) => (
+                  <tr key={bill.id} className="text-sm">
+                    <td className="py-3 text-gray-900">{bill.date}</td>
+                    <td className="py-3 text-gray-900">
+                      ${bill.amount.toFixed(2)}
+                    </td>
+                    <td className="py-3">
+                      <span className="px-2 py-0.5 text-xs font-medium text-green-600 
+                        bg-green-50 rounded-full">
+                        {bill.status}
+                      </span>
+                    </td>
+                    <td className="py-3 text-gray-900">{bill.invoice}</td>
+                    <td className="py-3 text-right">
+                      <button className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 
+                        rounded-lg transition-colors">
+                        Download
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Billing Alert */}
+        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 rounded-lg">
+          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="text-sm font-medium text-yellow-800">
+              Update Your Billing Information
+            </h4>
+            <p className="mt-1 text-sm text-yellow-700">
+              Your next billing cycle starts on April 15, 2024. Please ensure your 
+              payment method is up to date.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
