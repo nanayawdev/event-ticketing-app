@@ -99,7 +99,7 @@ const EventManagementDashboard = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="mt-6 px-3 space-y-1">
+            <nav className="mt-8 px-4 space-y-3">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeMenu === item.name;
@@ -111,7 +111,7 @@ const EventManagementDashboard = () => {
                       setSidebarOpen(false);
                     }}
                     className={`
-                      w-full flex items-center px-3 py-2.5 text-sm group relative
+                      w-full flex items-center px-4 py-3 text-sm group relative
                       rounded-xl transition-all duration-200
                       ${isActive
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
@@ -120,10 +120,12 @@ const EventManagementDashboard = () => {
                     `}
                   >
                     <Icon className={`
-                      w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0
+                      w-5 h-5 md:mx-auto xl:mx-0 xl:mr-4 flex-shrink-0
                       transition-transform group-hover:scale-110 duration-200
                     `} />
-                    <span className="md:hidden xl:inline font-medium">{item.name}</span>
+                    <span className="md:hidden xl:inline font-medium tracking-wide">
+                      {item.name}
+                    </span>
                     
                     {/* Modern Tooltip */}
                     <div className="
@@ -151,12 +153,14 @@ const EventManagementDashboard = () => {
           {/* Logout Button */}
           <button
             onClick={handleLogoutClick}
-            className="mx-3 mb-4 flex items-center px-3 py-2.5 text-sm text-red-600 hover:bg-red-50/80 
+            className="mx-4 mb-6 flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50/80 
               rounded-xl group relative transition-all duration-200"
           >
-            <LogOut className="w-5 h-5 md:mx-auto xl:mx-0 xl:mr-3 flex-shrink-0 
+            <LogOut className="w-5 h-5 md:mx-auto xl:mx-0 xl:mr-4 flex-shrink-0 
               transition-transform group-hover:scale-110 duration-200" />
-            <span className="md:hidden xl:inline font-medium">Logout</span>
+            <span className="md:hidden xl:inline font-medium tracking-wide">
+              Logout
+            </span>
             
             {/* Logout Tooltip */}
             <div className="
@@ -184,14 +188,29 @@ const EventManagementDashboard = () => {
         {/* Top Navigation */}
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/80">
           <div className="flex items-center justify-between p-4">
-            <button 
-              className="lg:hidden p-2 rounded-xl hover:bg-gray-100/80 transition-colors"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu className="w-5 h-5" />
-            </button>
-            
-            <div className="flex items-center space-x-4">
+            {/* Left Side - Menu Button */}
+            <div>
+              <button 
+                className="lg:hidden p-2 rounded-xl hover:bg-gray-100/80 transition-colors"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Right Side - Notifications & Profile */}
+            <div className="flex items-center space-x-4 ml-auto">
+              {/* Search Bar (Optional) */}
+              <div className="hidden md:flex items-center relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10 pr-4 py-2 rounded-xl border border-gray-200/80 
+                    focus:outline-none focus:border-blue-500 transition-colors"
+                />
+                <Search className="w-5 h-5 text-gray-400 absolute left-3" />
+              </div>
+
               {/* Notification Button */}
               <button className="relative p-2 hover:bg-gray-100/80 rounded-xl transition-colors">
                 <Bell className="w-5 h-5 text-gray-600" />
