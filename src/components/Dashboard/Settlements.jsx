@@ -1,11 +1,11 @@
 import React from 'react';
-import { DollarSign, Download } from 'lucide-react';
+import { DollarSign, Download, Ticket, Percent, TrendingUp, CheckCircle, Clock } from 'lucide-react';
 
 const Settlements = () => {
   const settlements = [
     { 
       id: 1, 
-      eventName: 'Summer Festival',
+      eventName: 'Summer Festival 2024',
       amount: 12500.00,
       status: 'Completed',
       date: '2024-03-15',
@@ -19,7 +19,70 @@ const Settlements = () => {
       date: '2024-03-14',
       reference: 'SET123457'
     },
-    // Add more settlements...
+    { 
+      id: 3, 
+      eventName: 'Music Concert Live',
+      amount: 15000.00,
+      status: 'Completed',
+      date: '2024-03-12',
+      reference: 'SET123458'
+    },
+    { 
+      id: 4, 
+      eventName: 'Business Summit',
+      amount: 5250.00,
+      status: 'Pending',
+      date: '2024-03-10',
+      reference: 'SET123459'
+    },
+    { 
+      id: 5, 
+      eventName: 'Food Festival',
+      amount: 9800.00,
+      status: 'Completed',
+      date: '2024-03-08',
+      reference: 'SET123460'
+    },
+    { 
+      id: 6, 
+      eventName: 'Art Exhibition',
+      amount: 3500.00,
+      status: 'Completed',
+      date: '2024-03-05',
+      reference: 'SET123461'
+    },
+    { 
+      id: 7, 
+      eventName: 'Comedy Night',
+      amount: 6250.00,
+      status: 'Pending',
+      date: '2024-03-03',
+      reference: 'SET123462'
+    },
+    { 
+      id: 8, 
+      eventName: 'Wedding Expo',
+      amount: 11200.00,
+      status: 'Completed',
+      date: '2024-03-01',
+      reference: 'SET123463'
+    },
+    { 
+      id: 9, 
+      eventName: 'Fashion Show',
+      amount: 7800.00,
+      status: 'Pending',
+      date: '2024-02-28',
+      reference: 'SET123464'
+    },
+    { 
+      id: 10, 
+      eventName: 'Sports Tournament',
+      amount: 13500.00,
+      status: 'Completed',
+      date: '2024-02-25',
+      reference: 'SET123465'
+    }
   ];
 
   return (
@@ -27,29 +90,53 @@ const Settlements = () => {
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Settlements</h2>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-gray-500">Total Settlements</h3>
-            <DollarSign className="w-6 h-6 text-green-500" />
+            <h3 className="text-gray-500">Tickets Sold</h3>
+            <Ticket className="w-6 h-6 text-blue-500" />
           </div>
-          <p className="text-2xl font-bold">$21,250.00</p>
+          <p className="text-2xl font-bold">0</p>
         </div>
         
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-gray-500">Pending</h3>
-            <DollarSign className="w-6 h-6 text-yellow-500" />
+            <h3 className="text-gray-500">Gross Revenue</h3>
+            <DollarSign className="w-6 h-6 text-green-500" />
           </div>
-          <p className="text-2xl font-bold">$8,750.00</p>
+          <p className="text-2xl font-bold">₵0.00</p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-gray-500">Completed</h3>
-            <DollarSign className="w-6 h-6 text-blue-500" />
+            <h3 className="text-gray-500">Commission</h3>
+            <Percent className="w-6 h-6 text-purple-500" />
           </div>
-          <p className="text-2xl font-bold">$12,500.00</p>
+          <p className="text-2xl font-bold">7.50%</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-gray-500">Net Revenue</h3>
+            <TrendingUp className="w-6 h-6 text-indigo-500" />
+          </div>
+          <p className="text-2xl font-bold">₵0.00</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-gray-500">Total Paid Out</h3>
+            <CheckCircle className="w-6 h-6 text-emerald-500" />
+          </div>
+          <p className="text-2xl font-bold">₵0.00</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-gray-500">Balance To Be Paid</h3>
+            <Clock className="w-6 h-6 text-orange-500" />
+          </div>
+          <p className="text-2xl font-bold">₵0.00</p>
         </div>
       </div>
 
