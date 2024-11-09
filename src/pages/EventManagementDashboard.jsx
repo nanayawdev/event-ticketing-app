@@ -237,9 +237,21 @@ const EventManagementDashboard = () => {
           </div>
         </header>
 
-        {/* Content Area */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {activeComponent}
+        {/* Content Area with Footer */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="p-6 min-h-[calc(100%-40px)]">
+            {activeComponent}
+          </div>
+          
+          {/* Footer */}
+          <div className="h-10 px-6 py-2">
+            <p className="text-sm text-gray-500 text-center">
+              Powered by{' '}
+              <span className="font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Krontiva
+              </span>
+            </p>
+          </div>
         </main>
       </div>
 
