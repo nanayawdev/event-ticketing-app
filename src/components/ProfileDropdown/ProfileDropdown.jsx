@@ -98,7 +98,7 @@ const ProfileDropdown = ({ onLogout }) => {
         <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
           flex items-center justify-center text-white font-medium shadow-lg shadow-blue-500/20
           group-hover:shadow-blue-500/30 transition-shadow">
-          JD
+          NY
         </div>
         <span className="text-sm font-medium text-gray-700">John Doe</span>
         <Ellipsis className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />

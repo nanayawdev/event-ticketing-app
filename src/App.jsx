@@ -155,9 +155,21 @@ const AppContent = () => {
         } />
 
         <Route path="/dashboard" element={<EventManagementDashboard />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/cookies" element={<Cookies />} />
+        <Route path="/privacy" element={
+          <StandardLayout>
+            <Privacy />
+          </StandardLayout>
+        } />
+        <Route path="/terms" element={
+          <StandardLayout>
+            <Terms />
+          </StandardLayout>
+        } />
+        <Route path="/cookies" element={
+          <StandardLayout>
+            <Cookies />
+          </StandardLayout>
+        } />
         <Route path="/settings/*" element={<SettingsLayout />} />
       </Routes>
       <CookieConsentBanner />
