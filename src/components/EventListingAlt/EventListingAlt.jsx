@@ -6,6 +6,7 @@ import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { useEvents } from '../../hooks/useEvents';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import { ErrorMessage } from '../ui/ErrorMessage';
 
 const EventListingAlt = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,6 +44,15 @@ const EventListingAlt = () => {
   };
 
   if (loading) return <LoadingSpinner />;
+  if (error) {
+    return (
+      <ErrorMessage 
+        title="Unable to Load Events"
+        message="We're having trouble loading the events. Please check your internet connection and try again."
+        onRetry={() => window.location.reload()}
+      />
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-16">

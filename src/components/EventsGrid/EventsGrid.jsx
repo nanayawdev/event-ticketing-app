@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
 import EventHeroCard from '../EventHeroCard/EventHeroCard'
-import { ArrowRight, Search, MapPin } from 'lucide-react'
+import { ArrowRight, Search, MapPin, AlertCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { useEvents } from '../../hooks/useEvents'
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 const EventsGrid = () => {
   const navigate = useNavigate()
@@ -15,6 +16,17 @@ const EventsGrid = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef(null)
   const { events, loading, error } = useEvents();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Filter events based on search and closed status (for grid only)
   const filteredEvents = events.filter(event => {
@@ -38,7 +50,15 @@ const EventsGrid = () => {
   }
 
   if (loading) return <LoadingSpinner />
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>
+  if (error) {
+    return (
+      <ErrorMessage 
+        title="Unable to Load Events"
+        message="We're having trouble loading the events. Please check your internet connection and try again."
+        onRetry={() => window.location.reload()}
+      />
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 mb-8 max-w-[1300px]">

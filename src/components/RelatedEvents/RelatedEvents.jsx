@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { toast } from 'sonner'
 import { useEvents } from '../../hooks/useEvents'
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
   const { events, loading, error } = useEvents();
@@ -24,13 +25,14 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
     });
   }
 
-  if (loading) {
+  if (loading) return <LoadingSpinner />
+  if (error) {
     return (
-      <section className="bg-gray-50 py-12">
-        <div className="container mx-auto px-4">
-          <LoadingSpinner />
-        </div>
-      </section>
+      <ErrorMessage 
+        title="Unable to Load Related Events"
+        message="We're having trouble loading related events. Please check your internet connection and try again."
+        onRetry={() => window.location.reload()}
+      />
     );
   }
 

@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { useEvents } from '../../hooks/useEvents';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 const EventListingGrid = () => {
   const { events, loading, error } = useEvents();
@@ -37,6 +38,15 @@ const EventListingGrid = () => {
   };
 
   if (loading) return <LoadingSpinner />;
+  if (error) {
+    return (
+      <ErrorMessage 
+        title="Unable to Load Events"
+        message="We're having trouble loading the events. Please check your internet connection and try again."
+        onRetry={() => window.location.reload()}
+      />
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-8">

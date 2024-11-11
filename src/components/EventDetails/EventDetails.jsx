@@ -6,6 +6,7 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import RelatedEvents from '../RelatedEvents/RelatedEvents';
 import BuyTicket from '../BuyTicket/BuyTicket';
 import { useEvents } from '../../hooks/useEvents';
+import { ErrorMessage } from '../ui/ErrorMessage';
 
 const EventDetails = () => {
   const { events, loading, error } = useEvents(false);
@@ -37,13 +38,35 @@ const EventDetails = () => {
 
   if (loading) {
     return (
-      <div className="pt-24 px-4 max-w-[1600px] mx-auto">
+      <div className="pt-24 px-4 max-w-[1600px] mx-auto min-h-screen flex items-center justify-center">
         <LoadingSpinner />
       </div>
     );
   }
 
-  if (!event) return null;
+  if (error) {
+    return (
+      <div className="pt-24 min-h-screen flex items-center justify-center">
+        <ErrorMessage 
+          title="Unable to Load Event Details"
+          message="We're having trouble loading the event details. Please check your internet connection and try again."
+          onRetry={() => window.location.reload()}
+        />
+      </div>
+    );
+  }
+
+  if (!event) {
+    return (
+      <div className="pt-24 min-h-screen flex items-center justify-center">
+        <ErrorMessage 
+          title="Event Not Found"
+          message="We couldn't find the event you're looking for. It may have been removed or the URL might be incorrect."
+          onRetry={() => navigate('/events')}
+        />
+      </div>
+    );
+  }
 
   return (
     <>

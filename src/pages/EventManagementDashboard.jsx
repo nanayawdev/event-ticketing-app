@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import LogoutModal from '../components/LogoutModal/LogoutModal';
 import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
+import NotificationsDropdown from '../components/Notifications/NotificationsDropdown';
 
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
@@ -30,7 +31,31 @@ const EventManagementDashboard = () => {
   const [activeMenu, setActiveMenu] = useState('Overview');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      title: 'New Event Registration',
+      message: 'John Doe registered for "Summer Music Festival"',
+      time: '5 minutes ago',
+      isRead: false,
+    },
+    {
+      id: 2,
+      title: 'Ticket Sales Milestone',
+      message: 'Your event "Tech Conference 2024" reached 500 ticket sales!',
+      time: '1 hour ago',
+      isRead: false,
+    },
+    {
+      id: 3,
+      title: 'Payment Settled',
+      message: '$1,500 has been transferred to your account',
+      time: '2 hours ago',
+      isRead: true,
+    }
+  ]);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
   const menuItems = [
     { name: 'Overview', icon: LayoutDashboard, component: <Overview /> },
     { name: 'Create Event', icon: CirclePlus, component: <CreateEvent /> },
@@ -55,6 +80,13 @@ const EventManagementDashboard = () => {
     localStorage.removeItem('user'); // Remove user data
     setIsLogoutModalOpen(false);
     navigate('/login'); // Redirect to login page
+  };
+
+  // Add this function to mark notifications as read
+  const handleMarkAsRead = (notificationId) => {
+    setNotifications(notifications.map(notif => 
+      notif.id === notificationId ? { ...notif, isRead: true } : notif
+    ));
   };
 
   return (
@@ -175,10 +207,12 @@ const EventManagementDashboard = () => {
               </div>
 
               {/* Notification Button */}
-              <button className="relative p-2 hover:bg-gray-100/80 rounded-xl transition-colors">
-                <Bell className="w-5 h-5 text-gray-600" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
+              <NotificationsDropdown 
+                notifications={notifications}
+                isOpen={isNotificationsOpen}
+                onToggle={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                onMarkAsRead={handleMarkAsRead}
+              />
 
               {/* User Profile */}
               <ProfileDropdown onLogout={handleLogoutClick} />

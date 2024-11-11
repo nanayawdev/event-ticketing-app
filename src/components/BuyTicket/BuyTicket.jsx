@@ -31,6 +31,7 @@ import { usePayment } from '../../context/PaymentContext';
 import { PaystackButton } from 'react-paystack';
 import { toast } from 'sonner';
 import CurrencySelector from '../CurrencySelector/CurrencySelector';
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 const BuyTicket = ({ event }) => {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -184,6 +185,19 @@ const BuyTicket = ({ event }) => {
   }
 
   const status = getEventStatus()
+
+  // Add error handling for payment processing
+  const [paymentError, setPaymentError] = useState(null);
+
+  if (paymentError) {
+    return (
+      <ErrorMessage 
+        title="Payment Processing Error"
+        message="We encountered an error while processing your payment. Please try again or contact support if the problem persists."
+        onRetry={() => setPaymentError(null)}
+      />
+    );
+  }
 
   return (
     <div className="container max-w-[1600px] mx-auto px-4 py-8">
