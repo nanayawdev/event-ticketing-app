@@ -45,26 +45,26 @@ const Terms = () => {
       <aside className="hidden lg:block w-72 sticky top-24 h-fit">
         <nav className="space-y-3">
           {[
-            { id: 'acceptance', title: '1. Acceptance of Terms' },
-            { id: 'purchases', title: '2. Ticket Purchases and Refunds' },
-            { id: 'organizer', title: '3. Event Organizer Terms' },
-            { id: 'resale', title: '4. Ticket Resale and Transfer' },
-            { id: 'fees', title: '5. Platform Fees and Payments' },
-            { id: 'attendance', title: '6. Event Attendance and Conduct' },
-            { id: 'liability', title: '7. Liability and Disclaimers' },
-            { id: 'modifications', title: '8. Platform Modifications' },
-            { id: 'privacy', title: '9. Privacy and Data Protection' },
-            { id: 'intellectual', title: '10. Intellectual Property Rights' },
-            { id: 'communication', title: '11. Communication Policies' },
-            { id: 'international', title: '12. International Use' },
-            { id: 'account', title: '13. Account Management' },
-            { id: 'compliance', title: '14. Legal Compliance' },
-            { id: 'dispute', title: '15. Dispute Resolution' },
-            { id: 'accessibility', title: '16. Accessibility Standards' },
-            { id: 'sustainability', title: '17. Environmental Policy' },
-            { id: 'partnerships', title: '18. Partner Programs' },
-            { id: 'security', title: '19. Security Measures' },
-            { id: 'support', title: '20. Customer Support' }
+            { id: 'acceptance', title: 'Acceptance of Terms' },
+            { id: 'purchases', title: 'Ticket Purchases and Refunds' },
+            { id: 'organizer', title: 'Event Organizer Terms' },
+            { id: 'resale', title: 'Ticket Resale and Transfer' },
+            { id: 'fees', title: 'Platform Fees and Payments' },
+            { id: 'attendance', title: 'Event Attendance and Conduct' },
+            { id: 'liability', title: 'Liability and Disclaimers' },
+            { id: 'modifications', title: 'Platform Modifications' },
+            { id: 'privacy', title: 'Privacy and Data Protection' },
+            { id: 'intellectual', title: 'Intellectual Property Rights' },
+            { id: 'communication', title: 'Communication Policies' },
+            { id: 'international', title: 'International Use' },
+            { id: 'account', title: 'Account Management' },
+            { id: 'compliance', title: 'Legal Compliance' },
+            { id: 'dispute', title: 'Dispute Resolution' },
+            { id: 'accessibility', title: 'Accessibility Standards' },
+            { id: 'sustainability', title: 'Environmental Policy' },
+            { id: 'partnerships', title: 'Partner Programs' },
+            { id: 'security', title: 'Security Measures' },
+            { id: 'support', title: 'Customer Support' }
           ].map((item) => (
             <button
               key={item.id}
@@ -72,7 +72,7 @@ const Terms = () => {
               className={`block text-[14px] w-full text-left py-1 transition-colors duration-200 ${
                 activeSection === item.id 
                 ? 'text-sea-green-600 font-medium' 
-                : 'text-gray-600 hover:text-gray-900 hover:underline'
+                : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               {item.title}
