@@ -32,50 +32,76 @@ import { PaystackButton } from 'react-paystack';
 import { toast } from 'sonner';
 import CurrencySelector from '../CurrencySelector/CurrencySelector';
 import { ErrorMessage } from '../ui/ErrorMessage'
+import { useEvents } from '../../hooks/useEvents';
 
-const BuyTicket = ({ event }) => {
+const BuyTicket = ({ event, loading, error }) => {
   const [selectedImage, setSelectedImage] = useState(0)
   const [email, setEmail] = useState('');
   const { selectedCurrency, convertCurrency } = usePayment();
+  const [tickets, setTickets] = useState([]);
 
-  // Create array with main image and placeholders for thumbnails
-  const images = [
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg',
-    event.Event_Image?.url || '/assets/images/herobg.jpg'
-  ]
-
-  // Initialize tickets state without the date field
-  const [tickets, setTickets] = useState(
-    event.Ticket_Price?.length > 0
-      ? event.Ticket_Price.map(ticket => ({
-          title: ticket.ticket_type,
-          price: Number(ticket.price),
-          quantity: 0,
-          available: Number(ticket.ticket_quantity)
-        }))
-      : [{
-          title: "Regular Ticket",
-          price: Number(event.Event_Price) || 0,
-          quantity: 0,
-          available: 100
-        }]
-  );
-
+  // Initialize tickets once when event data is available
   useEffect(() => {
-    // Update tickets when event changes
-    if (event.Ticket_Price?.length > 0) {
+    if (event?.Ticket_Price) {
       setTickets(
-        event.Ticket_Price.map(ticket => ({
-          title: ticket.ticket_type,
-          price: Number(ticket.price),
-          quantity: 0,
-          available: Number(ticket.ticket_quantity)
-        }))
+        Array.isArray(event.Ticket_Price) && event.Ticket_Price.length > 0
+          ? event.Ticket_Price.map(ticket => ({
+              title: ticket.ticket_type || 'Regular Ticket',
+              price: Number(ticket.price) || Number(event.Event_Price) || 0,
+              quantity: 0,
+              available: Number(ticket.ticket_quantity) || 100
+            }))
+          : [{
+              title: "Regular Ticket",
+              price: Number(event.Event_Price) || 0,
+              quantity: 0,
+              available: 100
+            }]
       );
     }
   }, [event]);
+
+  // Add loading state handler with debug info
+  if (loading) {
+    return (
+      <div className="p-4">
+        <p>Loading events...</p>
+        <p className="text-sm text-gray-500">Event ID: {event.id}</p>
+      </div>
+    );
+  }
+
+  // Add error state handler with debug info
+  if (error) {
+    return (
+      <div className="p-4">
+        <p>Error loading events: {error}</p>
+        <p className="text-sm text-gray-500">Event ID: {event.id}</p>
+      </div>
+    );
+  }
+
+  // Add check for event existence with debug info
+  if (!event) {
+    return (
+      <div className="p-4">
+        <p className="text-red-500 font-bold">Event not found</p>
+        <p className="mt-2">Looking for event ID: {event.id}</p>
+        <p className="mt-2">Available events:</p>
+        <ul className="mt-2 space-y-2">
+          {events.map(e => (
+            <li key={e.id} className="text-sm">
+              {e.Event_Name} (ID: {e.id})
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  // Use the correct event data structure
+  const eventDetails = event.eventDetails || event;
+  const ticketDetails = event.ticketDetails;
 
   // Rest of your existing code remains the same
   const handleDecrease = (index) => {
@@ -199,34 +225,18 @@ const BuyTicket = ({ event }) => {
     );
   }
 
+  const hasSelectedTickets = tickets.some(ticket => ticket.quantity > 0);
+
   return (
     <div className="container max-w-[1600px] mx-auto px-4 py-8">
       <div className="grid gap-16 lg:grid-cols-3">
         <div className="space-y-8">
           <div className="overflow-hidden rounded-lg bg-muted">
             <img
-              src={event.Event_Image?.url || '/assets/images/herobg.jpg'}
-              alt={event.Event_Name}
+              src={eventDetails.Event_Image?.url || '/assets/images/herobg.jpg'}
+              alt={eventDetails.Event_Name}
               className="aspect-square w-full object-cover"
             />
-          </div>
-          <div className="grid grid-cols-4 gap-6">
-            {images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className={cn(
-                  "overflow-hidden rounded-lg bg-muted",
-                  selectedImage === index && "ring-2 ring-primary"
-                )}
-              >
-                <img
-                  src={image}
-                  alt={`${event.Event_Name} thumbnail ${index + 1}`}
-                  className="aspect-square w-full object-cover"
-                />
-              </button>
-            ))}
           </div>
         </div>
 
@@ -240,8 +250,7 @@ const BuyTicket = ({ event }) => {
             >
               {status.text}
             </Badge>
-            <h1 className="text-3xl font-bold">{event.Event_Name}</h1>
-            <p className="text-2xl font-bold mt-2">GH₵ {event.Event_Price?.toFixed(2) || '0.00'}</p>
+            <h1 className="text-3xl font-bold">{eventDetails.Event_Name}</h1>
           </div>
           
           <Accordion type="single" collapsible defaultValue="description" className="w-full">
@@ -252,7 +261,7 @@ const BuyTicket = ({ event }) => {
               <AccordionContent>
                 <div className="space-y-4">
                   <div className="text-sm text-muted-foreground whitespace-pre-line">
-                    {event.Event_Description || 'No description available.'}
+                    {eventDetails.Event_Description || 'No description available.'}
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4 text-sm pt-4">
@@ -264,7 +273,7 @@ const BuyTicket = ({ event }) => {
                       </div>
                       <div>
                         <p className="font-medium">Venue</p>
-                        <p className="text-muted-foreground">{event.Event_Venue || 'TBA'}</p>
+                        <p className="text-muted-foreground">{eventDetails.Event_Venue || 'TBA'}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -276,9 +285,9 @@ const BuyTicket = ({ event }) => {
                       <div>
                         <p className="font-medium">Event Date</p>
                         <p className="text-muted-foreground">
-                          {format(new Date(event.Event_Start_Date), 'dd MMM yyyy')}
-                          {event.Event_Start_Date !== event.Event_End_Date && (
-                            <> - {format(new Date(event.Event_End_Date), 'dd MMM yyyy')}</>
+                          {format(new Date(eventDetails.Event_Start_Date), 'dd MMM yyyy')}
+                          {eventDetails.Event_Start_Date !== eventDetails.Event_End_Date && (
+                            <> - {format(new Date(eventDetails.Event_End_Date), 'dd MMM yyyy')}</>
                           )}
                         </p>
                       </div>
@@ -380,10 +389,21 @@ const BuyTicket = ({ event }) => {
               <span>GH₵ {total.toFixed(2)}</span>
             </div>
 
-            <PaystackButton 
-              {...componentProps}
-              className="w-full bg-sea-green-500 text-white py-2 px-4 rounded hover:bg-sea-green-600"
-            />
+            <div className="mt-6">
+              {hasSelectedTickets ? (
+                <PaystackButton 
+                  {...componentProps}
+                  className="w-full bg-sea-green-500 text-white py-2 px-4 rounded hover:bg-sea-green-600"
+                />
+              ) : (
+                <Button 
+                  disabled
+                  className="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded cursor-not-allowed"
+                >
+                  Select Tickets to Continue
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Advertisement Component */}

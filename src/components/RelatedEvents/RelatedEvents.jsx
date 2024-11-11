@@ -13,10 +13,16 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
   const { events, loading, error } = useEvents();
   const navigate = useNavigate()
 
-  const filteredEvents = events.filter(event => 
-    event.id !== currentEventId && 
-    event.Event_Category === currentEventCategory
-  );
+  const filteredEvents = events.filter(event => {
+    const eventEndTime = new Date(event.Event_End_Time || event.Event_End_Date);
+    const now = new Date();
+    
+    return (
+      event.id !== currentEventId && 
+      event.Event_Category === currentEventCategory &&
+      eventEndTime > now // Only show future events
+    );
+  });
 
   const handleViewAllEvents = () => {
     navigate('/events', { 
@@ -38,6 +44,13 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
 
   if (filteredEvents.length === 0) return null // Don't show section if no related events
 
+  // Sort events by start date
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    const dateA = new Date(a.Event_Start_Time || a.Event_Start_Date);
+    const dateB = new Date(b.Event_Start_Time || b.Event_Start_Date);
+    return dateA - dateB;
+  });
+
   return (
     <section className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
@@ -53,7 +66,7 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
-          {filteredEvents.slice(0, 5).map((event) => (
+          {sortedEvents.slice(0, 5).map((event) => (
             <div 
               key={event.id || `event-${event.Event_Name}`} 
               className="col-span-1 w-full max-w-[280px]"
@@ -67,4 +80,4 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
   )
 }
 
-export default RelatedEvents 
+export default RelatedEvents
