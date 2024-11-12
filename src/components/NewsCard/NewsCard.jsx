@@ -13,8 +13,8 @@ export default function NewsCard({
     <Card className="overflow-hidden max-w-sm group">
       <div className="relative flex flex-col h-full">
         {/* Header Banner */}
-        <div className="bg-sea-green-400 p-6 text-white">
-          <h2 className="text-lg font-semibold leading-tight text-white">
+        <div className="bg-primary-500 dark:bg-gray-800 p-6 text-white">
+          <h2 className="text-lg font-semibold leading-tight text-primary-100 dark:text-primary-100">
             {title}
           </h2>
         </div>
@@ -32,7 +32,7 @@ export default function NewsCard({
         <CardContent className="p-4">
           <Button 
             variant="link" 
-            className="p-0 h-auto font-semibold text-sea-green-400 hover:text-sea-green-500"
+            className="p-0 h-auto font-semibold text-primary-500 dark:text-primary-100 hover:text-primary-600 dark:hover:text-primary-200"
             asChild
           >
             <Link to={`/news/${event_news_table_id}`} className="flex items-center gap-1">

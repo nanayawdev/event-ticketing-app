@@ -19,7 +19,7 @@ const ThemeToggle = () => {
         className={`
           ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}
           pointer-events-none inline-block h-5 w-5 rounded-full
-          bg-white shadow-lg ring-0 transition-all
+          bg-gray-50 dark:bg-gray-800 shadow-lg ring-0 transition-all
           duration-300 ease-in-out
         `}
       >
@@ -30,7 +30,7 @@ const ThemeToggle = () => {
             ${theme === 'dark' ? 'opacity-0' : 'opacity-100'}
           `}
         >
-          <Sun className="h-3.5 w-3.5 text-amber-500" />
+          <Sun className="h-3.5 w-3.5 text-gray-500 dark:text-gray-200" />
         </span>
         <span
           className={`
@@ -39,7 +39,7 @@ const ThemeToggle = () => {
             ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}
           `}
         >
-          <Moon className="h-3.5 w-3.5 text-blue-500" />
+          <Moon className="h-3.5 w-3.5 text-gray-500 dark:text-gray-200" />
         </span>
       </span>
     </button>

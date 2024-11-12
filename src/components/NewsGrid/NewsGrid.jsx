@@ -29,12 +29,12 @@ const NewsGrid = () => {
   }
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-4 mb-16 max-w-[1300px]">
         {/* Header Section */}
         <div className="flex items-center gap-4 mb-8 px-1">
           <h2 className="text-2xl font-bold">News & Updates</h2>
-          <button className="flex items-center gap-2 text-sea-green-400 px-4 py-2 hover:bg-sea-green-50 transition-colors">
+          <button className="flex items-center gap-2 text-primary-500 dark:text-primary-100 px-4 py-2 hover:bg-primary-100 dark:hover:bg-primary-200 transition-colors">
             View All
             <ArrowRight className="w-4 h-4" />
           </button>
