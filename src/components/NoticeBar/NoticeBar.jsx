@@ -42,11 +42,11 @@ const NoticeBar = () => {
   // Show offline message
   if (!isOnline) {
     return (
-      <div className="sticky top-0 z-50 bg-yellow-50 text-yellow-800 py-2">
+      <div className="sticky top-0 z-50 bg-yellow-50 text-yellow-800 py-2 sm:py-3">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-          <div className="flex items-center justify-center gap-2">
-            <WifiOff className="w-4 h-4" />
-            <span className="text-sm">
+          <div className="flex items-center justify-center gap-1 sm:gap-2">
+            <WifiOff className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="text-xs sm:text-sm md:text-base">
               You're offline. Some features may be limited.
             </span>
           </div>
@@ -59,10 +59,10 @@ const NoticeBar = () => {
   if (error || loading || !nextEvent) return null;
 
   return (
-    <div className="sticky top-0 z-50 bg-sea-green-1000 text-black py-2">
+    <div className="sticky top-0 z-50 bg-sea-green-1000 text-black py-2 sm:py-3">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="flex items-center justify-center gap-4">
-          <div className="text-sm">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+          <div className="text-xs sm:text-sm md:text-base text-center sm:text-left">
             <strong>New Event:</strong>{" "}
             {nextEvent ? (
               <>
@@ -73,7 +73,7 @@ const NoticeBar = () => {
             )}
           </div>
           <button 
-            className="inline-flex items-center px-4 py-1 bg-gray-950 text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
+            className="inline-flex items-center px-3 sm:px-4 py-1 bg-gray-950 text-white rounded-full text-xs sm:text-sm md:text-base font-medium hover:bg-gray-800 transition-colors"
             onClick={() => {
               if (nextEvent) {
                 const eventSlug = nextEvent.Event_Name.toLowerCase().replace(/\s+/g, '-');
@@ -82,7 +82,7 @@ const NoticeBar = () => {
             }}
           >
             Reserve Ticket
-            <Hand className="w-4 h-4 ml-2" />
+            <Hand className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
           </button>
         </div>
       </div>

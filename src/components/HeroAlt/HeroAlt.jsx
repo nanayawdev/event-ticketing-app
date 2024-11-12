@@ -2,8 +2,8 @@ import React from 'react'
 import tickrflyheroimg from '../../assets/images/tickrflyatjoemettle.jpg'
 export default function HeroAlt() {
   return (
-    <section className="pt-16">
-      <div className="relative h-[830px] w-full overflow-hidden">
+    <section className="pt-8 sm:pt-12 md:pt-16">
+      <div className="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-[830px] w-full overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 pointer-events-none">
           <img
@@ -15,27 +15,21 @@ export default function HeroAlt() {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-20 flex items-end h-full pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-xl bg-white/95 backdrop-blur-sm rounded-lg p-8 md:p-12">
-              <span className="text-sm font-medium text-gray-600 border border-gray-300 rounded-md px-4 py-1">
+        <div className="relative z-20 flex items-end h-full pb-8 sm:pb-12 md:pb-16">
+          <div className="container mx-auto px-4 pt-8 sm:pt-12 md:pt-16">
+            <div className="max-w-[90%] sm:max-w-[80%] md:max-w-xl bg-white/95 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-12">
+              <span className="text-xs sm:text-sm font-medium text-gray-600 border border-gray-300 rounded-md px-3 sm:px-4 py-1">
                 It's Tickrfly
               </span>
-              <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+              <h1 className="mt-3 sm:mt-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
                 Revolutionizing Event Experiences
               </h1>
-              <p className="mt-6 text-lg text-gray-600">
+              <p className="mt-4 sm:mt-6 text-sm sm:text-base text-gray-600">
                 Discover, create, and experience amazing events across Africa with our innovative ticketing platform
               </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <button className="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-md text-white">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+                <button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-md text-white text-sm sm:text-base">
                   Create Event
-                </button>
-                <button className="border border-gray-300 px-4 py-2 rounded-md">
-                  Browse Events
-                </button>
-                <button className="text-emerald-700 underline px-4 py-2">
-                  Hosting an Event?
                 </button>
               </div>
             </div>
