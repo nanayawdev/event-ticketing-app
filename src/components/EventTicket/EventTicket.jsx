@@ -17,6 +17,31 @@ const EventTicket = ({
   amount,
   eventId 
 }) => {
+  // Generate random ID with event name initials
+  const generateTicketId = () => {
+    const initials = eventName
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase();
+    const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+    return `${initials}${randomNum}`;
+  };
+
+  const ticketId = generateTicketId();
+
+  // Format ticket types display
+  const formatTicketTypes = () => {
+    if (!ticketType || !Array.isArray(ticketType)) {
+      return 'Regular Ticket';
+    }
+    
+    return ticketType
+      .filter(ticket => ticket.quantity > 0)
+      .map(ticket => `${ticket.title} (x${ticket.quantity})`)
+      .join(', ');
+  };
+
   const handleDownloadPDF = () => {
     const ticket = document.getElementById('event-ticket');
     const opt = {
@@ -30,12 +55,40 @@ const EventTicket = ({
   };
 
   const ticketData = JSON.stringify({
-    eventId,
+    eventId: ticketId,
     eventName,
     ticketType,
     quantity,
     amount
   });
+
+  // Format time function using the same logic as useEvents
+  const formatDateTime = (date, time) => {
+    if (!date) return '';
+    
+    const dateObj = new Date(date);
+    const formattedDate = format(dateObj, 'dd MMM yyyy');
+    
+    let formattedTime = '';
+    if (time) {
+      try {
+        // Handle timestamp
+        if (typeof time === 'number') {
+          formattedTime = format(new Date(time), 'HH:mm');
+        } 
+        // Handle time string
+        else if (typeof time === 'string') {
+          const [hours, minutes] = time.split(':');
+          formattedTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+        }
+      } catch (error) {
+        console.error('Error formatting time:', error);
+        formattedTime = time; // Fallback to original value
+      }
+    }
+
+    return `${formattedDate}${formattedTime ? ` at ${formattedTime}` : ''}`;
+  };
 
   return (
     <div className="mt-8">
@@ -74,13 +127,13 @@ const EventTicket = ({
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Start:</span>
               <span className="font-medium">
-                {format(new Date(startDate), 'dd MMM yyyy')} at {startTime}
+                {formatDateTime(startDate, startTime)}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">End:</span>
               <span className="font-medium">
-                {format(new Date(endDate), 'dd MMM yyyy')} at {endTime}
+                {formatDateTime(endDate, endTime)}
               </span>
             </div>
           </div>
@@ -89,11 +142,11 @@ const EventTicket = ({
           <div className="flex justify-between items-center text-gray-700">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Ticket:</span>
-              <span className="font-medium">{ticketType} (x{quantity})</span>
+              <span className="font-medium">{formatTicketTypes()}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">ID:</span>
-              <span className="font-medium">#{eventId}</span>
+              <span className="font-medium">#{ticketId}</span>
             </div>
           </div>
         </div>
@@ -113,4 +166,4 @@ const EventTicket = ({
   );
 };
 
-export default EventTicket; 
+export default EventTicket;

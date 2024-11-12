@@ -33,6 +33,7 @@ import { toast } from 'sonner';
 import CurrencySelector from '../CurrencySelector/CurrencySelector';
 import { ErrorMessage } from '../ui/ErrorMessage'
 import { useEvents } from '../../hooks/useEvents';
+import EventTicket from '../EventTicket/EventTicket';
 
 const BuyTicket = ({ event, loading, error }) => {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -409,6 +410,24 @@ const BuyTicket = ({ event, loading, error }) => {
           {/* Advertisement Component */}
         </div>
       </div>
+
+      {hasSelectedTickets && (
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-6">Preview Ticket</h3>
+          <EventTicket 
+            eventName={eventDetails.Event_Name}
+            venue={eventDetails.Event_Venue}
+            startDate={eventDetails.Event_Start_Date}
+            startTime={eventDetails.Event_Start_Time}
+            endDate={eventDetails.Event_End_Date}
+            endTime={eventDetails.Event_End_Time}
+            ticketType={tickets.find(t => t.quantity > 0)?.title || 'Regular Ticket'}
+            quantity={tickets.reduce((sum, t) => sum + t.quantity, 0)}
+            amount={total}
+            eventId={eventDetails.id}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -17,7 +17,7 @@ import Brands from './components/Brands/Brands';
 import Approach from './components/Approach/Approach';
 import Divider from './components/Divider/Divider';
 import HelpPopup from './components/HelpPopup/HelpPopup';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
 import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentBanner';
 import HeroAlt from './components/HeroAlt/HeroAlt';
@@ -33,9 +33,10 @@ import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
 import { AuthProvider } from './context/AuthContext';
 import SettingsLayout from './pages/settings/SettingsLayout';
-import ProfileSettings from './pages/settings/ProfileSettings';
 
 const StandardLayout = ({ children }) => {
+  const { theme } = useTheme();
+
   return (
     <>
       <NoticeBar />
@@ -179,16 +180,18 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <PaymentProvider>
-          <Toaster position="top-center" richColors />
-          <Router>
-            <AppContent />
-          </Router>
-        </PaymentProvider>
-      </ThemeProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+        <AuthProvider>
+          <PaymentProvider>
+            <Toaster position="top-center" richColors />
+            <Router>
+              <AppContent />
+            </Router>
+          </PaymentProvider>
+        </AuthProvider>
+      </div>
+    </ThemeProvider>
   );
 };
 

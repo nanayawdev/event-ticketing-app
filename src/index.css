@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add base theme styles */
+@layer base {
+  body {
+    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  p {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  /* Add more global styles as needed */
+}
+
+/* Common component styles */
+@layer components {
+  .card {
+    @apply bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6;
+  }
+
+  .input {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 
+           text-gray-900 dark:text-white rounded-md px-4 py-2;
+  }
+
+  .button {
+    @apply bg-sea-green-500 dark:bg-sea-green-600 text-white 
+           hover:bg-sea-green-600 dark:hover:bg-sea-green-700;
+  }
+}
+
 /* General Reset */
   * {
     box-sizing: border-box; /* Include padding and border in element's total width and height */
