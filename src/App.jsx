@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import NoticeBar from './components/NoticeBar/NoticeBar';
 import EventsGrid from './components/EventsGrid/EventsGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
@@ -39,7 +38,6 @@ const StandardLayout = ({ children }) => {
 
   return (
     <>
-      <NoticeBar />
       <Navbar />
       <main className="min-h-screen">
         {children}
