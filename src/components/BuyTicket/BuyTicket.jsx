@@ -267,9 +267,9 @@ const BuyTicket = ({ event, loading, error }) => {
                   
                   <div className="grid grid-cols-2 gap-4 text-sm pt-4">
                     <div className="flex items-center gap-3">
-                      <div className="bg-sea-green-50 p-2.5 rounded-xl">
-                        <div className="bg-sea-green-100 p-2 rounded-lg">
-                          <MapPin className="h-5 w-5 text-sea-green-500" />
+                      <div className="bg-primary-100 p-2.5 rounded-xl">
+                        <div className="bg-primary-200 p-2 rounded-lg">
+                          <MapPin className="h-5 w-5 text-primary-500 dark:text-primary-600" />
                         </div>
                       </div>
                       <div>
@@ -278,9 +278,9 @@ const BuyTicket = ({ event, loading, error }) => {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="bg-sea-green-50 p-2.5 rounded-xl">
-                        <div className="bg-sea-green-100 p-2 rounded-lg">
-                          <Calendar className="h-5 w-5 text-sea-green-500" />
+                      <div className="bg-primary-100 p-2.5 rounded-xl">
+                        <div className="bg-primary-200 p-2 rounded-lg">
+                          <Calendar className="h-5 w-5 text-primary-500 dark:text-primary-600" />
                         </div>
                       </div>
                       <div>
@@ -320,7 +320,7 @@ const BuyTicket = ({ event, loading, error }) => {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8 bg-white text-black hover:bg-gray-100"
+                        className="h-8 w-8 bg-gray-50 dark:bg-gray-800 text-primary-950 dark:text-primary-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={() => handleDecrease(index)}
                         disabled={ticket.quantity === 0}
                         aria-label="Decrease quantity"
@@ -338,7 +338,7 @@ const BuyTicket = ({ event, loading, error }) => {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8 bg-white text-black hover:bg-gray-100"
+                        className="h-8 w-8 bg-gray-50 dark:bg-gray-800 text-primary-950 dark:text-primary-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={() => handleIncrease(index)}
                         disabled={ticket.quantity >= ticket.available}
                         aria-label="Increase quantity"
@@ -358,7 +358,7 @@ const BuyTicket = ({ event, loading, error }) => {
 
         {/* Order Summary */}
         <div className="space-y-8">
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-6">Order Summary</h3>
             
             <div className="space-y-4 mb-6">
@@ -370,20 +370,20 @@ const BuyTicket = ({ event, loading, error }) => {
               ))}
             </div>
 
-            <div className="h-px bg-gray-200 my-4" />
+            <div className="h-px bg-gray-200 dark:bg-gray-700 my-4" />
 
             <div className="space-y-2 mb-4">
               <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
+                <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
                 <span>GH₵ {subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">MOMO Charges (1%)</span>
+                <span className="text-gray-600 dark:text-gray-400">MOMO Charges (1%)</span>
                 <span>GH₵ {momoCharges.toFixed(2)}</span>
               </div>
             </div>
 
-            <div className="h-px bg-gray-200 my-4" />
+            <div className="h-px bg-gray-200 dark:bg-gray-700 my-4" />
 
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
@@ -394,7 +394,7 @@ const BuyTicket = ({ event, loading, error }) => {
               {hasSelectedTickets ? (
                 <PaystackButton 
                   {...componentProps}
-                  className="w-full bg-sea-green-500 text-white py-2 px-4 rounded hover:bg-sea-green-600"
+                  className="w-full bg-primary-950 dark:bg-primary-600 text-gray-50 py-2 px-4 rounded hover:bg-primary-600 dark:hover:bg-primary-700"
                 />
               ) : (
                 <Button 

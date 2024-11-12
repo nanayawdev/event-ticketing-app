@@ -10,7 +10,7 @@ const PriceDisplay = ({ priceInGHS }) => {
   const formattedPrice = Number(priceInGHS).toFixed(2);
   
   return (
-    <span className="font-bold text-sea-green-500">
+    <span className="font-bold text-primary-950 dark:text-primary-100">
       GH₵ {formattedPrice}
     </span>
   );

@@ -27,7 +27,7 @@ const HelpPopup = () => {
     <div className="fixed bottom-4 right-4 z-[9999]">
       {/* Popup */}
       {isOpen && (
-        <div className="mb-4 bg-white rounded-lg shadow-xl w-[280px] sm:w-full sm:max-w-sm p-4 sm:p-6 relative transition-all duration-1000 ease-in-out animate-slide-in">
+        <div className="mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl w-[280px] sm:w-full sm:max-w-sm p-4 sm:p-6 relative transition-all duration-1000 ease-in-out animate-slide-in">
           {/* Close Button */}
           <button 
             onClick={handleClose}
@@ -39,22 +39,22 @@ const HelpPopup = () => {
           {/* Icon and Content */}
           <div className="flex flex-col items-start text-left">            
             <div className="flex items-center gap-2 mb-2">
-              <div className="bg-gray-100 p-2 rounded-lg">
-                <Handshake className="w-6 h-6 text-gray-900" />
+              <div className="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                <Handshake className="w-6 h-6 text-gray-900 dark:text-gray-100" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Become a Partner
               </h2>
             </div>
             
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               Join our growing network of event partners and reach thousands of potential attendees. Start hosting your events with us today.
             </p>
 
             <div className="flex items-center justify-between w-full">
               <button 
                 onClick={() => {/* Add partner signup link/action */}}
-                className="bg-gray-900 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-300 flex items-center gap-2"
+                className="bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-700 px-4 py-2 rounded-md text-sm sm:text-base flex items-center gap-2"
               >
                 <span>Join Us</span>
                 <SquareArrowOutUpRight className="w-4 h-4" />

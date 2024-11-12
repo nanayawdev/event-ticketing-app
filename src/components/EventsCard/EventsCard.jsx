@@ -140,7 +140,7 @@ const EventsCard = ({ event }) => {
   };
 
   return (
-    <div className="bg-gray-50 overflow-hidden shadow-lg max-w-[280px]">
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg max-w-[280px]">
       <div className="relative">
         <img 
           src={event.Event_Image?.url || eventplaceholder} 
@@ -160,7 +160,7 @@ const EventsCard = ({ event }) => {
             onClick={handleViewEvent}
             className={`text-sm font-bold truncate max-w-[180px] ${
               !isPastEvent() 
-                ? 'cursor-pointer hover:text-sea-green-500' 
+                ? 'cursor-pointer hover:text-primary-500 dark:hover:text-primary-100' 
                 : 'cursor-not-allowed text-gray-500'
             } transition-colors`}
           >
@@ -172,8 +172,8 @@ const EventsCard = ({ event }) => {
               isPastEvent() 
                 ? 'cursor-not-allowed text-gray-400' 
                 : hasLiked 
-                  ? 'text-sea-green-500' 
-                  : 'hover:text-sea-green-500'
+                  ? 'text-primary-500 dark:text-primary-600' 
+                  : 'hover:text-primary-500 dark:hover:text-primary-600'
             }`}
             disabled={isPastEvent()}
           >
@@ -183,7 +183,7 @@ const EventsCard = ({ event }) => {
         </div>
 
         <div className="flex items-center gap-2 mb-2">
-          <div className="bg-sea-green-500 text-white px-2 py-0.5 rounded-sm text-xs font-normal">
+          <div className="bg-primary-950 dark:bg-primary-600 text-white px-2 py-0.5 rounded-sm text-xs font-normal">
             {startMonth} {startDay}
             {event.Event_Start_Date !== event.Event_End_Date && 
               <> - {endMonth} {endDay}</>
@@ -194,7 +194,7 @@ const EventsCard = ({ event }) => {
             {event.Event_Venue}
           </div>
           <div className="h-5 w-px bg-gray-300"></div>
-          <div className="text-xs font-bold text-sea-green-500">
+          <div className="text-xs font-bold text-primary-500 dark:text-primary-600">
             <PriceDisplay priceInGHS={getMinTicketPrice()} />
           </div>
         </div>

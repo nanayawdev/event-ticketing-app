@@ -17,8 +17,8 @@ export default function HeroAlt() {
         {/* Content Container */}
         <div className="relative z-20 flex items-end h-full pb-8 sm:pb-12 md:pb-16">
           <div className="container mx-auto px-4 pt-8 sm:pt-12 md:pt-16">
-            <div className="max-w-[90%] sm:max-w-[80%] md:max-w-xl bg-white/95 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-12">
-              <span className="text-xs sm:text-sm font-medium text-gray-600 border border-gray-300 rounded-md px-3 sm:px-4 py-1">
+            <div className="max-w-[90%] sm:max-w-[80%] md:max-w-xl bg-gray-100 dark:bg-gray-900 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-12">
+              <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-md px-3 sm:px-4 py-1">
                 It's Tickrfly
               </span>
               <h1 className="mt-3 sm:mt-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
@@ -28,7 +28,7 @@ export default function HeroAlt() {
                 Discover, create, and experience amazing events across Africa with our innovative ticketing platform
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-                <button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-md text-white text-sm sm:text-base">
+                <button className="w-full sm:w-auto bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-700 px-4 py-2 rounded-md text-sm sm:text-base">
                   Create Event
                 </button>
               </div>
