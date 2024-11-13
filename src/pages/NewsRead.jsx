@@ -8,6 +8,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { toast } from "sonner" // Add this import
 import { Link } from 'react-router-dom'
 import { Newspaper } from 'lucide-react' // Add this import for the icon
+import NotFound from '@/components/NotFound' // Add this import
 
 export default function NewsRead() {
   // Get the ID from URL parameters instead of props
@@ -57,36 +58,14 @@ export default function NewsRead() {
 
   if (!blogData) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] px-4">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center justify-center opacity-10">
-              <Newspaper className="w-64 h-64" />
-            </div>
-            <h2 className="text-4xl font-bold text-gray-900 relative z-10">
-              Article Not Found
-            </h2>
-          </div>
-          
-          <div className="max-w-md space-y-2">
-            <p className="text-xl text-gray-600">
-              Oops! We couldn't find the article you're looking for.
-            </p>
-            <p className="text-gray-500">
-              The article might have been removed, renamed, or is temporarily unavailable.
-            </p>
-          </div>
-
-          <div className="pt-6">
-            <Button variant="default" asChild>
-              <Link to="/news" className="flex items-center gap-2">
-                <Newspaper className="w-4 h-4" />
-                Back to News
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
+      <NotFound 
+        title="Article Not Found"
+        description="Oops! We couldn't find the article you're looking for."
+        subDescription="The article might have been removed, renamed, or is temporarily unavailable."
+        buttonText="Back to News"
+        buttonLink="/news"
+        buttonIcon={<Newspaper className="w-4 h-4" />}
+      />
     )
   }
 
