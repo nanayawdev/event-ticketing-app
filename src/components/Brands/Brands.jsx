@@ -10,7 +10,7 @@ import beyondthereturn from '../../assets/clients/beyondthereturn.png'
 import gcb from '../../assets/clients/gcb.png'
 export default function Example() {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 py-24 sm:py-32">
+    <div className="bg-white dark:bg-gray-900 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 className="text-center text-3xl font-semibold text-gray-900 dark:text-gray-100">
           Trusted brands we've worked with
