@@ -33,11 +33,38 @@ export const useExchangeRates = () => {
     const fetchRates = async () => {
       try {
         const response = await fetch(EXCHANGE_RATES_API);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         setRates(data.rates);
+        setError(null); // Clear any previous errors
       } catch (err) {
-        toast.error('Failed to fetch exchange rates');
+        // Generic error message for users
+        const userMessage = navigator.onLine 
+          ? 'Unable to update exchange rates at this time' 
+          : 'Please check your internet connection';
+        
+        toast.error(userMessage, {
+          duration: 3000,
+          id: 'exchange-rate-error', // Prevent duplicate toasts
+        });
+        
+        // Log the actual error for debugging
+        console.error('Exchange rate fetch error:', err);
+        
         setError(err);
+        
+        // Use cached rates if available
+        if (!rates) {
+          // Fallback to some default rates if needed
+          setRates({
+            USD: 0.083, // Example fallback rates
+            EUR: 0.077,
+            GBP: 0.066,
+            NGN: 63.09,
+          });
+        }
       } finally {
         setLoading(false);
       }
@@ -47,7 +74,7 @@ export const useExchangeRates = () => {
     // Refresh rates every hour
     const interval = setInterval(fetchRates, 3600000);
     return () => clearInterval(interval);
-  }, []);
+  }, [rates]); // Add rates as dependency to access in catch block
 
   const convertCurrency = useCallback((amount, fromCurrency = 'GHS', toCurrency) => {
     if (!rates || !amount) return null;
