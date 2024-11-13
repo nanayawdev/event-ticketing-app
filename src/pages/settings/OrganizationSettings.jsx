@@ -1,28 +1,121 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Building, Mail, Phone, AlertCircle, Camera, MapPin, Ellipsis, Trash2 } from 'lucide-react';
 import DeleteOrganizationModal from '../../components/modals/DeleteOrganizationModal';
+
+const generateRegistrationNumber = () => {
+  const word = 'TICKRFLY';
+  let result = '';
+  for (let i = 0; i < 3; i++) {
+    result += word.charAt(Math.floor(Math.random() * word.length));
+  }
+  return `${result}${Math.floor(100000 + Math.random() * 900000)}`;
+};
 
 const OrganizationSettings = () => {
   const [showDeleteDropdown, setShowDeleteDropdown] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [formData, setFormData] = useState({
-    organizationName: 'Acme Events',
-    registrationNumber: 'REG123456789',
-    email: 'contact@acmeevents.com',
-    phone: '+233 24 123 4567',
+    organizationName: '',
+    registrationNumber: generateRegistrationNumber(),
+    email: '',
+    phone: '',
     alternativeEmail: '',
     alternativePhone: '',
-    address: '123 Event Street',
-    city: 'Accra',
-    region: 'Greater Accra',
-    description: 'Premier event management and ticketing services'
+    address: '',
+    city: '',
+    region: '',
+    description: ''
   });
 
   const [errors, setErrors] = useState({});
+  const [logoUrl, setLogoUrl] = useState({
+    file: null,
+    url: null
+  });
+  const fileInputRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    
+    try {
+      const organizerData = {
+        Organizers_Name: formData.organizationName || '',
+        Organizers_Phone_Number: formData.phone ? parseInt(formData.phone.replace(/\D/g, ''), 10) : 0,
+        Organizers_Email: formData.email || '',
+        Organizers_Logo: null,
+        Events_Name: null,
+        Address: formData.address || '',
+        City: formData.city || '',
+        Region: formData.region || '',
+        Description: formData.description || '',
+        Alt_Phone: formData.alternativePhone || '',
+        Alt_Email: formData.alternativeEmail || '',
+        Reg_Number: formData.registrationNumber || ''
+      };
+
+      if (logoUrl.file) {
+        const formDataWithFile = new FormData();
+        formDataWithFile.append('Organizers_Logo', logoUrl.file);
+        
+        Object.keys(organizerData).forEach(key => {
+          formDataWithFile.append(key, organizerData[key]);
+        });
+
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_organizers', {
+          method: 'POST',
+          body: formDataWithFile
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to save organization data');
+        }
+      } else {
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_organizers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(organizerData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to save organization data');
+        }
+      }
+
+      alert('Organization details saved successfully!');
+      
+    } catch (error) {
+      console.error('Error saving organization data:', error);
+      alert(`Failed to save organization details: ${error.message}`);
+    }
+  };
+
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size <= 2 * 1024 * 1024) { // 2MB limit
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoUrl({
+          file: file,
+          url: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('File size should be less than 2MB');
+    }
+  };
+
+  const handlePhoneChange = (e, field) => {
+    // Only allow digits and basic formatting characters
+    const value = e.target.value.replace(/[^\d\s+-]/g, '');
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
@@ -67,13 +160,31 @@ const OrganizationSettings = () => {
         {/* Organization Logo */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="relative">
-            <div className="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center">
-              <Camera className="w-8 h-8 text-gray-400" />
+            <div className="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
+              {logoUrl.url ? (
+                <img 
+                  src={logoUrl.url} 
+                  alt="Organization logo" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Camera className="w-8 h-8 text-gray-400" />
+              )}
             </div>
-            <button className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white 
-              shadow-md border border-gray-200 hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => fileInputRef.current?.click()} 
+              className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white 
+                shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+            >
               <Camera className="w-4 h-4 text-gray-600" />
             </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleLogoUpload}
+              accept="image/*"
+              className="hidden"
+            />
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-900">Organization Logo</h3>
@@ -110,13 +221,9 @@ const OrganizationSettings = () => {
               <input
                 type="text"
                 value={formData.registrationNumber}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  registrationNumber: e.target.value
-                }))}
+                disabled
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                  shadow-sm bg-gray-50 cursor-not-allowed"
               />
             </div>
           </div>
@@ -146,10 +253,8 @@ const OrganizationSettings = () => {
               <input
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  phone: e.target.value
-                }))}
+                onChange={(e) => handlePhoneChange(e, 'phone')}
+                placeholder="Enter primary phone number"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
                   shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
                   focus:border-blue-500"
@@ -182,10 +287,8 @@ const OrganizationSettings = () => {
               <input
                 type="tel"
                 value={formData.alternativePhone}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  alternativePhone: e.target.value
-                }))}
+                onChange={(e) => handlePhoneChange(e, 'alternativePhone')}
+                placeholder="Enter alternative phone number (optional)"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
                   shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
                   focus:border-blue-500"
@@ -241,13 +344,22 @@ const OrganizationSettings = () => {
                   shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
                   focus:border-blue-500"
               >
-                <option>Greater Accra</option>
+                <option>Ahafo</option>
                 <option>Ashanti</option>
-                <option>Western</option>
-                <option>Eastern</option>
+                <option>Bono</option>
+                <option>Bono East</option>
                 <option>Central</option>
+                <option>Eastern</option>
+                <option>Greater Accra</option>
+                <option>North East</option>
                 <option>Northern</option>
-                {/* Add other regions */}
+                <option>Oti</option>
+                <option>Savannah</option>
+                <option>Upper East</option>
+                <option>Upper West</option>
+                <option>Volta</option>
+                <option>Western</option>
+                <option>Western North</option>
               </select>
             </div>
           </div>
