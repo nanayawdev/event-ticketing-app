@@ -5,6 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { CalendarIcon, Twitter, Facebook, Linkedin } from 'lucide-react'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { toast } from "sonner" // Add this import
+
 export default function NewsRead() {
   // Get the ID from URL parameters instead of props
   const { id } = useParams()
@@ -15,7 +17,7 @@ export default function NewsRead() {
   useEffect(() => {
     const fetchBlogData = async () => {
       if (!id) {
-        setError('No article ID provided')
+        toast.error("No article ID provided")
         setIsLoading(false)
         return
       }
@@ -28,6 +30,14 @@ export default function NewsRead() {
         const data = await response.json()
         setBlogData(data)
       } catch (err) {
+        toast.error("Unable to load article at this time", {
+          description: navigator.onLine 
+            ? "Please try again later" 
+            : "Please check your internet connection",
+          duration: 3000,
+          id: 'blog-fetch-error',
+        })
+        console.error('Blog fetch error:', err) // Keep technical error in console
         setError(err.message)
       } finally {
         setIsLoading(false)
@@ -48,8 +58,8 @@ export default function NewsRead() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center text-red-500">
-          <p>Error: {error}</p>
+        <div className="text-center text-gray-500">
+          <p>Unable to load article</p>
         </div>
       </div>
     )
