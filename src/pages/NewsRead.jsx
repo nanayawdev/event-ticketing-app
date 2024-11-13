@@ -12,7 +12,6 @@ export default function NewsRead() {
   const { id } = useParams()
   const [blogData, setBlogData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchBlogData = async () => {
@@ -37,8 +36,7 @@ export default function NewsRead() {
           duration: 3000,
           id: 'blog-fetch-error',
         })
-        console.error('Blog fetch error:', err) // Keep technical error in console
-        setError(err.message)
+        console.error('Blog fetch error:', err)
       } finally {
         setIsLoading(false)
       }
@@ -51,16 +49,6 @@ export default function NewsRead() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <LoadingSpinner />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center text-gray-500">
-          <p>Unable to load article</p>
-        </div>
       </div>
     )
   }
