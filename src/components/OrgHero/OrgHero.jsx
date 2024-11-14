@@ -11,7 +11,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6 max-w-[1400px]">
           <div className="grid gap-12 lg:gap-16 lg:grid-cols-[1fr_1fr] items-center">
             <div className="grid grid-cols-2 gap-4 h-full">
@@ -71,7 +71,7 @@ export default function HeroSection() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="w-fit border-sea-green-500 text-sea-green-500 hover:bg-sea-green-50"
+                  className="w-fit border-primary-500 text-primary-400 hover:bg-primary-50"
                 >
                   Learn More
                 </Button>
