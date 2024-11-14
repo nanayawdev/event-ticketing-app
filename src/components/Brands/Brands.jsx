@@ -88,9 +88,9 @@ export default function Example() {
           />
         </div>
         <div className="mx-auto mt-16 flex justify-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             2500+ clients have used our app to manage their events.{' '}
-            <a href="#" className="font-semibold text-sea-green-400 hover:text-sea-green-500">
+            <a href="#" className="font-semibold text-primary-400 dark:text-primary-400 hover:text-primary-500">
               Read our customer stories{' →'}
             </a>
           </p>
