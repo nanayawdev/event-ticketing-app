@@ -21,24 +21,24 @@ const features = [
 
 export default function OrganizerFeatures2() {
   return (
-    <div className="max-w-7xl mx-auto overflow-hidden bg-white py-24 sm:py-32">
+    <div className="max-w-7xl mx-auto overflow-hidden py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pr-8 lg:pt-4">
             <div className="lg:max-w-lg">
-              <h2 className="text-base/7 font-semibold text-sea-green-400">Event Management Made Simple</h2>
-              <p className="max-w-xl mt-2 text-pretty text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              <h2 className="text-base/7 font-semibold text-primary-400">Event Management Made Simple</h2>
+              <p className="max-w-xl mt-2 text-pretty text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-5xl">
                 Everything you need to run successful events
               </p>
-              <p className="max-w-xl mt-6 text-lg/8 text-gray-600">
+              <p className="max-w-xl mt-6 text-lg/8 text-gray-600 dark:text-gray-300">
                 From ticket sales to check-in, we provide all the tools you need to manage your events efficiently. 
                 Focus on creating amazing experiences while we handle the technical details.
               </p>
-              <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none">
+              <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 dark:text-gray-400 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
-                    <dt className="inline font-semibold text-gray-900">
-                      <feature.icon aria-hidden="true" className="absolute left-1 top-1 h-6 w-6 text-sea-green-400" />
+                    <dt className="inline font-semibold text-gray-900 dark:text-gray-50">
+                      <feature.icon aria-hidden="true" className="absolute left-1 top-1 h-6 w-6 text-primary-400" />
                       {feature.name}
                     </dt>{' '}
                     <dd className="inline">{feature.description}</dd>

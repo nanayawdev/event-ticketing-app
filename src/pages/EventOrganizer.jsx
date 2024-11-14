@@ -5,7 +5,7 @@ import OrganizerFeatures3 from '../components/OrganizerFeatures3/OrganizerFeatur
 import OrgHero from '../components/OrgHero/OrgHero';
 export default function EventOrganizer() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <OrgHero />
       <OrganizerFeatures />
       <OrganizerFeatures2 />

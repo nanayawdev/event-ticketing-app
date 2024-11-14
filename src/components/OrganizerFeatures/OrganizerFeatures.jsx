@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function OrganizerFeatures() {
   return (
-    <div className="bg-white dark:bg-gray-900 py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-center text-base/7 font-semibold text-primary-400">Event Management Made Easy</h2>
         <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl">

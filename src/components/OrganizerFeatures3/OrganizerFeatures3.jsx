@@ -29,10 +29,10 @@ export default function OrganizerFeatures3() {
           </p>
           
           <div className="flex flex-wrap gap-4 mt-4">
-            <button className="px-6 py-3 bg-sea-green-400 text-white font-semibold rounded-lg hover:bg-sea-green-500 transition-colors">
+            <button className="px-6 py-3 bg-primary-400 text-white font-semibold rounded-lg hover:bg-primary-500 transition-colors">
               View Analytics
             </button>
-            <button className="px-6 py-3 underline text-sea-green-400 font-semibold rounded-lg hover:bg-sea-green-50 transition-colors">
+            <button className="px-6 py-3 underline text-gray-950 dark:text-gray-50 font-semibold rounded-lg hover:bg-primary-50 transition-colors">
               Start Tracking
             </button>
           </div>
