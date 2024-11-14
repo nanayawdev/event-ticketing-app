@@ -13,7 +13,7 @@ const Stats = () => {
         <div className="h-px bg-gray-200"></div>
       </div>
 
-      <div className="bg-gradient-to-r from-sea-green-600 via-sea-green-500 to-sea-green-400 py-24 sm:py-32">
+      <div className="bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 dark:bg-gradient-to-r dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 py-24 sm:py-32">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-8">
           <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
             {stats.map((stat) => (
