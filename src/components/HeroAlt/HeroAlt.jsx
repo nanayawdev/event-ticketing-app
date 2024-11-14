@@ -28,7 +28,7 @@ export default function HeroAlt() {
                 Discover, create, and experience amazing events across Africa with our innovative ticketing platform
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-                <button className="w-full sm:w-auto bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-700 px-4 py-2 rounded-md text-sm sm:text-base">
+                <button className="w-full sm:w-auto bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 px-4 py-2 rounded-md text-sm sm:text-base">
                   Create Event
                 </button>
               </div>
