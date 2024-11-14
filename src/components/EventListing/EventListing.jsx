@@ -145,9 +145,9 @@ const EventListing = () => {
                 <div className="flex items-center gap-3">
                   <h3 
                     onClick={() => handleNavigation(event.Event_Name)}
-                    className="text-2xl font-semibold hover:text-sea-green-500 
+                    className="text-2xl font-semibold hover:text-primary-600 
                       transition-colors cursor-pointer dark:text-white 
-                      dark:hover:text-sea-green-400"
+                      dark:hover:text-primary-200"
                   >
                     {event.Event_Name}
                   </h3>
@@ -177,9 +177,9 @@ const EventListing = () => {
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => handleNavigation(event.Event_Name)}
-                    className="px-4 py-2 rounded bg-sea-green-500 text-white 
-                      hover:bg-sea-green-600 transition-colors
-                      dark:bg-sea-green-600 dark:hover:bg-sea-green-700"
+                    className="px-4 py-2 rounded bg-primary-600 text-white 
+                      hover:bg-primary-700 transition-colors
+                      dark:bg-primary-600 dark:hover:bg-primary-700"
                   >
                     BUY TICKETS
                   </button>
