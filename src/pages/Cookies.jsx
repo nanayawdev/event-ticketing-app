@@ -47,8 +47,8 @@ const Cookies = () => {
               onClick={() => scrollToSection(item.id)}
               className={`block text-[14px] w-full text-left py-1 transition-colors duration-200 ${
                 activeSection === item.id 
-                ? 'text-sea-green-600 font-medium' 
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'text-primary-500 dark:text-primary-400 font-medium' 
+                : 'text-gray-600 dark:text-gray-50 hover:text-gray-900 dark:hover:text-gray-50'
               }`}
             >
               {item.title}
@@ -74,7 +74,7 @@ const Cookies = () => {
                   Cookies are small text files that are placed on your device when you visit our website. 
                   They serve various purposes and help us provide you with a better, more personalized experience.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Store user preferences and settings</li>
                   <li>Enable core website functionality</li>
                   <li>Help with website security</li>
@@ -87,7 +87,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   When you visit our website, cookies may be:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Created and stored on your device</li>
                   <li>Read by our servers when you return</li>
                   <li>Updated to reflect your latest interactions</li>
@@ -108,7 +108,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   These cookies are necessary for the website to function properly and cannot be switched off.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Authentication and login sessions
                     <span className="block text-sm ml-2 text-gray-500">Keeps you logged in while browsing</span>
                   </li>
@@ -129,7 +129,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   These cookies help us understand how visitors interact with our website.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Analytics and statistics
                     <span className="block text-sm ml-2 text-gray-500">Tracks website usage patterns</span>
                   </li>
@@ -150,7 +150,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   These cookies enable personalized features and preferences.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Language preferences
                     <span className="block text-sm ml-2 text-gray-500">Remembers your preferred language</span>
                   </li>
@@ -171,7 +171,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   These cookies track your online activity to help advertisers deliver more relevant advertising.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Advertising tracking
                     <span className="block text-sm ml-2 text-gray-500">Helps show relevant ads based on your interests</span>
                   </li>
@@ -200,7 +200,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Essential uses that enable basic website features and security:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>User authentication
                     <span className="block text-sm ml-2 text-gray-500">Maintaining secure login sessions across pages</span>
                   </li>
@@ -221,7 +221,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Features that improve your browsing experience:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Personalization settings
                     <span className="block text-sm ml-2 text-gray-500">Remembering your preferences and customizations</span>
                   </li>
@@ -242,7 +242,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Data collection for website improvement:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Usage statistics
                     <span className="block text-sm ml-2 text-gray-500">Understanding how users interact with our site</span>
                   </li>
@@ -263,7 +263,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Advertising-related cookie usage:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Ad targeting
                     <span className="block text-sm ml-2 text-gray-500">Displaying relevant advertisements based on interests</span>
                   </li>
@@ -292,7 +292,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   You can control cookies through your browser settings:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Cookie blocking
                     <span className="block text-sm ml-2 text-gray-500">Configure your browser to reject all or some cookies</span>
                   </li>
@@ -313,7 +313,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Our website provides these cookie management options:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Cookie preferences center
                     <span className="block text-sm ml-2 text-gray-500">Customize your cookie settings on our platform</span>
                   </li>
@@ -334,7 +334,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Be aware that disabling cookies may affect your experience:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Essential features
                     <span className="block text-sm ml-2 text-gray-500">Some website functions may not work properly</span>
                   </li>
@@ -355,7 +355,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Additional tools for managing your privacy:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Privacy browsers
                     <span className="block text-sm ml-2 text-gray-500">Browsers designed with enhanced privacy features</span>
                   </li>
@@ -384,15 +384,15 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   How we handle changes to our cookie policy:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Regular review process
-                    <span className="block text-sm ml-2 text-gray-500">We review and update our policy periodically</span>
+                    <span className="block text-sm ml-2 text-gray-500 dark:text-gray-400">We review and update our policy periodically</span>
                   </li>
                   <li>Change documentation
-                    <span className="block text-sm ml-2 text-gray-500">All changes are logged and documented</span>
+                    <span className="block text-sm ml-2 text-gray-500 dark:text-gray-400">All changes are logged and documented</span>
                   </li>
                   <li>Version control
-                    <span className="block text-sm ml-2 text-gray-500">Each update is assigned a new version number</span>
+                    <span className="block text-sm ml-2 text-gray-500 dark:text-gray-400">Each update is assigned a new version number</span>
                   </li>
                   <li>Compliance checks
                     <span className="block text-sm ml-2 text-gray-500">Updates are reviewed for regulatory compliance</span>
@@ -405,7 +405,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   How we inform you about policy changes:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Email notifications
                     <span className="block text-sm ml-2 text-gray-500">Important updates sent directly to users</span>
                   </li>
@@ -426,7 +426,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Your options regarding policy changes:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Review changes
                     <span className="block text-sm ml-2 text-gray-500">Access to detailed change summaries</span>
                   </li>
@@ -447,7 +447,7 @@ const Cookies = () => {
                 <p className="text-[16px] leading-relaxed">
                   Access to previous policy versions:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Archive access
                     <span className="block text-sm ml-2 text-gray-500">View previous versions of our cookie policy</span>
                   </li>
