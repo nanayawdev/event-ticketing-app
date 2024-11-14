@@ -1,6 +1,6 @@
 import React from 'react'
 import tickrflyevent from '../../assets/images/tickrflyatjoemettle.jpg'
-export default function Component() {
+export default function Mission() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
       <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -14,7 +14,7 @@ export default function Component() {
 
           <div className="space-y-6">
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">
                 1
               </div>
               <div>
@@ -26,7 +26,7 @@ export default function Component() {
             </div>
 
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">
                 2
               </div>
               <div>
@@ -38,7 +38,7 @@ export default function Component() {
             </div>
 
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">
                 3
               </div>
               <div>

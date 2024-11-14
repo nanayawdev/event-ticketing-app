@@ -28,7 +28,7 @@ Starting in Ghana, we built Tickrfly not just as a ticketing platform, but as a 
       </div>
 
       {/* Mission Section */}
-      <div className="bg-white py-16">
+      <div className="bg-white dark:bg-gray-900 py-16">
         <div className="container mx-auto px-4">
           <Mission />
         </div>
