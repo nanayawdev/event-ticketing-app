@@ -54,7 +54,7 @@ const HelpPopup = () => {
             <div className="flex items-center justify-between w-full">
               <button 
                 onClick={() => {/* Add partner signup link/action */}}
-                className="bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-700 px-4 py-2 rounded-md text-sm sm:text-base flex items-center gap-2"
+                className="bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 px-4 py-2 rounded-md text-sm sm:text-base flex items-center gap-2"
               >
                 <span>Join Us</span>
                 <SquareArrowOutUpRight className="w-4 h-4" />
