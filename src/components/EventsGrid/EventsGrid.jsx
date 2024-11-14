@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import EventsCard from '../EventsCard/EventsCard'
 import EventHeroCard from '../EventHeroCard/EventHeroCard'
-import { ArrowRight, Search, MapPin, AlertCircle } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { useEvents } from '../../hooks/useEvents'
@@ -76,12 +76,12 @@ const EventsGrid = () => {
             onChange={handleSearchInput}
             onFocus={() => setShowDropdown(searchTerm.length > 0)}
             placeholder="Search events..."
-            className="block w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sea-green-500 focus:border-transparent"
+            className="block w-full pl-10 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500 dark:text-gray-400" />
           
           {showDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
               {filteredEvents.length > 0 ? (
                 filteredEvents.slice(0, 5).map((event, index) => (
                   <div
@@ -91,19 +91,18 @@ const EventsGrid = () => {
                       setShowDropdown(false);
                       setSearchTerm('');
                     }}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                   >
-                    <div className="font-medium">{event.Event_Name}</div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm font-medium">{event.Event_Name}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
                         {event.Event_Venue}
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="px-4 py-2 text-gray-500">No events found</div>
+                <div className="px-4 py-2 text-gray-500 dark:text-gray-400">No events found</div>
               )}
             </div>
           )}
@@ -111,7 +110,7 @@ const EventsGrid = () => {
       </div>
       
       {/* Events Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
+      <div className="grid grid-cols-1 min-[375px]:grid-cols-2 min-[650px]:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 justify-items-center">
         {filteredEvents.slice(0, visibleEvents).map((event) => (
           <div 
             key={event.id || `event-${event.Event_Name}-${event.Event_Start_Date}`} 
