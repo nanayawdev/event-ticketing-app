@@ -50,13 +50,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-white dark:bg-gray-900">
       <div className="max-w-sm w-full space-y-6">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center space-y-2">
           <img src={logo} alt="Logo" className="h-12 w-auto" />
-          <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Welcome Back
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Sign in to continue to your account
           </p>
         </div>
@@ -68,7 +70,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
@@ -81,7 +83,9 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="block w-full pl-10 pr-3 h-12 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="block w-full pl-10 pr-3 h-12 border border-gray-300 
+                  rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder="name@example.com"
               />
             </div>
@@ -89,7 +93,7 @@ const Login = () => {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Password
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
@@ -102,7 +106,9 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="block w-full pl-10 pr-10 h-12 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="block w-full pl-10 pr-10 h-12 border border-gray-300 
+                  rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder="Your password"
               />
               <button
@@ -111,9 +117,9 @@ const Login = () => {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
               >
                 {showPassword ? (
-                  <Eye className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                  <Eye className="h-5 w-5 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" />
                 ) : (
-                  <EyeClosed className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                  <EyeClosed className="h-5 w-5 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" />
                 )}
               </button>
             </div>
@@ -125,15 +131,17 @@ const Login = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 
+                  border-gray-300 rounded dark:border-gray-600 dark:bg-gray-800"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500 
+                dark:text-indigo-400 dark:hover:text-indigo-300">
                 Forgot your password?
               </Link>
             </div>
@@ -144,7 +152,12 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="w-full flex justify-center items-center h-12 px-4 
+                border border-transparent rounded-md shadow-sm text-sm font-medium 
+                text-white bg-indigo-600 hover:bg-indigo-700 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+                disabled:opacity-50
+                dark:focus:ring-offset-gray-900"
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -160,9 +173,10 @@ const Login = () => {
 
         {/* Updated Sign Up Link styling */}
         <div className="flex flex-col items-center space-y-4 mt-4">
-          <p className="text-sm text-gray-600 text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
             Don't have an account?{' '}
-            <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500 
+              dark:text-indigo-400 dark:hover:text-indigo-300">
               Sign up
             </Link>
           </p>

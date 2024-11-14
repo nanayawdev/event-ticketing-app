@@ -4,11 +4,11 @@ import EventListingAlt from '../../components/EventListingAlt/EventListingAlt';
 import EventListingGrid from '../../components/EventListingGrid/EventListingGrid';
 const Events = () => {
   return (
-    <main className="min-h-screen bg-white pt-16">
+    <main className="min-h-screen bg-gray-50 pt-16 dark:bg-gray-900">
       <div className="container mx-auto">
-        <EventListing />
         <EventListingAlt />
         <EventListingGrid />
+        <EventListing />
       </div>
     </main>
   );

@@ -49,11 +49,11 @@ const EventListingGrid = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-8">
+    <div className="max-w-7xl mx-auto p-8 dark:bg-gray-900">
       <div className="mb-12">
-        <h1 className="text-5xl font-bold mb-6">Trending Events</h1>
+        <h1 className="text-5xl font-bold mb-6 dark:text-gray-50">Trending Events</h1>
         <div className="flex justify-between items-center">
-          <p className="text-gray-600 max-w-2xl">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
             Join the most anticipated events of the year. Book early to secure your spot.
           </p>
         </div>
@@ -78,7 +78,9 @@ const EventListingGrid = () => {
           return (
             <div 
               key={event.id || `event-${event.Event_Name}`} 
-              className="flex flex-col bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="flex flex-col bg-white dark:bg-gray-800 rounded-lg overflow-hidden 
+                hover:shadow-lg transition-shadow duration-300 border border-gray-100 
+                dark:border-gray-700"
             >
               <div className="relative h-48">
                 <img
@@ -94,7 +96,7 @@ const EventListingGrid = () => {
               </div>
 
               <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 text-sea-green-600 mb-3">
+                <div className="flex items-center gap-2 text-primary-950 dark:text-primary-200 mb-3">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -104,13 +106,14 @@ const EventListingGrid = () => {
                 </div>
 
                 <h3 
-                  className="text-xl font-bold mb-2 hover:text-sea-green-600 transition-colors cursor-pointer"
+                  className="text-xl font-bold mb-2 hover:text-primary-600 transition-colors cursor-pointer
+                    dark:text-gray-50 dark:hover:text-primary-200"
                   onClick={() => handleViewEvent(event.Event_Name)}
                 >
                   {event.Event_Name}
                 </h3>
 
-                <div className="flex items-center text-gray-500 mb-4">
+                <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4">
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -121,12 +124,14 @@ const EventListingGrid = () => {
                 <div className="mt-auto flex items-center justify-between">
                   <button 
                     onClick={() => handleViewEvent(event.Event_Name)}
-                    className="bg-sea-green-500 text-white px-6 py-2 rounded hover:bg-sea-green-600 transition-colors"
+                    className="bg-primary-600 text-white px-6 py-2 rounded 
+                      hover:bg-primary-500 transition-colors
+                      dark:bg-primary-600 dark:hover:bg-primary-500"
                   >
                     Book Now
                   </button>
                   <div className="text-right">
-                    <p className="text-sm text-gray-500">from</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">from</p>
                     <PriceDisplay priceInGHS={minPrice} />
                   </div>
                 </div>
@@ -143,8 +148,8 @@ const EventListingGrid = () => {
           disabled={currentPage === 1}
           className={`p-2 rounded-lg bg-white border ${
             currentPage === 1 
-              ? 'text-gray-400 cursor-not-allowed border-gray-200' 
-              : 'text-sea-green-500 hover:bg-sea-green-50 border-sea-green-500'
+              ? 'text-gray-400 cursor-not-allowed border-gray-200 dark:bg-gray-800 dark:border-gray-200' 
+              : 'text-primary-950 dark:text-primary-200 hover:bg-primary-50 border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-primary-200'
           }`}
         >
           <ChevronLeft className="w-6 h-6" />
@@ -154,8 +159,8 @@ const EventListingGrid = () => {
           disabled={currentPage === totalPages}
           className={`p-2 rounded-lg bg-white border ${
             currentPage === totalPages 
-              ? 'text-gray-400 cursor-not-allowed border-gray-200' 
-              : 'text-sea-green-500 hover:bg-sea-green-50 border-sea-green-500'
+              ? 'text-gray-400 cursor-not-allowed border-gray-200 dark:bg-gray-800 dark:border-gray-200' 
+              : 'text-primary-950 dark:text-primary-200 hover:bg-primary-50 border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-primary-200'
           }`}
         >
           <ChevronRight className="w-6 h-6" />
