@@ -31,11 +31,11 @@ export default function RevenueCalculatorProfessional() {
         {/* Attendees Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium">ATTENDEES EXPECTED</Label>
+            <Label className="text-sm text-gray-700 dark:text-primary-100 font-medium">ATTENDEES EXPECTED</Label>
             {isLoading ? (
               <Skeleton className="h-8 w-20" />
             ) : (
-              <span className="text-3xl font-bold text-sea-green-500">{attendees}</span>
+              <span className="text-3xl font-bold text-primary-500 dark:text-primary-100">{attendees}</span>
             )}
           </div>
           {isLoading ? (
@@ -44,7 +44,7 @@ export default function RevenueCalculatorProfessional() {
             <Slider
               value={[attendees]}
               onValueChange={(value) => setAttendees(value[0])}
-              max={100}
+              max={1000}
               min={0}
               step={1}
             />
@@ -54,11 +54,11 @@ export default function RevenueCalculatorProfessional() {
         {/* Ticket Price Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium">TICKET PRICE (₵)</Label>
+            <Label className="text-sm text-gray-700 dark:text-primary-100 font-medium">TICKET PRICE (₵)</Label>
             {isLoading ? (
               <Skeleton className="h-8 w-20" />
             ) : (
-              <span className="text-3xl font-bold text-sea-green-500">{ticketPrice}</span>
+              <span className="text-3xl font-bold text-primary-500 dark:text-primary-100">{ticketPrice}</span>
             )}
           </div>
           {isLoading ? (
@@ -77,11 +77,11 @@ export default function RevenueCalculatorProfessional() {
         {/* Average Order Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium">AVG. TICKET ORDER</Label>
+            <Label className="text-sm text-gray-700 dark:text-primary-100 font-medium">AVG. TICKET ORDER</Label>
             {isLoading ? (
               <Skeleton className="h-8 w-20" />
             ) : (
-              <span className="text-3xl font-bold text-sea-green-500">{avgOrder}</span>
+              <span className="text-3xl font-bold text-primary-500 dark:text-primary-100">{avgOrder}</span>
             )}
           </div>
           {isLoading ? (
@@ -109,20 +109,20 @@ export default function RevenueCalculatorProfessional() {
           ) : (
             <>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Turnover:</span>
+                <span className="text-sm text-gray-700 dark:text-primary-100">Turnover:</span>
                 <span className="font-medium">₵{turnover.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Ticket:</span>
+                <span className="text-sm text-gray-700 dark:text-primary-100">Ticket:</span>
                 <span className="font-medium">₵{ticketPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Commission Fee (3%):</span>
+                <span className="text-sm text-gray-700 dark:text-primary-100">Commission Fee (3%):</span>
                 <span className="font-medium">₵{commissionFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>You Receive:</span>
-                <span className="text-sea-green-500">₵{youReceive.toFixed(2)}</span>
+                <span className="text-primary-500 dark:text-primary-100">₵{youReceive.toFixed(2)}</span>
               </div>
             </>
           )}

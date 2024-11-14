@@ -32,11 +32,11 @@ export default function Component() {
           {/* Attendees Slider */}
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <Label className="text-sm font-medium">ATTENDEES EXPECTED</Label>
+              <Label className="text-sm text-gray-700 dark:text-gray-600 font-medium">ATTENDEES EXPECTED</Label>
               {isLoading ? (
                 <Skeleton className="h-8 w-20" />
               ) : (
-                <span className="text-3xl font-bold text-gray-900">{attendees}</span>
+                <span className="text-3xl font-bold text-gray-900 dark:text-gray-600">{attendees}</span>
               )}
             </div>
             {isLoading ? (
@@ -56,11 +56,11 @@ export default function Component() {
           {/* Ticket Price Slider */}
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <Label className="text-sm font-medium">TICKET PRICE (₵)</Label>
+              <Label className="text-sm text-gray-700 dark:text-gray-600 font-medium">TICKET PRICE (₵)</Label>
               {isLoading ? (
                 <Skeleton className="h-8 w-20" />
               ) : (
-                <span className="text-3xl font-bold text-gray-900">{ticketPrice}</span>
+                <span className="text-3xl font-bold text-gray-900 dark:text-gray-600">{ticketPrice}</span>
               )}
             </div>
             {isLoading ? (
@@ -80,11 +80,11 @@ export default function Component() {
           {/* Average Order Slider */}
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <Label className="text-sm font-medium">AVG. TICKET ORDER</Label>
+              <Label className="text-sm text-gray-700 dark:text-gray-600 font-medium">AVG. TICKET ORDER</Label>
               {isLoading ? (
                 <Skeleton className="h-8 w-20" />
               ) : (
-                <span className="text-3xl font-bold text-gray-900">{avgOrder}</span>
+                <span className="text-3xl font-bold text-gray-900 dark:text-gray-600">{avgOrder}</span>
               )}
             </div>
             {isLoading ? (
@@ -126,7 +126,7 @@ export default function Component() {
                 </div>
                 <div className="flex justify-between items-center text-lg font-bold">
                   <span>You Receive:</span>
-                  <span className="text-gray-900 line-through">₵{youReceive.toFixed(2)}</span>
+                  <span className="text-gray-900 dark:text-gray-600 line-through">₵{youReceive.toFixed(2)}</span>
                 </div>
               </>
             )}

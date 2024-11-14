@@ -23,7 +23,7 @@ export default function Component() {
               Create and manage events of any size. Our flexible pricing plans are designed to grow with your events, 
               ensuring you have all the tools you need for successful ticket sales and event management.
             </p>
-            <Button variant="default" className="p-2 h-auto bg-sea-green-500 text-white flex items-center gap-2 hover:bg-sea-green-300 transition-colors">
+            <Button variant="default" className="p-2 h-auto bg-primary-500 dark:bg-primary-200 text-white flex items-center gap-2 hover:bg-primary-400 dark:hover:bg-primary-500 transition-colors">
               Contact Sales
               <ArrowRight className="h-4 w-4" />
             </Button>
@@ -33,7 +33,7 @@ export default function Component() {
         <div className="grid md:grid-cols-3 gap-8 items-start">
           <Card className="relative bg-muted/50 rounded-3xl flex flex-col h-full md:col-span-1 shadow-none">
             <CardHeader>
-              <CardTitle className="text-2xl font-medium">Basic</CardTitle>
+              <CardTitle className="text-2xl font-bold">Basic</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 A no-cost plan ideal for non-ticketed or free events, providing essential tools to promote and manage your event easily.
               </p>
@@ -79,7 +79,7 @@ export default function Component() {
 
           <Card className="relative bg-muted/50 rounded-3xl flex flex-col h-full shadow-none">
             <CardHeader>
-              <CardTitle className="text-2xl text-sea-green-400 font-medium">Professional</CardTitle>
+              <CardTitle className="text-2xl text-primary-500 font-bold">Professional</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 An affordable plan for small to medium events, with essential ticketing features and low fees to grow your audience effortlessly.
               </p>
@@ -117,7 +117,7 @@ export default function Component() {
                     <span className="text-2xl font-bold">3%</span>
                     <span className="text-muted-foreground ml-1">/ ticket</span>
                   </div>
-                  <Button variant="default" className="bg-sea-green-400 text-white hover:bg-sea-green-400 flex items-center gap-2">
+                  <Button variant="default" className="bg-primary-500 text-white hover:bg-primary-400 flex items-center gap-2">
                     Start now
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -127,10 +127,10 @@ export default function Component() {
             </CardContent>
           </Card>
 
-          <Card className="relative bg-black text-white rounded-3xl flex flex-col h-full shadow-none">
+          <Card className="relative bg-primary-600 text-white rounded-3xl flex flex-col h-full shadow-none">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl text-sea-green-1000 font-medium">Unlimited</CardTitle>
+                <CardTitle className="text-2xl text-primary-50 font-bold">Unlimited</CardTitle>
                 <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">
                   MOST POPULAR
                 </Badge>
@@ -166,13 +166,13 @@ export default function Component() {
                   Essential Plan Features
                 </li>
               </ul>
-              <div className="mt-auto pt-6 border-t border-gray-700">
+              <div className="mt-auto pt-6 border-t border-gray-300">
                 <div className="flex items-center justify-between">
                   <div className="flex items-baseline">
                     <span className="text-2xl font-bold">5%</span>
                     <span className="text-white/70 ml-1">/ ticket</span>
                   </div>
-                  <Button className="bg-[#CCFF00] text-black hover:bg-[#CCFF00]/90 font-semibold flex items-center gap-2">
+                  <Button className="bg-primary-50 text-primary-600 hover:bg-primary-400 font-semibold flex items-center gap-2">
                     Start now
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -184,7 +184,7 @@ export default function Component() {
         </div>
 
         <div className="mt-12">
-          <Card className="relative bg-gradient-to-r from-sea-green-500/10 to-sea-green-500/5 rounded-3xl shadow-none">
+          <Card className="relative bg-gradient-to-r from-primary-500/10 to-primary-500/5 dark:bg-gray-900 rounded-3xl shadow-none">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
@@ -193,7 +193,7 @@ export default function Component() {
                     An all-inclusive plan with full ticketing features, priority support, and flexible pricing for large events needing advanced tools.
                   </p>
                 </div>
-                <Button variant="default" className="bg-sea-green-500 text-white hover:bg-sea-green-400 flex items-center gap-2">
+                <Button variant="default" className="bg-primary-500 text-white hover:bg-primary-400 flex items-center gap-2">
                   Contact Sales
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -203,31 +203,31 @@ export default function Component() {
               <div className="grid md:grid-cols-3 gap-6">
                 <ul className="space-y-3">
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Advanced Ticketing
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Comprehensive Promotion
                   </li>
                 </ul>
                 <ul className="space-y-3">
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Checkpoint Support
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Password Protected Events
                   </li>
                 </ul>
                 <ul className="space-y-3">
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Cash Sales Support
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-3 text-sea-green-500" />
+                    <Check className="h-4 w-4 mr-3 text-primary-500" />
                     Pro Plan Features
                   </li>
                 </ul>

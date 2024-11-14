@@ -29,11 +29,11 @@ export default function RevenueCalculatorUnlimited() {
         {/* Attendees Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium text-white/70">ATTENDEES EXPECTED</Label>
+            <Label className="text-sm text-gray-50 dark:text-primary-100 font-medium">ATTENDEES EXPECTED</Label>
             {isLoading ? (
               <Skeleton className="h-8 w-20 bg-gray-700" />
             ) : (
-              <span className="text-3xl font-bold text-[#CCFF00]">{attendees}</span>
+              <span className="text-3xl font-bold text-primary-50 dark:text-primary-100">{attendees}</span>
             )}
           </div>
           {isLoading ? (
@@ -58,11 +58,11 @@ export default function RevenueCalculatorUnlimited() {
         {/* Ticket Price Slider */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium text-white/70">TICKET PRICE (₵)</Label>
+            <Label className="text-sm text-gray-50 dark:text-primary-100 font-medium">TICKET PRICE (₵)</Label>
             {isLoading ? (
               <Skeleton className="h-8 w-20 bg-gray-700" />
             ) : (
-              <span className="text-3xl font-bold text-[#CCFF00]">{ticketPrice}</span>
+              <span className="text-3xl font-bold text-primary-50 dark:text-primary-100">{ticketPrice}</span>
             )}
           </div>
           {isLoading ? (
@@ -91,7 +91,7 @@ export default function RevenueCalculatorUnlimited() {
             {isLoading ? (
               <Skeleton className="h-8 w-20 bg-gray-700" />
             ) : (
-              <span className="text-3xl font-bold text-[#CCFF00]">{avgOrder}</span>
+              <span className="text-3xl font-bold text-primary-50 dark:text-primary-100">{avgOrder}</span>
             )}
           </div>
           {isLoading ? (
@@ -138,7 +138,7 @@ export default function RevenueCalculatorUnlimited() {
               </div>
               <div className="flex justify-between items-center text-lg font-bold">
                 <span className="text-white">You Receive:</span>
-                <span className="text-[#CCFF00]">₵{youReceive.toFixed(2)}</span>
+                <span className="text-primary-50 dark:text-primary-100">₵{youReceive.toFixed(2)}</span>
               </div>
             </>
           )}
