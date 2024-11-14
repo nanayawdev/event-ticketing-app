@@ -57,17 +57,17 @@ const EventListing = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="max-w-6xl mx-auto p-8 dark:bg-gray-900">
       <div className="flex justify-between items-center mb-12">
-        <h1 className="text-5xl font-bold">All Events</h1>
-        <div className="flex items-center text-gray-500">
+        <h1 className="text-5xl font-bold dark:text-white">All Events</h1>
+        <div className="flex items-center text-gray-500 dark:text-gray-400">
           <p className="mr-2">View All Events</p>
           <ChevronRight className="w-5 h-5" />
         </div>
       </div>
       
       <div className="flex justify-between items-center mb-8">
-        <p className="text-gray-500 max-w-[600px]">
+        <p className="text-gray-500 dark:text-gray-400 max-w-[600px]">
           All events in Ghana and beyond. Get tickets to your favorite events.
         </p>
 
@@ -78,12 +78,17 @@ const EventListing = () => {
             onChange={handleSearchInput}
             onFocus={() => setShowDropdown(searchTerm.length > 0)}
             placeholder="Search events..."
-            className="pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent w-[300px]"
+            className="pl-10 pr-4 py-2 border border-gray-200 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent 
+              w-[300px] dark:bg-gray-800 dark:border-gray-700 dark:text-white 
+              dark:placeholder-gray-400"
           />
           <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
           
           {showDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 
+              border border-gray-200 dark:border-gray-700 rounded-md shadow-lg 
+              max-h-60 overflow-auto">
               {filteredEvents.length > 0 ? (
                 filteredEvents.map((event, index) => (
                   <div
@@ -93,14 +98,14 @@ const EventListing = () => {
                       setShowDropdown(false);
                       setSearchTerm('');
                     }}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                   >
-                    <div className="font-medium">{event.Event_Name}</div>
-                    <div className="text-sm text-gray-500">{event.Event_Venue}</div>
+                    <div className="font-medium dark:text-white">{event.Event_Name}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{event.Event_Venue}</div>
                   </div>
                 ))
               ) : (
-                <div className="px-4 py-2 text-gray-500">No events found</div>
+                <div className="px-4 py-2 text-gray-500 dark:text-gray-400">No events found</div>
               )}
             </div>
           )}
@@ -121,12 +126,15 @@ const EventListing = () => {
           return (
             <div 
               key={event.id || `event-${event.Event_Name}`} 
-              className="border-t border-gray-200 pt-8 flex justify-between items-center"
+              className="border-t border-gray-200 dark:border-gray-700 pt-8 
+                flex justify-between items-center"
             >
               <div className="flex items-center gap-12 min-w-[180px]">
                 <div className="flex items-center gap-2">
-                  <span className="text-6xl font-bold leading-none">{formattedDate.day}</span>
-                  <div className="text-gray-500">
+                  <span className="text-6xl font-bold leading-none dark:text-white">
+                    {formattedDate.day}
+                  </span>
+                  <div className="text-gray-500 dark:text-gray-400">
                     {formattedDate.month}
                     <span className="block">{formattedDate.year}</span>
                   </div>
@@ -137,22 +145,30 @@ const EventListing = () => {
                 <div className="flex items-center gap-3">
                   <h3 
                     onClick={() => handleNavigation(event.Event_Name)}
-                    className="text-2xl font-semibold hover:text-sea-green-500 transition-colors cursor-pointer"
+                    className="text-2xl font-semibold hover:text-sea-green-500 
+                      transition-colors cursor-pointer dark:text-white 
+                      dark:hover:text-sea-green-400"
                   >
                     {event.Event_Name}
                   </h3>
-                  <span className={`${status.className} text-white px-2 py-0.5 rounded-md text-xs font-normal`}>
+                  <span className={`${status.className} text-white px-2 py-0.5 
+                    rounded-md text-xs font-normal`}>
                     {status.text}
                   </span>
                 </div>
-                <div className="flex items-center text-gray-500 gap-6">
+                <div className="flex items-center text-gray-500 dark:text-gray-400 gap-6">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4" />
                     <span>{event.Event_Venue}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
-                    <span>{new Date(event.Event_Start_Time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    <span>
+                      {new Date(event.Event_Start_Time).toLocaleTimeString([], { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      })}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -161,7 +177,9 @@ const EventListing = () => {
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => handleNavigation(event.Event_Name)}
-                    className="px-4 py-2 rounded bg-sea-green-500 text-white hover:bg-sea-green-600 transition-colors"
+                    className="px-4 py-2 rounded bg-sea-green-500 text-white 
+                      hover:bg-sea-green-600 transition-colors
+                      dark:bg-sea-green-600 dark:hover:bg-sea-green-700"
                   >
                     BUY TICKETS
                   </button>
