@@ -4,14 +4,14 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gray-900 dark:bg-gray-800 text-gray-300 dark:text-gray-50">
       {/* Main Footer */}
       <div className="mx-auto max-w-[1200px] px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-white text-lg font-semibold">About Us</h3>
-            <p className="text-sm">
+            <p className="text-sm text-gray-50 dark:text-primary-100">
               We are focused on creating innovative solutions for event ticketing and management.
             </p>
             {/* Social Links */}
@@ -80,7 +80,7 @@ const Footer = () => {
           {/* Newsletter */}
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Newsletter</h3>
-            <p className="text-sm mb-4">
+            <p className="text-sm mb-4 text-gray-50 dark:text-primary-100">
               Subscribe to our newsletter for updates and offers.
             </p>
             <form className="space-y-2">
@@ -91,7 +91,7 @@ const Footer = () => {
               />
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 text-sm font-medium text-gray-50 dark:text-primary-100 bg-primary-500 dark:bg-primary-200 rounded-md hover:bg-primary-400 dark:hover:bg-primary-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 Subscribe
               </button>
