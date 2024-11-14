@@ -49,7 +49,7 @@ const EventListingGrid = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-8 dark:bg-gray-900">
+    <div className="max-w-7xl mx-auto p-8">
       <div className="mb-12">
         <h1 className="text-5xl font-bold mb-6 dark:text-gray-50">Trending Events</h1>
         <div className="flex justify-between items-center">
