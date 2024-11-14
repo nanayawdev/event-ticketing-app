@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-/*import './SignUp.css';*/
 import logo from '../../assets/icons/nylogo.png';
 import { Snackbar, Alert, LinearProgress } from '@mui/material';
 import PhoneSignUp from '../PhoneSignUp/PhoneSignUp';
 import { FaPhoneAlt, FaGoogle, FaGithub, FaFacebookF, FaApple} from 'react-icons/fa';
 import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
 import SocialButton from '../Login/SocialButton';
-
+  
 const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -33,19 +32,40 @@ const SignUp = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [showPhoneSignUp, setShowPhoneSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [signal, setSignal] = useState(" ");
 
   useEffect(() => {
     validatePassword(formData.password);
   }, [formData.password]);
 
   const validatePassword = (password) => {
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasLength = password.length >= 8;
+
     setPasswordStrength({
-      lowercase: /[a-z]/.test(password),
-      uppercase: /[A-Z]/.test(password),
-      number: /[0-9]/.test(password),
-      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-      length: password.length >= 8,
+      lowercase: hasLowerCase,
+      uppercase: hasUpperCase,
+      number: hasNumber,
+      symbol: hasSymbol,
+      length: hasLength,
     });
+
+    if (!hasLowerCase) {
+      setSignal("lowercase-error");
+    } else if (!hasUpperCase) {
+      setSignal("uppercase-error");
+    } else if (!hasNumber) {
+      setSignal("number-error");
+    } else if (!hasSymbol) {
+      setSignal("symbol-error");
+    } else if (!hasLength) {
+      setSignal("length-error");
+    } else {
+      setSignal("strong");
+    }
   };
 
   const getPasswordStrength = () => {
@@ -163,6 +183,23 @@ const SignUp = () => {
     { icon: FaPhoneAlt, name: 'Phone', onClick: handlePhoneSignUp }
   ];
 
+  const getMessage = () => {
+    switch (signal) {
+      case "length-error":
+        return "Password must be at least 8 characters long.";
+      case "uppercase-error":
+        return "Password must contain at least one uppercase letter.";
+      case "lowercase-error":
+        return "Password must contain at least one lowercase letter.";
+      case "number-error":
+        return "Password must contain at least one number.";
+      case "symbol-error":
+        return "Password must contain at least one special character.";
+      default:
+        return "Wow! Very strong password.";
+    }
+  };
+
   if (showPhoneSignUp) {
     return <PhoneSignUp onBack={handleBackToSignUp} />;
   }
@@ -185,12 +222,12 @@ const SignUp = () => {
           <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
             {/* Full Name Input */}
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-900">
                 Full Name
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <CircleUser className="h-5 w-5 text-gray-400" />
+                  <CircleUser className="h-5 w-5 text-primary-400" />
                 </div>
                 <input
                   type="text"
@@ -204,19 +241,19 @@ const SignUp = () => {
                   required
                   className={`block w-full pl-10 pr-3 h-12 border ${
                     fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
-                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
                 />
               </div>
             </div>
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 E-mail
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <AtSign className="h-5 w-5 text-gray-400" />
+                  <AtSign className="h-5 w-5 text-primary-400" />
                 </div>
                 <input
                   type="email"
@@ -230,19 +267,19 @@ const SignUp = () => {
                   required
                   className={`block w-full pl-10 pr-3 h-12 border ${
                     fieldErrors.email ? 'border-red-500' : 'border-gray-300'
-                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
                 />
               </div>
             </div>
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Key className="h-5 w-5 text-gray-400" />
+                  <Key className="h-5 w-5 text-primary-400" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -256,7 +293,7 @@ const SignUp = () => {
                   required
                   className={`block w-full pl-10 pr-10 h-12 border ${
                     fieldErrors.password ? 'border-red-500' : 'border-gray-300'
-                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                  } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
                 />
                 <button
                   type="button"
@@ -297,7 +334,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
               >
                 {isLoading ? 'Registering...' : 'Register'}
               </button>
@@ -317,18 +354,18 @@ const SignUp = () => {
           <div className="flex flex-col items-center space-y-4 mt-4">
             <p className="text-sm text-gray-600 text-center">
               By signing up, you agree to our{' '}
-              <Link to="/terms" className="text-indigo-600 hover:text-indigo-500">
+              <Link to="/terms" className="text-primary-400 hover:text-primary-500">
                 Terms of service
               </Link>{' '}
               &{' '}
-              <Link to="/privacy" className="text-indigo-600 hover:text-indigo-500">
+              <Link to="/privacy" className="text-primary-400 hover:text-primary-500">
                 Privacy Policy
               </Link>
             </p>
 
             <p className="text-sm text-gray-600 text-center">
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-600 hover:text-indigo-500">
+              <Link to="/login" className="text-primary-400 hover:text-primary-500">
                 Login
               </Link>
             </p>
