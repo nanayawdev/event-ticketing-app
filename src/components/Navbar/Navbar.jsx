@@ -40,28 +40,28 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center space-x-4 ml-8">
               <Link
                 to="/events"
-                className="text-gray-700 dark:text-gray-200 hover:text-sea-green-600 dark:hover:text-sea-green-400 px-3 py-2 text-[13px] font-medium relative group transition-colors duration-300"
+                className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 text-[13px] font-medium relative"
               >
                 Events
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 dark:bg-sea-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 dark:bg-primary-400 transform scale-x-0 group-hover:scale-x-100"></span>
               </Link>
               <Link
                 to="/services"
-                className="text-gray-700 dark:text-gray-200 hover:text-sea-green-600 dark:hover:text-sea-green-400 px-3 py-2 text-[13px] font-medium relative group transition-colors duration-300"
+                className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 text-[13px] font-medium relative"
               >
                 Services
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 dark:bg-sea-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 dark:bg-primary-400 transform scale-x-0 group-hover:scale-x-100 "></span>
               </Link>
               <Link
                 to="/pricing"
-                className="text-gray-700 dark:text-gray-200 hover:text-sea-green-600 dark:hover:text-sea-green-400 px-3 py-2 text-[13px] font-medium relative group transition-colors duration-300"
+                className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 text-[13px] font-medium relative"
               >
                 Pricing
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sea-green-600 dark:bg-sea-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 dark:bg-primary-400 transform scale-x-0 group-hover:scale-x-100"></span>
               </Link>
               <Link
                 to="/event-organizer"
-                className="text-gray-700 dark:text-gray-200 hover:text-sea-green-600 dark:hover:text-sea-green-400 px-3 py-2 text-[13px] font-medium rounded-md"
+                className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 text-[13px] font-medium rounded-md"
               >
                 Organizers
               </Link>
@@ -77,13 +77,13 @@ const Navbar = () => {
             <div className="flex items-center space-x-6">
               <Link
                 to="/login"
-                className="text-gray-700 dark:text-gray-200 hover:text-sea-green-600 dark:hover:text-sea-green-400 px-4 py-2 text-[13px] font-medium transition-all duration-300"
+                className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 px-4 py-2 text-[13px] font-medium transition-all duration-300"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-700 px-4 py-2 rounded-md text-[13px] font-medium transition-all duration-300 inline-flex items-center space-x-2"
+                className="bg-gray-900 dark:bg-gray-200 text-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 px-4 py-2 rounded-md text-[13px] font-medium transition-all duration-300 inline-flex items-center space-x-2"
               >
                 <span>Sign Up</span>
                 <ChevronRight className="h-3 w-3" />
