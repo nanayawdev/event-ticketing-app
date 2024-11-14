@@ -71,8 +71,8 @@ const Terms = () => {
               onClick={() => scrollToSection(item.id)}
               className={`block text-[14px] w-full text-left py-1 transition-colors duration-200 ${
                 activeSection === item.id 
-                ? 'text-sea-green-600 font-medium' 
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'text-primary-500 dark:text-primary-400 font-medium' 
+                : 'text-gray-600 dark:text-gray-50 hover:text-gray-900 dark:hover:text-gray-50'
               }`}
             >
               {item.title}
@@ -119,7 +119,7 @@ const Terms = () => {
               </p>
 
               <h3 className="text-2xl font-medium">Pricing and Availability</h3>
-              <ul className="list-disc pl-6 text-gray-600 text-[16px] space-y-2">
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-50 text-[16px] space-y-2">
                 <li>All ticket prices are listed in the local currency of the event</li>
                 <li>Prices may vary based on demand and timing of purchase</li>
                 <li>Service fees and taxes will be clearly displayed before checkout</li>
@@ -127,23 +127,23 @@ const Terms = () => {
               </ul>
 
               <h3 className="text-2xl font-medium">Refund Policy</h3>
-              <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Canceled Events:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+              <div className="space-y-2 text-gray-600 dark:text-gray-50">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Canceled Events:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Full refund of ticket price will be processed automatically</li>
                   <li>Refunds will be issued within 10 business days</li>
                   <li>Original payment method will be used for refund</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Rescheduled Events:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Rescheduled Events:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Tickets remain valid for the new date</li>
                   <li>Refund requests accepted within 14 days of rescheduling announcement</li>
                   <li>Refund requests must be submitted through our Platform</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Non-Refundable Items:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Non-Refundable Items:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Service fees are non-refundable except where required by law</li>
                   <li>Delivery fees are non-refundable if delivery has been completed</li>
                   <li>Insurance charges are subject to the insurance provider's policy</li>
@@ -163,7 +163,7 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Organizer Responsibilities</h3>
-              <ul className="list-disc pl-6 text-gray-600 text-[16px] space-y-2">
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-50 text-[16px] space-y-2">
                 <li>Maintain accurate event details, including date, time, venue, and pricing</li>
                 <li>Ensure compliance with local laws and regulations regarding public gatherings</li>
                 <li>Obtain necessary permits, licenses, and insurance for events</li>
@@ -172,17 +172,17 @@ const Terms = () => {
               </ul>
 
               <h3 className="text-2xl font-medium">Event Creation and Management</h3>
-              <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Event Listing Requirements:</p>
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600 dark:text-gray-50">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Event Listing Requirements:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-600 dark:text-gray-50">
                   <li>Clear and accurate event description</li>
                   <li>High-quality event images that meet platform standards</li>
                   <li>Accurate venue information and seating arrangements</li>
                   <li>Complete pricing details including all ticket tiers</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Content Guidelines:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Content Guidelines:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>No misleading or false information</li>
                   <li>No inappropriate or offensive content</li>
                   <li>No intellectual property violations</li>
@@ -192,15 +192,15 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">Financial Terms</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Payout Schedule:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Payout Schedule:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Standard payout within 5-7 business days after event completion</li>
                   <li>Option for advance payouts subject to approval</li>
                   <li>Minimum payout threshold of $50</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Fee Structure:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Fee Structure:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Platform fee of 2.5% per ticket sold</li>
                   <li>Payment processing fee of 2.9% + $0.30 per transaction</li>
                   <li>Additional fees for premium features or services</li>
@@ -215,12 +215,12 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Authorized Resale</h3>
-              <p className="text-gray-600 text-[16px]">
+              <p className="text-gray-600 dark:text-gray-50 text-[16px]">
                 Tickets may only be resold through our official resale marketplace. Unauthorized resale through third-party platforms is strictly prohibited and may result in ticket cancellation without refund.
               </p>
 
               <h3 className="text-2xl font-medium">Resale Restrictions</h3>
-              <ul className="list-disc pl-6 text-gray-600 text-[16px] space-y-2">
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-50 text-[16px] space-y-2">
                 <li>Maximum resale price capped at 120% of original ticket value</li>
                 <li>Bulk purchasing for resale is prohibited</li>
                 <li>Automated purchasing systems or bots are not permitted</li>
@@ -229,16 +229,16 @@ const Terms = () => {
 
               <h3 className="text-2xl font-medium">Ticket Transfer</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Transfer Process:</p>
-                <ul className="list-disc pl-6 space-y-1">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Transfer Process:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Transfers must be completed through the platform</li>
                   <li>Both parties must have verified accounts</li>
                   <li>Transfer fees may apply</li>
                   <li>Original ticket becomes void upon transfer</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Transfer Limitations:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Transfer Limitations:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Some tickets may be non-transferable</li>
                   <li>Maximum of 4 transfers per ticket</li>
                   <li>Transfers must be completed 24 hours before event</li>
@@ -254,16 +254,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Fee Structure</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Buyer Fees:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Buyer Fees:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Service fee: 15% of ticket price</li>
                   <li>Processing fee: 2.9% + $0.30 per transaction</li>
                   <li>Delivery fees where applicable</li>
                   <li>Optional insurance fees</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Seller Fees:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Seller Fees:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Platform commission: 2.5%</li>
                   <li>Payment processing: 2.9% + $0.30</li>
                   <li>Premium listing fees (optional)</li>
@@ -271,7 +271,7 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Payment Methods</h3>
-              <ul className="list-disc pl-6 text-gray-600 text-[16px] space-y-2">
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-50 text-[16px] space-y-2">
                 <li>Major credit cards (Visa, MasterCard, American Express)</li>
                 <li>Digital wallets (Apple Pay, Google Pay)</li>
                 <li>Bank transfers (ACH)</li>
@@ -292,16 +292,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Entry Requirements</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Ticket Validation:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Ticket Validation:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Valid ticket must be presented (digital or physical)</li>
                   <li>Government-issued photo ID matching ticket name</li>
                   <li>Proof of age for age-restricted events</li>
                   <li>Additional documentation as required by event organizer</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Security Measures:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Security Measures:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Bag checks and security screening may be required</li>
                   <li>Prohibited items will be confiscated or denied entry</li>
                   <li>Compliance with venue-specific security protocols</li>
@@ -310,16 +310,16 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">Attendee Conduct</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Expected Behavior:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Expected Behavior:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Respect for other attendees, staff, and performers</li>
                   <li>Compliance with venue rules and regulations</li>
                   <li>No unauthorized recording or photography</li>
                   <li>No disruptive or dangerous behavior</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Prohibited Activities:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Prohibited Activities:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Illegal substances or weapons</li>
                   <li>Unauthorized selling or solicitation</li>
                   <li>Harassment or discriminatory behavior</li>
@@ -329,7 +329,7 @@ const Terms = () => {
 
               <h3 className="text-2xl font-medium">Health and Safety</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Compliance with public health guidelines</li>
                   <li>Adherence to capacity restrictions</li>
                   <li>Following emergency evacuation procedures</li>
@@ -346,16 +346,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Platform Liability</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Limitation of Liability:</p>
-                <ul className="list-disc pl-6 space-y-1">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Limitation of Liability:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Platform provided "as is" without warranties</li>
                   <li>No responsibility for event cancellations or changes</li>
                   <li>Maximum liability limited to ticket purchase price</li>
                   <li>No liability for third-party actions or content</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Force Majeure:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Force Majeure:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Natural disasters or weather events</li>
                   <li>Government actions or regulations</li>
                   <li>Public health emergencies</li>
@@ -364,7 +364,7 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">User Indemnification</h3>
-              <p className="text-gray-600 text-[16px]">
+              <p className="text-gray-600 dark:text-gray-50 text-[16px]">
                 Users agree to indemnify and hold harmless Tickrfly, its employees, and partners from any claims, 
                 damages, or expenses arising from their use of the platform or attendance at events.
               </p>
@@ -388,7 +388,7 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Service Changes</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Right to modify or discontinue services</li>
                   <li>Changes to features and functionality</li>
                   <li>Updates to user interface and experience</li>
@@ -398,8 +398,8 @@ const Terms = () => {
 
               <h3 className="text-2xl font-medium">Notice of Changes</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Communication Methods:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Communication Methods:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Email notifications for significant changes</li>
                   <li>Platform announcements and updates</li>
                   <li>Website notifications and banners</li>
@@ -416,16 +416,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Data Collection</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Types of Data Collected:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Types of Data Collected:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Personal identification information</li>
                   <li>Transaction and payment details</li>
                   <li>Usage data and analytics</li>
                   <li>Communication preferences</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Data Usage:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Data Usage:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Service improvement and personalization</li>
                   <li>Transaction processing and verification</li>
                   <li>Marketing communications (with consent)</li>
@@ -435,7 +435,7 @@ const Terms = () => {
 
               <h3 className="text-2xl font-medium">Data Security</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Industry-standard encryption protocols</li>
                   <li>Regular security audits and updates</li>
                   <li>Access controls and authentication</li>
@@ -445,7 +445,7 @@ const Terms = () => {
 
               <h3 className="text-2xl font-medium">User Rights</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Right to access personal data</li>
                   <li>Right to request data correction</li>
                   <li>Right to data portability</li>
@@ -467,16 +467,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Platform Content</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Ownership:</p>
-                <ul className="list-disc pl-6 space-y-1">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Ownership:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>All platform content is owned by Tickrfly or licensed partners</li>
                   <li>Includes logos, trademarks, design, and software</li>
                   <li>User-generated content rights and licenses</li>
                   <li>Third-party content attribution requirements</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Usage Restrictions:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Usage Restrictions:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>No unauthorized reproduction or distribution</li>
                   <li>No modification of platform materials</li>
                   <li>No commercial use without written permission</li>
@@ -486,8 +486,8 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">Event Content</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Event Materials:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Event Materials:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Copyright protection for event descriptions and images</li>
                   <li>Organizer rights to event-specific content</li>
                   <li>Limited license for promotional purposes</li>
@@ -504,8 +504,8 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Platform Communications</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Notification Types:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Notification Types:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Transaction confirmations and receipts</li>
                   <li>Event updates and changes</li>
                   <li>Platform maintenance notifications</li>
@@ -513,8 +513,8 @@ const Terms = () => {
                   <li>Marketing communications (opt-in required)</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Communication Methods:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Communication Methods:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Email notifications</li>
                   <li>SMS alerts for time-sensitive information</li>
                   <li>In-app notifications</li>
@@ -524,8 +524,8 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">User Communication</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Acceptable Use:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Acceptable Use:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>No spam or unsolicited messages</li>
                   <li>No harassment or threatening communication</li>
                   <li>No fraudulent or misleading information</li>
@@ -542,16 +542,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Cross-Border Transactions</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Currency Handling:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Currency Handling:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Multiple currency support</li>
                   <li>Exchange rate calculations</li>
                   <li>International processing fees</li>
                   <li>Currency conversion timing</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Regional Restrictions:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Regional Restrictions:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Geographic limitations on purchases</li>
                   <li>Country-specific regulations</li>
                   <li>Export control compliance</li>
@@ -561,7 +561,7 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">International Compliance</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>GDPR compliance for EU users</li>
                   <li>International tax regulations</li>
                   <li>Cross-border data transfer protocols</li>
@@ -578,16 +578,16 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Account Security</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Security Requirements:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Security Requirements:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Strong password requirements</li>
                   <li>Two-factor authentication options</li>
                   <li>Session management and timeout policies</li>
                   <li>Account recovery procedures</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">User Responsibilities:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">User Responsibilities:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Maintaining account confidentiality</li>
                   <li>Reporting unauthorized access</li>
                   <li>Keeping contact information current</li>
@@ -597,16 +597,16 @@ const Terms = () => {
 
               <h3 className="text-lg font-medium">Account Termination</h3>
               <div className="space-y-2 text-gray-600">
-                <p className="text-[16px] text-gray-600 font-semibold">Voluntary Termination:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Voluntary Termination:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Account closure process</li>
                   <li>Data retention policies</li>
                   <li>Refund handling</li>
                   <li>Active ticket management</li>
                 </ul>
 
-                <p className="text-[16px] text-gray-600 font-semibold">Involuntary Termination:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Involuntary Termination:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Terms violation consequences</li>
                   <li>Fraud prevention measures</li>
                   <li>Appeal process</li>
@@ -622,8 +622,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Regulatory Compliance</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Compliance with local entertainment laws</li>
                   <li>Tax reporting and collection requirements</li>
                   <li>Consumer protection regulations</li>
@@ -632,8 +632,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Industry Standards</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>PCI DSS compliance for payments</li>
                   <li>Digital accessibility guidelines</li>
                   <li>Event industry best practices</li>
@@ -649,8 +649,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Resolution Process</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Initial customer service contact</li>
                   <li>Mediation procedures</li>
                   <li>Arbitration requirements</li>
@@ -659,8 +659,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Claims Process</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Filing requirements and deadlines</li>
                   <li>Required documentation</li>
                   <li>Resolution timeframes</li>
@@ -676,8 +676,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Platform Accessibility</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>WCAG 2.1 compliance</li>
                   <li>Screen reader compatibility</li>
                   <li>Keyboard navigation support</li>
@@ -686,8 +686,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Event Accessibility</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Venue accessibility information</li>
                   <li>Special accommodation requests</li>
                   <li>Assistant ticket policies</li>
@@ -703,8 +703,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Digital Initiatives</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Paperless ticketing options</li>
                   <li>Digital receipt preferences</li>
                   <li>Energy-efficient hosting</li>
@@ -713,8 +713,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Event Sustainability</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Eco-friendly event guidelines</li>
                   <li>Waste reduction initiatives</li>
                   <li>Sustainable vendor requirements</li>
@@ -730,8 +730,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Partner Types</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Venue partnerships</li>
                   <li>Promoter collaborations</li>
                   <li>Technology integrations</li>
@@ -740,8 +740,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Partnership Terms</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Revenue sharing models</li>
                   <li>Service level agreements</li>
                   <li>Brand usage guidelines</li>
@@ -758,8 +758,8 @@ const Terms = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Platform Security</h3>
               <div className="space-y-2 text-gray-600 text-[16px]">
-                <p className="text-[16px] text-gray-600 font-semibold">Infrastructure Security:</p>
-                <ul className="list-disc pl-6 text-[16px] text-gray-600 space-y-1">
+                <p className="text-[16px] text-gray-600 dark:text-gray-50 font-semibold">Infrastructure Security:</p>
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>DDoS protection and mitigation</li>
                   <li>24/7 security monitoring</li>
                   <li>Regular penetration testing</li>
@@ -768,8 +768,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Fraud Prevention</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 text-[16px] text-gray-600 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>AI-powered fraud detection</li>
                   <li>Transaction monitoring systems</li>
                   <li>Identity verification procedures</li>
@@ -785,8 +785,8 @@ const Terms = () => {
             </h2>
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Support Channels</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 text-[16px] text-gray-600 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>24/7 live chat support</li>
                   <li>Email support response times</li>
                   <li>Phone support availability</li>
@@ -795,8 +795,8 @@ const Terms = () => {
               </div>
 
               <h3 className="text-2xl font-medium">Service Level Agreements</h3>
-              <div className="space-y-2 text-gray-600 text-[16px]">
-                <ul className="list-disc pl-6 text-[16px] text-gray-600 space-y-1">
+              <div className="space-y-2 text-gray-600">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Priority support for urgent issues</li>
                   <li>Response time guarantees</li>
                   <li>Escalation procedures</li>

@@ -51,8 +51,8 @@ const Privacy = () => {
               onClick={() => scrollToSection(item.id)}
               className={`block text-[14px] w-full text-left py-1 transition-colors duration-200 ${
                 activeSection === item.id 
-                ? 'text-sea-green-600 font-medium' 
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'text-primary-500 dark:text-primary-400 font-medium' 
+                : 'text-gray-600 dark:text-gray-50 hover:text-gray-900 dark:hover:text-gray-50'
               }`}
             >
               {item.title}
@@ -74,7 +74,7 @@ const Privacy = () => {
               <h3 className="text-2xl font-medium">Personal Information</h3>
               <div className="space-y-2 text-gray-600">
                 <p className="text-[16px] text-gray-600 font-semibold">We collect:</p>
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Name and contact information</li>
                   <li>Payment and billing details</li>
                   <li>Account credentials</li>
@@ -86,7 +86,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Technical Information</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Device and browser information</li>
                   <li>IP address and location data</li>
                   <li>Usage patterns and preferences</li>
@@ -105,7 +105,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Service Provision</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Processing ticket purchases and payments</li>
                   <li>Account management and authentication</li>
                   <li>Customer support and communication</li>
@@ -115,7 +115,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Platform Improvement</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Analytics and performance monitoring</li>
                   <li>User experience optimization</li>
                   <li>Feature development and testing</li>
@@ -132,7 +132,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Third-Party Services</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Payment processors and financial institutions</li>
                   <li>Analytics and monitoring services</li>
                   <li>Customer support platforms</li>
@@ -142,7 +142,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Legal Requirements</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Compliance with legal obligations</li>
                   <li>Law enforcement requests</li>
                   <li>Protection of legal rights</li>
@@ -159,7 +159,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Email Communications</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Event updates and notifications</li>
                   <li>Marketing communications</li>
                   <li>Service announcements</li>
@@ -169,7 +169,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Preference Management</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Communication frequency settings</li>
                   <li>Subscription management</li>
                   <li>Notification preferences</li>
@@ -186,7 +186,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Security Measures</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Encryption protocols</li>
                   <li>Access controls</li>
                   <li>Regular security audits</li>
@@ -196,7 +196,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Breach Response</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Incident detection and response</li>
                   <li>User notification procedures</li>
                   <li>Remediation measures</li>
@@ -213,7 +213,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Retention Periods</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Account information retention</li>
                   <li>Transaction history storage</li>
                   <li>Communication records</li>
@@ -223,7 +223,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Data Deletion</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Account deletion process</li>
                   <li>Data removal procedures</li>
                   <li>Backup retention policies</li>
@@ -240,7 +240,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">User Rights</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Access to personal data</li>
                   <li>Data correction and updates</li>
                   <li>Data portability options</li>
@@ -250,7 +250,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Exercise Your Rights</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Request procedures</li>
                   <li>Verification process</li>
                   <li>Response timelines</li>
@@ -267,7 +267,7 @@ const Privacy = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-medium">Change Process</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Policy revision procedures</li>
                   <li>Notification of changes</li>
                   <li>User consent requirements</li>
@@ -277,7 +277,7 @@ const Privacy = () => {
 
               <h3 className="text-2xl font-medium">Version History</h3>
               <div className="space-y-2 text-gray-600">
-                <ul className="list-disc pl-6 space-y-1 text-[16px]">
+                <ul className="list-disc pl-6 space-y-1 text-[16px] text-gray-600 dark:text-gray-50">
                   <li>Previous policy versions</li>
                   <li>Change documentation</li>
                   <li>Effective dates</li>
