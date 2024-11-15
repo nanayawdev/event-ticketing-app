@@ -15,15 +15,25 @@ export const useNews = (newsId = null) => {
         const url = newsId ? `${baseUrl}/${newsId}` : baseUrl;
         
         const response = await fetch(url);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch news');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        setNews(data);
+        console.log('Fetched news data:', data); // For debugging
+        
+        // Handle single item vs list differently
+        if (newsId) {
+          // For single item, use the first item if data is an array
+          setNews(Array.isArray(data) ? data[0] : data);
+        } else {
+          // For list view, ensure we always have an array
+          setNews(Array.isArray(data) ? data : [data]);
+        }
       } catch (err) {
-        setError(err.message);
         console.error('News fetch error:', err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }

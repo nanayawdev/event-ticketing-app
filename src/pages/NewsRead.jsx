@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { format } from 'date-fns'
 import { useParams } from 'react-router-dom' // Add this import
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { CalendarIcon, Twitter, Facebook, Linkedin } from 'lucide-react'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
-import { toast } from "sonner" // Add this import
-import { Link } from 'react-router-dom'
 import { Newspaper } from 'lucide-react' // Add this import for the icon
 import NotFound from '../components/NotFound/NotFound' // Add this import
 import { useNews } from '../hooks/useNews';
@@ -45,9 +43,10 @@ export default function NewsRead() {
     )
   }
 
-  const { newsTitle, newsImage, publishedDate, newsBody } = blogData
-  const shareUrl = encodeURIComponent(window.location.href)
-  const shareText = encodeURIComponent(newsTitle)
+  const { newsTitle, newsImage, publishedDate, newsBody } = blogData;
+  const imageUrl = newsImage?.url;
+  const shareUrl = encodeURIComponent(window.location.href);
+  const shareText = encodeURIComponent(newsTitle);
 
   return (
     <>
@@ -91,16 +90,16 @@ export default function NewsRead() {
               </Button>
             </div>
           </div>
-          {newsImage && (
+          {imageUrl && (
             <img
-              src={newsImage}
+              src={imageUrl?.url}
               alt={newsTitle}
               className="w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover rounded-lg mb-6 sm:mb-8"
             />
           )}
         </header>
         <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
-          {newsBody.split('\n\n').map((paragraph, index) => (
+          {newsBody?.split('\n\n').map((paragraph, index) => (
             <p key={index} className="mb-4 text-sm sm:text-base">{paragraph}</p>
           ))}
         </div>

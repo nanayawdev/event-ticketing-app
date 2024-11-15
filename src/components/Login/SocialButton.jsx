@@ -1,31 +1,19 @@
 import React, { useState } from 'react';
 
-const SocialButton = ({ icon: Icon, name, onClick }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-
+const SocialButton = ({ icon: Icon, name, color }) => {
   return (
-    <div className="relative inline-block">
-      <button
-        type="button"
-        className="w-full inline-flex items-center justify-center p-3 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-700 transition-all duration-200 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-        onClick={onClick}
-      >
-        <Icon className="w-5 h-5" />
-      </button>
-      
-      {/* Tooltip */}
-      {showTooltip && (
-        <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-md whitespace-nowrap dark:bg-gray-700">
-          Sign up with {name}
-          {/* Arrow */}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-            <div className="w-0 h-0 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700" />
-          </div>
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      className={`flex items-center justify-center gap-2 w-full h-12 px-4 
+        border border-gray-300 rounded-md shadow-sm text-sm font-medium 
+        text-gray-700 bg-white hover:bg-gray-50 
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+        dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 
+        dark:hover:bg-gray-700 ${color}`}
+    >
+      <Icon className="h-5 w-5" />
+      <span>Login with {name}</span>
+    </button>
   );
 };
 

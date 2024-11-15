@@ -31,6 +31,7 @@ import Cookies from './pages/Cookies';
 import { AuthProvider } from './context/AuthContext';
 import SettingsLayout from './pages/settings/SettingsLayout';
 import News from './pages/News';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 const StandardLayout = ({ children, showHelp = false }) => {
   const { theme } = useTheme();
@@ -158,6 +159,7 @@ const AppContent = () => {
           </StandardLayout>
         } />
         <Route path="/settings/*" element={<SettingsLayout />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <CookieConsentBanner />
     </>

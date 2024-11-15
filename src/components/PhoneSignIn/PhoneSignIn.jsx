@@ -3,10 +3,10 @@ import { X, ArrowLeft, Phone } from 'lucide-react';
 import { Button } from '../ui/button';
 import logo from '../../assets/icons/nylogo.png';
 
-const PhoneSignUp = ({ onBack, onClose }) => {
+const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [step, setStep] = useState(1); // 1 for phone input, 2 for verification
+  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -16,7 +16,6 @@ const PhoneSignUp = ({ onBack, onClose }) => {
     setIsLoading(true);
 
     try {
-      // Add your API call here to send verification code
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone', {
         method: 'POST',
         headers: {
@@ -29,7 +28,7 @@ const PhoneSignUp = ({ onBack, onClose }) => {
         throw new Error('Failed to send verification code');
       }
 
-      setStep(2); // Move to verification step
+      setStep(2);
     } catch (err) {
       setError('Failed to send verification code. Please try again.');
     } finally {
@@ -43,13 +42,16 @@ const PhoneSignUp = ({ onBack, onClose }) => {
     setIsLoading(true);
 
     try {
-      // Add your API call here to verify the code
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber, code: verificationCode }),
+        body: JSON.stringify({ 
+          phoneNumber, 
+          code: verificationCode,
+          isSignUp // Add this flag to differentiate between login and signup
+        }),
       });
 
       if (!response.ok) {
@@ -57,7 +59,7 @@ const PhoneSignUp = ({ onBack, onClose }) => {
       }
 
       // Handle successful verification
-      // Redirect or close popup based on your needs
+      onClose(); // Close the modal after successful verification
     } catch (err) {
       setError('Invalid verification code. Please try again.');
     } finally {
@@ -176,4 +178,4 @@ const PhoneSignUp = ({ onBack, onClose }) => {
   );
 };
 
-export default PhoneSignUp;
+export default PhoneSignIn; 

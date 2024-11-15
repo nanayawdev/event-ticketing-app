@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/nylogo.png';
 import { Snackbar, Alert, LinearProgress } from '@mui/material';
 import PhoneSignUp from '../PhoneSignUp/PhoneSignUp';
-import { FaPhoneAlt, FaGoogle, FaGithub, FaFacebookF, FaApple} from 'react-icons/fa';
+import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
 import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
 import SocialButton from '../Login/SocialButton';
+import PhoneSignIn from '../PhoneSignIn/PhoneSignIn';
   
 const SignUp = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const SignUp = () => {
   const [showPhoneSignUp, setShowPhoneSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [signal, setSignal] = useState(" ");
+  const [showPhoneSignIn, setShowPhoneSignIn] = useState(false);
 
   useEffect(() => {
     validatePassword(formData.password);
@@ -175,12 +177,13 @@ const SignUp = () => {
     setShowPhoneSignUp(false);
   };
 
+  const handlePhoneClick = () => {
+    setShowPhoneSignIn(true);
+  };
+
   const socialButtons = [
-    { icon: FaGoogle, name: 'Google', onClick: handlePhoneSignUp },
-    { icon: FaGithub, name: 'GitHub', onClick: handlePhoneSignUp },
-    { icon: FaFacebookF, name: 'Facebook', onClick: handlePhoneSignUp },
-    { icon: FaApple, name: 'Apple', onClick: handlePhoneSignUp },
-    { icon: FaPhoneAlt, name: 'Phone', onClick: handlePhoneSignUp }
+    { icon: FaGoogle, name: 'Google', color: 'hover:bg-red-50' },
+    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50', onClick: handlePhoneClick }
   ];
 
   const getMessage = () => {
@@ -202,6 +205,14 @@ const SignUp = () => {
 
   if (showPhoneSignUp) {
     return <PhoneSignUp onBack={handleBackToSignUp} />;
+  }
+
+  if (showPhoneSignIn) {
+    return <PhoneSignIn 
+      onBack={() => setShowPhoneSignIn(false)}
+      onClose={() => setShowPhoneSignIn(false)}
+      isSignUp={true}
+    />;
   }
 
   return (
@@ -339,7 +350,20 @@ const SignUp = () => {
                 {isLoading ? 'Registering...' : 'Register'}
               </button>
 
-              <div className="grid grid-cols-5 gap-3">
+              {/* Divider with text */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                    Or sign up with
+                  </span>
+                </div>
+              </div>
+
+              {/* Social Signup Buttons - Updated grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {socialButtons.map((props) => (
                   <SocialButton 
                     key={props.name} 

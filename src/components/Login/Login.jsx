@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaGoogle, FaGithub, FaFacebook, FaApple, FaPhoneAlt } from 'react-icons/fa';
+import { FaGoogle, FaPhoneAlt } from 'react-icons/fa';
 import { AtSign, Key, EyeClosed, Eye } from 'lucide-react';
 import logo from '../../assets/icons/nylogo.png';
 import SocialButton from './SocialButton';
+import PhoneSignIn from '../PhoneSignIn/PhoneSignIn';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,14 +12,16 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPhoneSignIn, setShowPhoneSignIn] = useState(false);
   const navigate = useNavigate();
+
+  const handlePhoneClick = () => {
+    setShowPhoneSignIn(true);
+  };
 
   const socialButtons = [
     { icon: FaGoogle, name: 'Google', color: 'hover:bg-red-50' },
-    { icon: FaGithub, name: 'GitHub', color: 'hover:bg-gray-50' },
-    { icon: FaFacebook, name: 'Facebook', color: 'hover:bg-blue-50' },
-    { icon: FaApple, name: 'Apple', color: 'hover:bg-gray-50' },
-    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50' }
+    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50', onClick: handlePhoneClick }
   ];
 
   const handleSubmit = async (e) => {
@@ -162,8 +165,20 @@ const Login = () => {
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
 
+            {/* Divider with "Or login with" text */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                  Or login with
+                </span>
+              </div>
+            </div>
+
             {/* Social Login Buttons */}
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {socialButtons.map((props) => (
                 <SocialButton key={props.name} {...props} />
               ))}
@@ -182,6 +197,13 @@ const Login = () => {
           </p>
         </div>
       </div>
+      {showPhoneSignIn && (
+        <PhoneSignIn 
+          onBack={() => setShowPhoneSignIn(false)}
+          onClose={() => setShowPhoneSignIn(false)}
+          isSignUp={false}
+        />
+      )}
     </div>
   );
 };
