@@ -186,14 +186,14 @@ export default function Component() {
         <div className="mt-12">
           <Card className="relative bg-gradient-to-r from-primary-500/10 to-primary-500/5 dark:bg-gray-900 rounded-3xl shadow-none">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                   <CardTitle className="text-2xl font-medium">Enterprise</CardTitle>
                   <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
                     An all-inclusive plan with full ticketing features, priority support, and flexible pricing for large events needing advanced tools.
                   </p>
                 </div>
-                <Button variant="default" className="bg-primary-500 text-white hover:bg-primary-400 flex items-center gap-2">
+                <Button variant="default" className="bg-primary-500 text-white hover:bg-primary-400 flex items-center gap-2 w-full md:w-auto">
                   Contact Sales
                   <ArrowRight className="h-4 w-4" />
                 </Button>
