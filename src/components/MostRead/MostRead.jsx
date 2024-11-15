@@ -4,35 +4,35 @@ const MostRead = () => {
   const newsItems = [
     {
       id: 1,
-      title: "'Football's biggest waste' - Adriano admits he's drinkin..."
+      title: "Afrochella 2024 dates announced, early bird tickets..."
     },
     {
       id: 2,
-      title: "Vini's nightmare goes on as Brazil drop more WCQ points"
+      title: "Ghana Music Awards set to celebrate 25th anniversary..."
     },
     {
       id: 3,
-      title: "Mbappe-Deschamps dispute rumours threaten to derail..."
+      title: "Accra Fashion Week returns with groundbreaking des..."
     },
     {
       id: 4,
-      title: "Endrick set to be offered 'escape route' out of Real..."
+      title: "Major Lazer confirmed as headliner for Detty Rave..."
     },
     {
       id: 5,
-      title: "Amorim told he's already made his first mistake at M..."
+      title: "Kwahu Easter Festival 2024: What to expect from..."
     },
     {
       id: 6,
-      title: "Transfers LIVE: Arsenal plotting Zubimendi swoop"
+      title: "LIVE: Ghana DJ Awards nominees announcement event..."
     },
     {
       id: 7,
-      title: "Man Utd flop has 'no intention' of leaving amid..."
+      title: "National Theatre announces exciting lineup for..."
     },
     {
       id: 8,
-      title: "Where's Tuchel?! England are wasting time without ne..."
+      title: "Chale Wote Street Art Festival expands to new..."
     }
   ];
 
