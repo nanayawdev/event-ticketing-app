@@ -27,7 +27,7 @@ const HelpPopup = () => {
     <div className="fixed bottom-4 right-4 z-[9999]">
       {/* Popup */}
       {isOpen && (
-        <div className="mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl w-[280px] sm:w-full sm:max-w-sm p-4 sm:p-6 relative transition-all duration-1000 ease-in-out animate-slide-in">
+        <div className="mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-[280px] sm:w-full sm:max-w-sm p-4 sm:p-6 relative transition-all duration-1000 ease-in-out animate-slide-in">
           {/* Close Button */}
           <button 
             onClick={handleClose}

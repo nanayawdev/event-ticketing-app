@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp/SignUp';
 import About from './pages/About';
 import Events from './components/Events/Events';
-import Services from './components/Services/Services';
+import Services from './pages/Services';
 import Pricing from './components/Pricing/Pricing';
 import Contact from './pages/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
@@ -34,7 +34,7 @@ import { AuthProvider } from './context/AuthContext';
 import SettingsLayout from './pages/settings/SettingsLayout';
 import News from './pages/News';
 
-const StandardLayout = ({ children }) => {
+const StandardLayout = ({ children, showHelp = false }) => {
   const { theme } = useTheme();
 
   return (
@@ -44,7 +44,7 @@ const StandardLayout = ({ children }) => {
         {children}
       </main>
       <Footer />
-      <HelpPopup />
+      {showHelp && <HelpPopup />}
     </>
   );
 };
@@ -60,7 +60,7 @@ const AppContent = () => {
       <Routes>
         {/* Home page */}
         <Route path="/" element={
-          <StandardLayout>
+          <StandardLayout showHelp={true}>
             <HeroAlt />
             <Brands />
             <Divider />
