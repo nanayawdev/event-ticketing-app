@@ -16,12 +16,28 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handlePhoneClick = () => {
+    console.log('Phone button clicked');
     setShowPhoneSignIn(true);
   };
 
+  const handleGoogleClick = () => {
+    console.log('Google button clicked');
+    // Add Google sign-in logic here
+  };
+
   const socialButtons = [
-    { icon: FaGoogle, name: 'Google', color: 'hover:bg-red-50' },
-    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50', onClick: handlePhoneClick }
+    { 
+      icon: FaGoogle, 
+      name: 'Google', 
+      color: 'hover:bg-red-50',
+      onClick: handleGoogleClick 
+    },
+    { 
+      icon: FaPhoneAlt, 
+      name: 'Phone', 
+      color: 'hover:bg-green-50',
+      onClick: handlePhoneClick 
+    }
   ];
 
   const handleSubmit = async (e) => {

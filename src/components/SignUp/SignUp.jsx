@@ -178,12 +178,28 @@ const SignUp = () => {
   };
 
   const handlePhoneClick = () => {
+    console.log('Phone button clicked');
     setShowPhoneSignIn(true);
   };
 
+  const handleGoogleClick = () => {
+    console.log('Google button clicked');
+    // Add Google sign-up logic here
+  };
+
   const socialButtons = [
-    { icon: FaGoogle, name: 'Google', color: 'hover:bg-red-50' },
-    { icon: FaPhoneAlt, name: 'Phone', color: 'hover:bg-green-50', onClick: handlePhoneClick }
+    { 
+      icon: FaGoogle, 
+      name: 'Google', 
+      color: 'hover:bg-red-50',
+      onClick: handleGoogleClick 
+    },
+    { 
+      icon: FaPhoneAlt, 
+      name: 'Phone', 
+      color: 'hover:bg-green-50',
+      onClick: handlePhoneClick 
+    }
   ];
 
   const getMessage = () => {
@@ -368,7 +384,6 @@ const SignUp = () => {
                   <SocialButton 
                     key={props.name} 
                     {...props} 
-                    onClick={props.onClick} 
                   />
                 ))}
               </div>
