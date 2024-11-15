@@ -8,36 +8,33 @@ export default function NewsCard({
   title,
   imageUrl,
 }) {
-  console.log('NewsCard ID:', event_news_table_id);
   return (
-    <Card className="overflow-hidden max-w-sm group">
-      <div className="relative flex flex-col h-full">
-        {/* Header Banner */}
-        <div className="bg-primary-500 dark:bg-gray-800 p-6 text-white">
-          <h2 className="text-lg font-semibold leading-tight text-primary-100 dark:text-primary-100">
-            {title}
-          </h2>
-        </div>
-        
-        {/* Main Image */}
-        <div className="relative h-48">
+    <Card className="overflow-hidden max-w-sm group hover:scale-105 transition-transform duration-300">
+      <div className="relative flex flex-col h-full bg-black text-white">
+        {/* Main Image with Overlay */}
+        <div className="relative h-64">
           <img
             src={imageUrl}
             alt=""
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full opacity-80"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         </div>
 
-        {/* Continue Reading Button */}
-        <CardContent className="p-4">
+        {/* Typography-focused Content */}
+        <CardContent className="absolute bottom-0 p-6 w-full">
+          <h2 className="text-2xl font-bold leading-tight mb-4 tracking-tight">
+            {title}
+          </h2>
+          
           <Button 
             variant="link" 
-            className="p-0 h-auto font-semibold text-primary-500 dark:text-primary-100 hover:text-primary-600 dark:hover:text-primary-200"
+            className="p-0 h-auto font-mono text-sm text-white/90 hover:text-white"
             asChild
           >
-            <Link to={`/news/${event_news_table_id}`} className="flex items-center gap-1">
-              Continue reading
-              <ArrowRight className="w-4 h-4" />
+            <Link to={`/news/${event_news_table_id}`} className="flex items-center gap-2">
+              READ MORE
+              <ArrowRight className="w-3 h-3" />
             </Link>
           </Button>
         </CardContent>
