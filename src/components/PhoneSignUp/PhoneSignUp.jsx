@@ -1,35 +1,48 @@
 import React, { useState } from 'react';
-import { X, ArrowLeft, Phone } from 'lucide-react';
+import { X, ArrowLeft, Phone, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import logo from '../../assets/icons/nylogo.png';
+import CountrySelector from '../PhoneSignIn/CountrySelector';
+import { countries } from '../PhoneSignIn/countriesData';
 
 const PhoneSignUp = ({ onBack, onClose }) => {
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [step, setStep] = useState(1); // 1 for phone input, 2 for verification
+  const [step, setStep] = useState(1); // 1: details, 2: verification
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handlePhoneSubmit = async (e) => {
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '');
+    setPhoneNumber(value);
+  };
+
+  const handleDetailsSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
+    const fullPhoneNumber = `${selectedCountry.dialCode}${phoneNumber}`;
+
     try {
-      // Add your API call here to send verification code
-      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone', {
+      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber }),
+        body: JSON.stringify({ 
+          fullName,
+          phoneNumber: fullPhoneNumber 
+        }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to send verification code');
       }
 
-      setStep(2); // Move to verification step
+      setStep(2);
     } catch (err) {
       setError('Failed to send verification code. Please try again.');
     } finally {
@@ -43,21 +56,24 @@ const PhoneSignUp = ({ onBack, onClose }) => {
     setIsLoading(true);
 
     try {
-      // Add your API call here to verify the code
-      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/verify', {
+      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber, code: verificationCode }),
+        body: JSON.stringify({ 
+          phoneNumber: `${selectedCountry.dialCode}${phoneNumber}`,
+          code: verificationCode,
+          fullName
+        }),
       });
 
       if (!response.ok) {
         throw new Error('Invalid verification code');
       }
 
-      // Handle successful verification
-      // Redirect or close popup based on your needs
+      // Handle successful verification and signup
+      onClose();
     } catch (err) {
       setError('Invalid verification code. Please try again.');
     } finally {
@@ -88,11 +104,11 @@ const PhoneSignUp = ({ onBack, onClose }) => {
         {/* Content */}
         <div className="p-6">
           <h2 className="text-2xl font-bold text-center mb-2">
-            {step === 1 ? 'Enter Phone Number' : 'Verify Phone Number'}
+            {step === 1 ? 'Sign Up with Phone' : 'Verify Phone Number'}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
             {step === 1 
-              ? 'We will send you a verification code' 
+              ? 'Enter your details to create an account' 
               : 'Enter the verification code sent to your phone'
             }
           </p>
@@ -104,31 +120,60 @@ const PhoneSignUp = ({ onBack, onClose }) => {
           )}
 
           {step === 1 ? (
-            <form onSubmit={handlePhoneSubmit} className="space-y-4">
+            <form onSubmit={handleDetailsSubmit} className="space-y-4">
+              {/* Full Name Input */}
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Phone Number
+                  Full Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Phone className="h-5 w-5 text-gray-400" />
+                    <User className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
-                    placeholder="+1 (555) 000-0000"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-2 border rounded-md 
+                      focus:ring-2 focus:ring-indigo-500 
+                      dark:bg-gray-800 dark:border-gray-700"
+                    placeholder="Enter your full name"
                     required
                   />
                 </div>
               </div>
+
+              {/* Phone Number Input */}
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Phone Number
+                </label>
+                <div className="flex gap-2">
+                  <CountrySelector
+                    selectedCountry={selectedCountry}
+                    onSelect={setSelectedCountry}
+                  />
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={handlePhoneChange}
+                      className="block w-full px-3 py-2 border rounded-md 
+                        focus:ring-2 focus:ring-indigo-500 
+                        dark:bg-gray-800 dark:border-gray-700"
+                      placeholder="Enter phone number"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
               <Button
                 type="submit"
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? 'Sending...' : 'Send Code'}
+                {isLoading ? 'Sending...' : 'Continue'}
               </Button>
             </form>
           ) : (
@@ -141,7 +186,9 @@ const PhoneSignUp = ({ onBack, onClose }) => {
                   type="text"
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
-                  className="block w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
+                  className="block w-full px-3 py-2 border rounded-md 
+                    focus:ring-2 focus:ring-indigo-500 
+                    dark:bg-gray-800 dark:border-gray-700"
                   placeholder="Enter 6-digit code"
                   maxLength={6}
                   required
@@ -152,7 +199,7 @@ const PhoneSignUp = ({ onBack, onClose }) => {
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? 'Verifying...' : 'Verify Code'}
+                {isLoading ? 'Verifying...' : 'Create Account'}
               </Button>
             </form>
           )}
