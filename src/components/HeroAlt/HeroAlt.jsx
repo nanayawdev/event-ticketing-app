@@ -3,7 +3,7 @@ import tickrflyheroimg from '../../assets/images/tickrflyatjoemettle.jpg'
 export default function HeroAlt() {
   return (
     <section className="pt-8 sm:pt-12 md:pt-16">
-      <div className="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-[830px] w-full overflow-hidden">
+      <div className="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-[870px] w-full overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 pointer-events-none">
           <img
@@ -17,7 +17,7 @@ export default function HeroAlt() {
         {/* Content Container */}
         <div className="relative z-20 flex items-end h-full pb-8 sm:pb-12 md:pb-16">
           <div className="container mx-auto px-4 pt-8 sm:pt-12 md:pt-16">
-            <div className="max-w-[90%] sm:max-w-[80%] md:max-w-xl bg-gray-100 dark:bg-gray-900 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-12">
+            <div className="max-w-[90%] sm:max-w-[80%] md:max-w-xl bg-white dark:bg-gray-900 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-12">
               <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-md px-3 sm:px-4 py-1">
                 It's Tickrfly
               </span>
