@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { X, ArrowLeft, Phone } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, ArrowLeft, Phone, Timer } from 'lucide-react';
 import { Button } from '../ui/button';
 import logo from '../../assets/icons/nylogo.png';
 import CountrySelector from './CountrySelector';
 import { countries } from './countriesData';
+import OtpInput from '../ui/OtpInput';
 
 const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
@@ -12,6 +13,20 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [countdown, setCountdown] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (step === 2 && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (countdown === 0) {
+      setCanResend(true);
+    }
+    return () => clearInterval(timer);
+  }, [step, countdown]);
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
@@ -72,6 +87,31 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
       onClose(); // Close the modal after successful verification
     } catch (err) {
       setError('Invalid verification code. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone/resend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          phoneNumber: `${selectedCountry.dialCode}${phoneNumber}` 
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to resend code');
+      
+      setCountdown(30);
+      setCanResend(false);
+    } catch (err) {
+      setError('Failed to resend code. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -148,29 +188,56 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
               </Button>
             </form>
           ) : (
-            <form onSubmit={handleVerificationSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Verification Code
-                </label>
-                <input
-                  type="text"
-                  value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
-                  className="block w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
-                  placeholder="Enter 6-digit code"
-                  maxLength={6}
-                  required
-                />
+            <div className="space-y-6">
+              <div className="text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  We sent a verification code to
+                </p>
+                <p className="font-medium text-gray-900 dark:text-white">
+                  {selectedCountry.dialCode} {phoneNumber}
+                </p>
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Verifying...' : 'Verify Code'}
-              </Button>
-            </form>
+
+              <form onSubmit={handleVerificationSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-4 text-center">
+                    Enter verification code
+                  </label>
+                  <OtpInput
+                    length={6}
+                    value={verificationCode}
+                    onChange={setVerificationCode}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading || verificationCode.length !== 6}
+                >
+                  {isLoading ? 'Verifying...' : 'Verify'}
+                </Button>
+
+                <div className="text-center space-y-2">
+                  {!canResend ? (
+                    <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+                      <Timer className="w-4 h-4" />
+                      <span>Resend code in {countdown}s</span>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendCode}
+                      disabled={isLoading}
+                      className="text-sm text-indigo-600 hover:text-indigo-500 
+                        dark:text-indigo-400 dark:hover:text-indigo-300"
+                    >
+                      Resend verification code
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
           )}
         </div>
 
