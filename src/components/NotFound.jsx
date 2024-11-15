@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
-import { Newspaper } from 'lucide-react'
+import { TbNewsOff } from 'react-icons/tb'
 
 export default function NotFound({ 
   title = "Page Not Found",
@@ -16,7 +16,7 @@ export default function NotFound({
       <div className="text-center space-y-6">
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
-            <Newspaper className="w-64 h-64" />
+            <TbNewsOff className="w-64 h-64" />
           </div>
           <h2 className="text-4xl font-bold text-gray-900 relative z-10">
             {title}

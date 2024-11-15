@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import EventsGrid from './components/EventsGrid/EventsGrid';
@@ -32,6 +32,7 @@ import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
 import { AuthProvider } from './context/AuthContext';
 import SettingsLayout from './pages/settings/SettingsLayout';
+import News from './pages/News';
 
 const StandardLayout = ({ children }) => {
   const { theme } = useTheme();
@@ -50,15 +51,6 @@ const StandardLayout = ({ children }) => {
 
 const AppContent = () => {
   const location = useLocation();
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event')
-      .then(response => response.json())
-      .then(data => setEvents(data))
-      .catch(err => console.error('Error fetching events:', err));
-  }, []);
 
   if (location.pathname === '/signup') return <SignUp />;
   if (location.pathname === '/login') return <Login />;
@@ -73,7 +65,7 @@ const AppContent = () => {
             <Brands />
             <Divider />
             <Approach />
-            <EventsGrid activeCategory={activeCategory} />
+            <EventsGrid />
             <NewsGrid />
           </StandardLayout>
         } />
@@ -143,7 +135,7 @@ const AppContent = () => {
         {/* News routes */}
         <Route path="/news" element={
           <StandardLayout>
-            <NewsGrid />
+            <News />
           </StandardLayout>
         } />
 
