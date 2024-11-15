@@ -2,18 +2,28 @@ import React, { useState } from 'react';
 import { X, ArrowLeft, Phone } from 'lucide-react';
 import { Button } from '../ui/button';
 import logo from '../../assets/icons/nylogo.png';
+import CountrySelector from './CountrySelector';
+import { countries } from './countriesData';
 
 const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '');
+    setPhoneNumber(value);
+  };
+
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+
+    const fullPhoneNumber = `${selectedCountry.dialCode}${phoneNumber}`;
 
     try {
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/phone', {
@@ -21,7 +31,7 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber }),
+        body: JSON.stringify({ phoneNumber: fullPhoneNumber }),
       });
 
       if (!response.ok) {
@@ -111,18 +121,22 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
                 <label className="block text-sm font-medium mb-2">
                   Phone Number
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Phone className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
-                    placeholder="+1 (555) 000-0000"
-                    required
+                <div className="flex gap-2">
+                  <CountrySelector
+                    selectedCountry={selectedCountry}
+                    onSelect={setSelectedCountry}
                   />
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={handlePhoneChange}
+                      className="block w-full px-3 py-2 border rounded-md focus:ring-2 
+                        focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
+                      placeholder="Enter phone number"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
               <Button
