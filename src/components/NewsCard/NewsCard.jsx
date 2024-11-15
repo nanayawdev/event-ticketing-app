@@ -10,7 +10,7 @@ export default function NewsCard({
 }) {
   return (
     <Card className="overflow-hidden max-w-sm group hover:scale-105 transition-transform duration-300">
-      <div className="relative flex flex-col h-full bg-black text-white">
+      <div className="relative flex flex-col h-full bg-white dark:bg-gray-900 text-white dark:text-white">
         {/* Main Image with Overlay */}
         <div className="relative h-64">
           <img
