@@ -12,13 +12,11 @@ import Pricing from './components/Pricing/Pricing';
 import Contact from './pages/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
 import Login from './components/Login/Login';
-import Brands from './components/Brands/Brands';
-import Approach from './components/Approach/Approach';
-import Divider from './components/Divider/Divider';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
 import CookieConsentBanner from './components/CookieConsentBanner/CookieConsentBanner';
+import NewHero from './components/NewHero/NewHero';
 import HeroAlt from './components/HeroAlt/HeroAlt';
 import NewsGrid from './components/NewsGrid/NewsGrid';
 import NewsRead from './pages/NewsRead';
@@ -62,9 +60,7 @@ const AppContent = () => {
         <Route path="/" element={
           <StandardLayout showHelp={true}>
             <HeroAlt />
-            <Brands />
-            <Divider />
-            <Approach />
+            <NewHero />
             <EventsGrid />
             <NewsGrid />
           </StandardLayout>
