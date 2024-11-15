@@ -33,7 +33,7 @@ const Breadcrumb = () => {
     <nav className="flex items-center text-gray-600 mb-6 text-sm">
       <Link 
         to="/" 
-        className="hover:text-sea-green-500 transition-colors font-medium"
+        className="hover:text-primary-500 transition-colors font-medium"
       >
         {routeNameMap['']}
       </Link>
@@ -47,13 +47,13 @@ const Breadcrumb = () => {
           <div key={name} className="flex items-center">
             <ChevronRight className="mx-2 h-4 w-4 text-gray-400" />
             {isLast ? (
-              <span className="text-sea-green-500 font-medium">
+              <span className="text-primary-500 font-medium">
                 {displayName}
               </span>
             ) : (
               <Link
                 to={routeTo}
-                className="hover:text-sea-green-500 transition-colors font-medium"
+                className="hover:text-primary-500 transition-colors font-medium"
               >
                 {displayName}
               </Link>

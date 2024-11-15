@@ -94,9 +94,9 @@ const HelpPopup = () => {
             setShowIcon(false);
             setIsOpen(true);
           }}
-          className="bg-white rounded-full p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-1000 ease-in-out animate-fade-in"
+          className="bg-gray-800 dark:bg-primary-600 rounded-full p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-1000 ease-in-out animate-fade-in"
         >
-          <Handshake className="w-5 h-5 sm:w-6 sm:h-6 text-sea-green-600" />
+          <Handshake className="w-5 h-5 sm:w-6 sm:h-6 text-primary-100" />
         </button>
       )}
     </div>
