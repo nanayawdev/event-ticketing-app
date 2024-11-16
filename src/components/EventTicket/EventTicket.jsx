@@ -92,10 +92,10 @@ const EventTicket = ({
     <div className="mt-8">
       <div 
         id="event-ticket" 
-        className="flex flex-col sm:flex-row border-2 border-sea-green-100 rounded-lg"
+        className="flex flex-col sm:flex-row border-2 border-gray-100 rounded-lg"
       >
         {/* QR Code Section */}
-        <div className="w-full sm:w-48 h-48 flex items-center justify-center p-6 border-b-2 sm:border-b-0 border-dashed border-sea-green-100">
+        <div className="w-full sm:w-48 h-48 flex items-center justify-center p-6 border-b-2 sm:border-b-0 border-dashed border-gray-100">
           <QRCodeSVG
             value={ticketData}
             size={160}
@@ -115,11 +115,11 @@ const EventTicket = ({
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Venue:</span>
-              <span className="font-medium">{venue}</span>
+              <span className="font-medium dark:text-gray-50">{venue}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Amount:</span>
-              <span className="font-medium">GH₵ {amount.toFixed(2)}</span>
+              <span className="font-medium dark:text-gray-50">GH₵ {amount.toFixed(2)}</span>
             </div>
           </div>
 
@@ -127,13 +127,13 @@ const EventTicket = ({
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Start:</span>
-              <span className="font-medium">
+              <span className="font-medium dark:text-gray-50">
                 {formatDateTime(startDate, startTime)}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">End:</span>
-              <span className="font-medium">
+              <span className="font-medium dark:text-gray-50">
                 {formatDateTime(endDate, endTime)}
               </span>
             </div>
@@ -143,11 +143,11 @@ const EventTicket = ({
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Ticket:</span>
-              <span className="font-medium break-words">{formatTicketTypes()}</span>
+              <span className="font-medium break-words dark:text-gray-50">{formatTicketTypes()}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">ID:</span>
-              <span className="font-medium">#{ticketId}</span>
+              <span className="font-medium dark:text-gray-50">#{ticketId}</span>
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@ const EventTicket = ({
       <div className="flex justify-center sm:justify-end mt-4">
         <Button
           onClick={handleDownloadPDF}
-          className="w-full sm:w-auto bg-sea-green-500 text-white hover:bg-sea-green-600"
+          className="w-full sm:w-auto bg-primary-500 text-white hover:bg-primary-600"
         >
           <Download className="h-4 w-4 mr-2" />
           Save as PDF
