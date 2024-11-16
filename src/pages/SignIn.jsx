@@ -172,14 +172,9 @@ const SignIn = () => {
 
                 {/* Password Input */}
                 <div>
-                  <div className="flex justify-between items-center">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Password
-                    </label>
-                    <Link to="/forgot-password" className="text-sm text-primary-400 hover:text-primary-500">
-                      Forgot Password?
-                    </Link>
-                  </div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Password
+                  </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Key className="h-5 w-5 text-primary-400" />
@@ -208,6 +203,11 @@ const SignIn = () => {
                         <EyeClosed className="h-5 w-5 text-gray-400 hover:text-gray-500" />
                       )}
                     </button>
+                  </div>
+                  <div className="mt-2 text-right">
+                    <Link to="/forgot-password" className="text-sm text-primary-400 hover:text-primary-500">
+                      Forgot Password?
+                    </Link>
                   </div>
                 </div>
 
