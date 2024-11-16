@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { format } from 'date-fns';
 import { Download } from 'lucide-react';
@@ -17,8 +17,8 @@ const EventTicket = ({
   amount,
   eventId 
 }) => {
-  // Generate random ID with event name initials
-  const generateTicketId = () => {
+  // Move ticketId generation into useMemo
+  const ticketId = useMemo(() => {
     const initials = eventName
       .split(' ')
       .map(word => word[0])
@@ -26,9 +26,7 @@ const EventTicket = ({
       .toUpperCase();
     const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     return `${initials}${randomNum}`;
-  };
-
-  const ticketId = generateTicketId();
+  }, [eventName]); // Only regenerate if eventName changes
 
   // Format ticket types display
   const formatTicketTypes = () => {
