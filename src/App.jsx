@@ -4,14 +4,14 @@ import Navbar from './components/Navbar/Navbar';
 import EventsGrid from './components/EventsGrid/EventsGrid';
 import EventDetails from './components/EventDetails/EventDetails';
 import Footer from './components/Footer/Footer';
-import SignUp from './components/SignUp/SignUp';
+import SignUp from './pages/SignUp';
 import About from './pages/About';
 import Events from './components/Events/Events';
 import Services from './pages/Services';
 import Pricing from './components/Pricing/Pricing';
 import Contact from './pages/Contact';
 import ClientGuide from './components/ClientGuide/ClientGuide';
-import Login from './components/Login/Login';
+import SignIn from './pages/SignIn';
 import HelpPopup from './components/HelpPopup/HelpPopup';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import EventOrganizer from "./pages/EventOrganizer";
@@ -32,6 +32,7 @@ import { AuthProvider } from './context/AuthContext';
 import SettingsLayout from './pages/settings/SettingsLayout';
 import News from './pages/News';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import SocialButton from './components/SocialButton/SocialButton';
 
 const StandardLayout = ({ children, showHelp = false }) => {
   const { theme } = useTheme();
@@ -52,7 +53,7 @@ const AppContent = () => {
   const location = useLocation();
 
   if (location.pathname === '/signup') return <SignUp />;
-  if (location.pathname === '/login') return <Login />;
+  if (location.pathname === '/login') return <SignIn />;
 
   return (
     <>

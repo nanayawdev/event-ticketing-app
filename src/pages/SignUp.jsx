@@ -1,27 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/icons/nylogo.png';
 import { Snackbar, Alert } from '@mui/material';
-import { AtSign, Key, Eye, EyeClosed } from 'lucide-react';
+import PhoneSignUp from '../components/PhoneSignUp/PhoneSignUp';
 import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
+import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
 import SocialButton from '../components/SocialButton/SocialButton';
 import PhoneSignIn from '../components/PhoneSignIn/PhoneSignIn';
-
-const SignIn = () => {
+  
+const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    fullName: '',
     email: '',
     password: '',
   });
   const [fieldErrors, setFieldErrors] = useState({
+    fullName: false, 
     email: false,
     password: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({
+    lowercase: false,
+    uppercase: false,
+    number: false,
+    symbol: false,
+    length: false,
+  });
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [showPhoneSignUp, setShowPhoneSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [signal, setSignal] = useState(" ");
   const [showPhoneSignIn, setShowPhoneSignIn] = useState(false);
+
+  useEffect(() => {
+    validatePassword(formData.password);
+  }, [formData.password]);
+
+  const validatePassword = (password) => {
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasLength = password.length >= 8;
+
+    setPasswordStrength({
+      lowercase: hasLowerCase,
+      uppercase: hasUpperCase,
+      number: hasNumber,
+      symbol: hasSymbol,
+      length: hasLength,
+    });
+
+    if (!hasLowerCase) {
+      setSignal("lowercase-error");
+    } else if (!hasUpperCase) {
+      setSignal("uppercase-error");
+    } else if (!hasNumber) {
+      setSignal("number-error");
+    } else if (!hasSymbol) {
+      setSignal("symbol-error");
+    } else if (!hasLength) {
+      setSignal("length-error");
+    } else {
+      setSignal("strong");
+    }
+  };
+
+  const getPasswordStrength = () => {
+    const metRequirements = Object.values(passwordStrength).filter(Boolean).length;
+    return (metRequirements / 5) * 100;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +95,16 @@ const SignIn = () => {
         [name]: true
       }));
     }
+    if (name === 'password') {
+      setIsPasswordFocused(false);
+    }
+  };
+
+  const handleFocus = (e) => {
+    const { name } = e.target;
+    if (name === 'password') {
+      setIsPasswordFocused(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -55,37 +117,46 @@ const SignIn = () => {
     setFieldErrors(newFieldErrors);
 
     if (Object.values(newFieldErrors).some(Boolean)) {
-      return;
+      return; // Don't submit if there are errors
     }
 
+    if (!Object.values(passwordStrength).every(Boolean)) {
+      setError('Please meet all password requirements');
+      return;
+    }
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/login', {
+      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          Name: formData.fullName,
           Email: formData.email,
-          Password: formData.password,
+          Password: String(formData.password),
+          role: 'Admin',
         }),
       });
 
       if (response.ok) {
         setOpenSnackbar(true);
-        setFormData({ email: '', password: '' });
+        console.log('User registered successfully');
+        setFormData({ fullName: '', email: '', password: '' });
         
+        // Redirect to dashboard after a short delay
         setTimeout(() => {
           navigate('/dashboard');
-        }, 1500);
+        }, 1500); // 1.5 seconds delay to show the success message
       } else {
         const errorData = await response.json();
-        setError(errorData.message || 'Invalid credentials');
+        setError(errorData.message || 'Failed to register user');
       }
     } catch (error) {
-      setError('Error during sign in. Please try again.');
+      setError('Error during registration. Please try again.');
+      console.error('Error during registration:', error);
     } finally {
       setIsLoading(false);
     }
@@ -98,12 +169,22 @@ const SignIn = () => {
     setOpenSnackbar(false);
   };
 
+  const handlePhoneSignUp = () => {
+    setShowPhoneSignUp(true);
+  };
+
+  const handleBackToSignUp = () => {
+    setShowPhoneSignUp(false);
+  };
+
   const handlePhoneClick = () => {
+    console.log('Phone button clicked');
     setShowPhoneSignIn(true);
   };
 
   const handleGoogleClick = () => {
     console.log('Google button clicked');
+    // Add Google sign-up logic here
   };
 
   const socialButtons = [
@@ -121,13 +202,35 @@ const SignIn = () => {
     }
   ];
 
+  const getMessage = () => {
+    switch (signal) {
+      case "length-error":
+        return "Password must be at least 8 characters long.";
+      case "uppercase-error":
+        return "Password must contain at least one uppercase letter.";
+      case "lowercase-error":
+        return "Password must contain at least one lowercase letter.";
+      case "number-error":
+        return "Password must contain at least one number.";
+      case "symbol-error":
+        return "Password must contain at least one special character.";
+      default:
+        return "Wow! Very strong password.";
+    }
+  };
+
   return (
     <>
       {showPhoneSignIn ? (
         <PhoneSignIn 
           onBack={() => setShowPhoneSignIn(false)}
           onClose={() => setShowPhoneSignIn(false)}
-          isSignUp={false}
+          isSignUp={true}
+        />
+      ) : showPhoneSignUp ? (
+        <PhoneSignUp 
+          onBack={handleBackToSignUp}
+          onClose={() => setShowPhoneSignUp(false)}
         />
       ) : (
         <>
@@ -136,15 +239,41 @@ const SignIn = () => {
               {/* Header Section */}
               <div className="flex flex-col items-center text-center space-y-2">
                 <img src={logo} alt="Logo" className="h-12 w-auto" />
-                <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
                 <p className="text-sm text-gray-600">
-                  Sign in to continue to your account
+                  Revolutionize your voting experience today.
                 </p>
               </div>
 
               {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
               <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
+                {/* Full Name Input */}
+                <div>
+                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-900">
+                    Full Name
+                  </label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <CircleUser className="h-5 w-5 text-primary-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Enter your name"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onFocus={handleFocus}
+                      required
+                      className={`block w-full pl-10 pr-3 h-12 border ${
+                        fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
+                      } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
+                    />
+                  </div>
+                </div>
+
                 {/* Email Input */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -162,6 +291,7 @@ const SignIn = () => {
                       value={formData.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      onFocus={handleFocus}
                       required
                       className={`block w-full pl-10 pr-3 h-12 border ${
                         fieldErrors.email ? 'border-red-500' : 'border-gray-300'
@@ -187,6 +317,7 @@ const SignIn = () => {
                       value={formData.password}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      onFocus={handleFocus}
                       required
                       className={`block w-full pl-10 pr-10 h-12 border ${
                         fieldErrors.password ? 'border-red-500' : 'border-gray-300'
@@ -204,6 +335,27 @@ const SignIn = () => {
                       )}
                     </button>
                   </div>
+
+                  {isPasswordFocused && (
+                    <div className="mt-4 space-y-2">
+                      <div className="h-2 bg-gray-200 rounded">
+                        <div
+                          className="h-full bg-green-500 rounded transition-all"
+                          style={{ width: `${getPasswordStrength()}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        <p className="font-medium">Password must contain:</p>
+                        <ul className="mt-2 space-y-1">
+                          {Object.entries(passwordStrength).map(([requirement, isMet]) => (
+                            <li key={requirement} className={`flex items-center ${isMet ? 'text-green-500' : 'text-gray-500'}`}>
+                              {isMet ? '✓' : '✗'} {requirement.charAt(0).toUpperCase() + requirement.slice(1)}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-4">
@@ -212,7 +364,7 @@ const SignIn = () => {
                     disabled={isLoading}
                     className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
                   >
-                    {isLoading ? 'Signing in...' : 'Sign In'}
+                    {isLoading ? 'Registering...' : 'Register'}
                   </button>
 
                   {/* Divider with text */}
@@ -222,12 +374,12 @@ const SignIn = () => {
                     </div>
                     <div className="relative flex justify-center text-sm">
                       <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                        Or continue with
+                        Or sign up with
                       </span>
                     </div>
                   </div>
 
-                  {/* Social Login Buttons */}
+                  {/* Social Signup Buttons - Updated grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {socialButtons.map((props) => (
                       <SocialButton 
@@ -241,9 +393,20 @@ const SignIn = () => {
 
               <div className="flex flex-col items-center space-y-4 mt-4">
                 <p className="text-sm text-gray-600 text-center">
-                  Don't have an account?{' '}
-                  <Link to="/signup" className="text-primary-400 hover:text-primary-500">
-                    Sign Up
+                  By signing up, you agree to our{' '}
+                  <Link to="/terms" className="text-primary-400 hover:text-primary-500">
+                    Terms of service
+                  </Link>{' '}
+                  &{' '}
+                  <Link to="/privacy" className="text-primary-400 hover:text-primary-500">
+                    Privacy Policy
+                  </Link>
+                </p>
+
+                <p className="text-sm text-gray-600 text-center">
+                  Already have an account?{' '}
+                  <Link to="/login" className="text-primary-400 hover:text-primary-500">
+                    Login
                   </Link>
                 </p>
               </div>
@@ -261,7 +424,7 @@ const SignIn = () => {
               severity="success"
               sx={{ width: '100%' }}
             >
-              Sign in successful!
+              Registration successful!
             </Alert>
           </Snackbar>
         </>
@@ -270,4 +433,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

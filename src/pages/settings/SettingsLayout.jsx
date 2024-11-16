@@ -62,13 +62,13 @@ const SettingsLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Mobile Menu Button - Only visible on mobile */}
         <div className="lg:hidden mb-4">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-lg hover:bg-gray-100/80 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-gray-800/80 dark:text-white transition-colors"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -77,8 +77,8 @@ const SettingsLayout = () => {
         <div className="md:flex md:gap-6">
           {/* Settings Navigation */}
           <aside className={`
-            fixed inset-y-0 left-0 z-50 w-64 bg-white lg:static lg:block
-            transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 lg:static lg:block
+            transform rounded-xl ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
             lg:translate-x-0 transition-transform duration-200 ease-in-out
             ${isSidebarOpen ? 'block' : 'hidden'}
           `}>
@@ -86,7 +86,7 @@ const SettingsLayout = () => {
             <div className="lg:hidden p-4 flex justify-end">
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 rounded-lg hover:bg-gray-100/80 transition-colors"
+                className="p-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-gray-800/80 dark:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -103,7 +103,7 @@ const SettingsLayout = () => {
                     transition-all duration-200
                     ${isActive 
                       ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' 
-                      : 'text-gray-600 hover:bg-gray-100/80'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
                     }
                   `}
                 >
@@ -124,7 +124,7 @@ const SettingsLayout = () => {
 
           {/* Settings Content */}
           <main className="flex-1 w-full">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200/80">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700/80">
               <Routes>
                 <Route path="organization" element={<OrganizationSettings />} />
                 <Route path="security" element={<SecuritySettings />} />

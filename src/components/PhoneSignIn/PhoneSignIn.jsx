@@ -118,141 +118,147 @@ const PhoneSignIn = ({ onBack, onClose, isSignUp = false }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-md w-full relative">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <img src={logo} alt="Logo" className="h-8" />
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50">
+      {/* Blur overlay */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      
+      {/* Original modal structure remains unchanged */}
+      <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-md w-full relative">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+            <button
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <img src={logo} alt="Logo" className="h-8" />
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-center mb-2">
-            {step === 1 ? 'Enter Phone Number' : 'Verify Phone Number'}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
-            {step === 1 
-              ? 'We will send you a verification code' 
-              : 'Enter the verification code sent to your phone'
-            }
-          </p>
+          {/* Content */}
+          <div className="p-6">
+            <h2 className="text-2xl font-bold text-center mb-2">
+              {step === 1 ? 'Enter Phone Number' : 'Verify Phone Number'}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
+              {step === 1 
+                ? 'We will send you a verification code' 
+                : 'Enter the verification code sent to your phone'
+              }
+            </p>
 
-          {error && (
-            <div className="mb-4 text-red-500 text-sm text-center">
-              {error}
-            </div>
-          )}
+            {error && (
+              <div className="mb-4 text-red-500 text-sm text-center">
+                {error}
+              </div>
+            )}
 
-          {step === 1 ? (
-            <form onSubmit={handlePhoneSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Phone Number
-                </label>
-                <div className="flex gap-2">
-                  <CountrySelector
-                    selectedCountry={selectedCountry}
-                    onSelect={setSelectedCountry}
-                  />
-                  <div className="relative flex-1">
-                    <input
-                      type="tel"
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      className="block w-full px-3 py-2 border rounded-md focus:ring-2 
-                        focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
-                      placeholder="Enter phone number"
-                      required
+            {step === 1 ? (
+              <form onSubmit={handlePhoneSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Phone Number
+                  </label>
+                  <div className="flex gap-2">
+                    <CountrySelector
+                      selectedCountry={selectedCountry}
+                      onSelect={setSelectedCountry}
                     />
+                    <div className="relative flex-1">
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={handlePhoneChange}
+                        className="block w-full px-3 py-2 border rounded-md focus:ring-2 
+                          focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
+                        placeholder="Enter phone number"
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Sending...' : 'Send Code'}
-              </Button>
-            </form>
-          ) : (
-            <div className="space-y-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  We sent a verification code to
-                </p>
-                <p className="font-medium text-gray-900 dark:text-white">
-                  {selectedCountry.dialCode} {phoneNumber}
-                </p>
-              </div>
-
-              <form onSubmit={handleVerificationSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-4 text-center">
-                    Enter verification code
-                  </label>
-                  <OtpInput
-                    length={6}
-                    value={verificationCode}
-                    onChange={setVerificationCode}
-                  />
-                </div>
-
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={isLoading || verificationCode.length !== 6}
+                  disabled={isLoading}
                 >
-                  {isLoading ? 'Verifying...' : 'Verify'}
+                  {isLoading ? 'Sending...' : 'Send Code'}
                 </Button>
-
-                <div className="text-center space-y-2">
-                  {!canResend ? (
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
-                      <Timer className="w-4 h-4" />
-                      <span>Resend code in {countdown}s</span>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={handleResendCode}
-                      disabled={isLoading}
-                      className="text-sm text-indigo-600 hover:text-indigo-500 
-                        dark:text-indigo-400 dark:hover:text-indigo-300"
-                    >
-                      Resend verification code
-                    </button>
-                  )}
-                </div>
               </form>
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    We sent a verification code to
+                  </p>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {selectedCountry.dialCode} {phoneNumber}
+                  </p>
+                </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t dark:border-gray-700 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            By continuing, you agree to our{' '}
-            <a href="/terms" className="text-indigo-600 hover:text-indigo-500">
-              Terms
-            </a>{' '}
-            &{' '}
-            <a href="/privacy" className="text-indigo-600 hover:text-indigo-500">
-              Privacy Policy
-            </a>
-          </p>
+                <form onSubmit={handleVerificationSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-4 text-center">
+                      Enter verification code
+                    </label>
+                    <OtpInput
+                      length={6}
+                      value={verificationCode}
+                      onChange={setVerificationCode}
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading || verificationCode.length !== 6}
+                  >
+                    {isLoading ? 'Verifying...' : 'Verify'}
+                  </Button>
+
+                  <div className="text-center space-y-2">
+                    {!canResend ? (
+                      <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+                        <Timer className="w-4 h-4" />
+                        <span>Resend code in {countdown}s</span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResendCode}
+                        disabled={isLoading}
+                        className="text-sm text-indigo-600 hover:text-indigo-500 
+                          dark:text-indigo-400 dark:hover:text-indigo-300"
+                      >
+                        Resend verification code
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="p-4 border-t dark:border-gray-700 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              By continuing, you agree to our{' '}
+              <a href="/terms" className="text-indigo-600 hover:text-indigo-500">
+                Terms
+              </a>{' '}
+              &{' '}
+              <a href="/privacy" className="text-indigo-600 hover:text-indigo-500">
+                Privacy Policy
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>

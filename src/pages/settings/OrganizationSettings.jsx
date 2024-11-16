@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { Building, Mail, Phone, AlertCircle, Camera, MapPin, Ellipsis, Trash2 } from 'lucide-react';
 import DeleteOrganizationModal from '../../components/modals/DeleteOrganizationModal';
+import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const generateRegistrationNumber = () => {
   const word = 'TICKRFLY';
@@ -105,7 +107,9 @@ const OrganizationSettings = () => {
       };
       reader.readAsDataURL(file);
     } else {
-      alert('File size should be less than 2MB');
+      toast.error('File size should be less than 2MB', {
+        position: 'top-center'
+      });
     }
   };
 
@@ -120,12 +124,18 @@ const OrganizationSettings = () => {
 
   return (
     <div className="p-4 sm:p-6">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className="space-y-4 sm:space-y-6">
         {/* Header with More Options */}
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Organization Profile</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Organization Profile</h2>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               Manage your organization's information and contact details.
             </p>
           </div>
@@ -133,21 +143,21 @@ const OrganizationSettings = () => {
           <div className="relative">
             <button 
               onClick={() => setShowDeleteDropdown(!showDeleteDropdown)}
-              className="p-2 rounded-lg hover:bg-gray-100/80 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors"
             >
-              <Ellipsis className="w-5 h-5 text-gray-600" />
+              <Ellipsis className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
 
             {showDeleteDropdown && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg 
-                border border-gray-200/80 py-1 z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg 
+                border border-gray-200/80 dark:border-gray-700/80 py-1 z-50">
                 <button
                   onClick={() => {
                     setShowDeleteModal(true);
                     setShowDeleteDropdown(false);
                   }}
-                  className="w-full px-4 py-2 text-left text-sm text-red-600 
-                    hover:bg-red-50 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400
+                    hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                 >
                   <Trash2 className="w-4 h-4" />
                   Delete Account
@@ -160,7 +170,7 @@ const OrganizationSettings = () => {
         {/* Organization Logo */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="relative">
-            <div className="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-xl bg-gray-100 dark:bg-gray-800 dark:border dark:border-gray-700 flex items-center justify-center overflow-hidden">
               {logoUrl.url ? (
                 <img 
                   src={logoUrl.url} 
@@ -173,10 +183,10 @@ const OrganizationSettings = () => {
             </div>
             <button 
               onClick={() => fileInputRef.current?.click()} 
-              className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white 
-                shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+              className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white dark:bg-gray-800
+                shadow-md border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
-              <Camera className="w-4 h-4 text-gray-600" />
+              <Camera className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             </button>
             <input
               type="file"
@@ -187,8 +197,8 @@ const OrganizationSettings = () => {
             />
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-900">Organization Logo</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white">Organization Logo</h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               Recommended size: 400x400px. Max file size: 2MB.
             </p>
           </div>
@@ -199,7 +209,7 @@ const OrganizationSettings = () => {
           {/* Basic Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Organization Name
               </label>
               <input
@@ -209,21 +219,25 @@ const OrganizationSettings = () => {
                   ...prev,
                   organizationName: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                  placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Registration Number
               </label>
               <input
                 type="text"
                 value={formData.registrationNumber}
                 disabled
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm bg-gray-50 cursor-not-allowed"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm bg-gray-50 dark:bg-gray-800 cursor-not-allowed"
               />
             </div>
           </div>
@@ -231,7 +245,7 @@ const OrganizationSettings = () => {
           {/* Contact Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Primary Email
               </label>
               <input
@@ -241,13 +255,14 @@ const OrganizationSettings = () => {
                   ...prev,
                   email: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                  focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                  placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Primary Phone
               </label>
               <input
@@ -265,7 +280,7 @@ const OrganizationSettings = () => {
           {/* Alternative Contact */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Alternative Email (Optional)
               </label>
               <input
@@ -281,7 +296,7 @@ const OrganizationSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Alternative Phone (Optional)
               </label>
               <input
@@ -299,7 +314,7 @@ const OrganizationSettings = () => {
           {/* Address Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Address
               </label>
               <input
@@ -315,7 +330,7 @@ const OrganizationSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 City
               </label>
               <input
@@ -331,7 +346,7 @@ const OrganizationSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
                 Region
               </label>
               <select
@@ -366,7 +381,7 @@ const OrganizationSettings = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
               Description
             </label>
             <textarea
@@ -386,8 +401,9 @@ const OrganizationSettings = () => {
           <div className="flex justify-end gap-3">
             <button
               type="button"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
-                rounded-lg border border-gray-300 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 
+                hover:bg-gray-50 dark:hover:bg-gray-700/20 rounded-lg border 
+                border-gray-300 dark:border-gray-600 transition-colors"
             >
               Cancel
             </button>
