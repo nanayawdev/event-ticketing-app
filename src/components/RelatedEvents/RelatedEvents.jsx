@@ -58,10 +58,10 @@ const RelatedEvents = ({ currentEventCategory, currentEventId }) => {
           <h2 className="text-2xl font-bold">Related Events</h2>
           <button
             onClick={handleViewAllEvents}
-            className="text-primary-500 font-semibold py-2 px-4 rounded-md transition-colors flex items-center gap-2"
+            className="text-primary-500 font-semibold py-2 px-4 rounded-md transition-colors flex items-center gap-1 sm:gap-2 text-xs sm:text-xs"
           >
-            View All Events
-            <ArrowRight className="h-4 w-4" />
+            <span>View All Events</span>
+            <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
           </button>
         </div>
         
