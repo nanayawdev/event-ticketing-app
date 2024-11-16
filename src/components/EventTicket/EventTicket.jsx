@@ -90,9 +90,12 @@ const EventTicket = ({
 
   return (
     <div className="mt-8">
-      <div id="event-ticket" className="flex border-2 border-sea-green-100 rounded-lg">
+      <div 
+        id="event-ticket" 
+        className="flex flex-col sm:flex-row border-2 border-sea-green-100 rounded-lg"
+      >
         {/* QR Code Section */}
-        <div className="flex-shrink-0 w-48 h-48 flex items-center justify-center p-6">
+        <div className="w-full sm:w-48 h-48 flex items-center justify-center p-6 border-b-2 sm:border-b-0 border-dashed border-sea-green-100">
           <QRCodeSVG
             value={ticketData}
             size={160}
@@ -101,15 +104,15 @@ const EventTicket = ({
           />
         </div>
 
-        {/* Separator */}
-        <div className="border-l-2 border-dashed border-sea-green-100" />
+        {/* Separator - Only show on sm and above */}
+        <div className="hidden sm:block border-l-2 border-dashed border-sea-green-100" />
 
         {/* Ticket Details Section */}
-        <div className="flex-1 p-6 space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800">{eventName}</h2>
+        <div className="flex-1 p-4 sm:p-6 space-y-3 sm:space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{eventName}</h2>
           
           {/* Venue and Price Row */}
-          <div className="flex justify-between items-center text-gray-700">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Venue:</span>
               <span className="font-medium">{venue}</span>
@@ -121,7 +124,7 @@ const EventTicket = ({
           </div>
 
           {/* Dates Row */}
-          <div className="flex justify-between items-center text-gray-700">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Start:</span>
               <span className="font-medium">
@@ -137,10 +140,10 @@ const EventTicket = ({
           </div>
 
           {/* Ticket Type and ID Row */}
-          <div className="flex justify-between items-center text-gray-700">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-gray-700 space-y-2 sm:space-y-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Ticket:</span>
-              <span className="font-medium">{formatTicketTypes()}</span>
+              <span className="font-medium break-words">{formatTicketTypes()}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-500">ID:</span>
@@ -151,10 +154,10 @@ const EventTicket = ({
       </div>
 
       {/* Download Button */}
-      <div className="flex justify-end mt-4">
+      <div className="flex justify-center sm:justify-end mt-4">
         <Button
           onClick={handleDownloadPDF}
-          className="bg-sea-green-500 text-white hover:bg-sea-green-600"
+          className="w-full sm:w-auto bg-sea-green-500 text-white hover:bg-sea-green-600"
         >
           <Download className="h-4 w-4 mr-2" />
           Save as PDF
