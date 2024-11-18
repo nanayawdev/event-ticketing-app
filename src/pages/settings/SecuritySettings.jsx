@@ -34,26 +34,26 @@ const SecuritySettings = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Security Settings</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Security Settings</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage your account security and authentication methods.
           </p>
         </div>
 
         {/* Password Section */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Key className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Password</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Password</h3>
           </div>
 
           <div className="space-y-4">
             {!showPasswordForm ? (
               <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-                gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div>
-                  <h4 className="font-medium text-gray-900">Change Password</h4>
-                  <p className="text-sm text-gray-500">
+                  <h4 className="font-medium text-gray-900 dark:text-white">Change Password</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Last changed 3 months ago
                   </p>
                 </div>
@@ -66,9 +66,9 @@ const SecuritySettings = () => {
                 </button>
               </div>
             ) : (
-              <form className="p-3 bg-white rounded-lg border border-gray-200 space-y-4">
+              <form className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Current Password
                   </label>
                   <input
@@ -78,13 +78,16 @@ const SecuritySettings = () => {
                       ...prev,
                       currentPassword: e.target.value
                     }))}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 
-                      rounded-lg shadow-sm focus:outline-none focus:ring-1 
-                      focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full px-3 py-2 
+                      bg-white dark:bg-gray-800 
+                      border border-gray-300 dark:border-gray-600 
+                      text-gray-900 dark:text-white
+                      rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     New Password
                   </label>
                   <input
@@ -94,13 +97,16 @@ const SecuritySettings = () => {
                       ...prev,
                       newPassword: e.target.value
                     }))}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 
-                      rounded-lg shadow-sm focus:outline-none focus:ring-1 
-                      focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full px-3 py-2 
+                      bg-white dark:bg-gray-800 
+                      border border-gray-300 dark:border-gray-600 
+                      text-gray-900 dark:text-white
+                      rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Confirm New Password
                   </label>
                   <input
@@ -110,17 +116,20 @@ const SecuritySettings = () => {
                       ...prev,
                       confirmPassword: e.target.value
                     }))}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 
-                      rounded-lg shadow-sm focus:outline-none focus:ring-1 
-                      focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full px-3 py-2 
+                      bg-white dark:bg-gray-800 
+                      border border-gray-300 dark:border-gray-600 
+                      text-gray-900 dark:text-white
+                      rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div className="flex justify-end gap-3">
                   <button
                     type="button"
                     onClick={() => setShowPasswordForm(false)}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 
-                      hover:bg-gray-50 rounded-lg border border-gray-300 
+                    className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 
+                      hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 
                       transition-colors"
                   >
                     Cancel
@@ -140,21 +149,21 @@ const SecuritySettings = () => {
         </div>
 
         {/* Two-Factor Authentication */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Smartphone className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
               Two-Factor Authentication
             </h3>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-            gap-3 p-3 bg-white rounded-lg border border-gray-200">
+            gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
             <div>
-              <h4 className="font-medium text-gray-900">
+              <h4 className="font-medium text-gray-900 dark:text-white">
                 {is2FAEnabled ? 'Two-Factor Authentication Enabled' : 'Enable Two-Factor Authentication'}
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Add an extra layer of security to your account
               </p>
             </div>
@@ -177,19 +186,19 @@ const SecuritySettings = () => {
         </div>
 
         {/* Active Sessions */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Shield className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Active Sessions</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Active Sessions</h3>
           </div>
 
           <div className="space-y-3">
             {sessions.map((session) => (
               <div key={session.id} className="flex flex-col sm:flex-row sm:items-center 
-                justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                justify-between gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="font-medium text-gray-900">{session.device}</h4>
+                    <h4 className="font-medium text-gray-900 dark:text-white">{session.device}</h4>
                     {session.isCurrent && (
                       <span className="px-2 py-0.5 text-xs font-medium text-green-600 
                         bg-green-50 rounded-full">
@@ -197,7 +206,7 @@ const SecuritySettings = () => {
                       </span>
                     )}
                   </div>
-                  <div className="mt-1 text-sm text-gray-500 space-y-1">
+                  <div className="mt-1 text-sm text-gray-500 dark:text-gray-400 space-y-1">
                     <p>{session.location}</p>
                     <p>{session.lastActive}</p>
                   </div>

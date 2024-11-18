@@ -203,7 +203,7 @@ const OrganizationSettings = () => {
           {/* Basic Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Organization Name
               </label>
               <input
@@ -264,9 +264,13 @@ const OrganizationSettings = () => {
                 value={formData.phone}
                 onChange={(e) => handlePhoneChange(e, 'phone')}
                 placeholder="Enter primary phone number"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                  placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
           </div>
@@ -284,9 +288,13 @@ const OrganizationSettings = () => {
                   ...prev,
                   alternativeEmail: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                  placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
             <div>
@@ -298,9 +306,13 @@ const OrganizationSettings = () => {
                 value={formData.alternativePhone}
                 onChange={(e) => handlePhoneChange(e, 'alternativePhone')}
                 placeholder="Enter alternative phone number (optional)"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                  placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
           </div>
@@ -318,9 +330,12 @@ const OrganizationSettings = () => {
                   ...prev,
                   address: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -334,9 +349,12 @@ const OrganizationSettings = () => {
                   ...prev,
                   city: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -349,9 +367,12 @@ const OrganizationSettings = () => {
                   ...prev,
                   region: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option>Ahafo</option>
                 <option>Ashanti</option>
@@ -385,9 +406,13 @@ const OrganizationSettings = () => {
                 description: e.target.value
               }))}
               rows={4}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                focus:border-blue-500"
+              className="mt-1 block w-full px-3 py-2 
+                bg-white dark:bg-gray-800 
+                text-gray-900 dark:text-white
+                border border-gray-300 dark:border-gray-600 
+                rounded-lg shadow-sm 
+                focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
@@ -403,9 +428,12 @@ const OrganizationSettings = () => {
                   ...prev,
                   preferredCurrency: e.target.value
                 }))}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
-                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
-                  focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white dark:bg-gray-800 
+                  text-gray-900 dark:text-white
+                  border border-gray-300 dark:border-gray-600 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               >
                 {Object.entries(currencies).map(([code, { name, symbol }]) => (
                   <option key={code} value={code}>
