@@ -223,10 +223,10 @@ const SecuritySettings = () => {
         </div>
 
         {/* Security Alert */}
-        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 rounded-lg">
-          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 dark:bg-yellow-800/50 rounded-lg">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-yellow-800">
+            <h4 className="text-sm font-medium text-yellow-800 dark:text-yellow-600">
               Security Recommendation
             </h4>
             <p className="mt-1 text-sm text-yellow-700">
