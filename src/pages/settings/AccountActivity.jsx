@@ -65,14 +65,14 @@ const AccountActivity = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Account Activity</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Account Activity</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Review your recent account activity and security events.
           </p>
         </div>
 
         {/* Current Session */}
-        <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
           <div className="flex items-center space-x-3">
             <Monitor className="w-5 h-5 text-blue-600" />
             <div>
@@ -92,7 +92,7 @@ const AccountActivity = () => {
             const statusColor = getStatusColor(activity.status);
 
             return (
-              <div key={activity.id} className="bg-gray-50 rounded-lg p-3 sm:p-4">
+              <div key={activity.id} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
                     <div className="mt-1">
