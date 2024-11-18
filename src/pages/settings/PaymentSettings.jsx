@@ -81,20 +81,29 @@ const PaymentSettings = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [methodToDelete, setMethodToDelete] = useState(null);
-  const [newPaymentMethod, setNewPaymentMethod] = useState({
-    type: 'Credit Card',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    cardholderName: '',
-    momoProvider: '',
-    momoNumber: '',
+  const [newPayment, setNewPayment] = useState({
+    type: 'Bank Account',
+    bankName: '',
+    accountNumber: '',
+    accountName: '',
+    provider: '',
+    mobileNumber: ''
   });
 
-  const handleAddPaymentMethod = (e) => {
+  const handleAddPayment = (e) => {
     e.preventDefault();
-    // Add logic to save the new payment method
+    // Add your logic to save the new payment method
+    console.log('New payment method:', newPayment);
     setIsAddModalOpen(false);
+    // Reset form
+    setNewPayment({
+      type: 'Bank Account',
+      bankName: '',
+      accountNumber: '',
+      accountName: '',
+      provider: '',
+      mobileNumber: ''
+    });
   };
 
   const handleDeletePaymentMethod = () => {
@@ -145,8 +154,10 @@ const PaymentSettings = () => {
               <CreditCard className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-medium text-gray-900">Payment Methods</h3>
             </div>
-            <button className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium 
-              text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+            >
               <Plus className="w-4 h-4" />
               Add New
             </button>
@@ -270,76 +281,61 @@ const PaymentSettings = () => {
           </div>
         </div>
 
-        {/* Add Payment Method Modal */}
+        {/* Add New Payment Method Modal */}
         <Dialog open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} className="relative z-50">
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel className="w-full max-w-md bg-white rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <Dialog.Title className="text-lg font-medium">Add Payment Method</Dialog.Title>
-                <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+                <button 
+                  onClick={() => setIsAddModalOpen(false)} 
+                  className="text-gray-400 hover:text-gray-500"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleAddPaymentMethod} className="space-y-4">
+              <form onSubmit={handleAddPayment} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Payment Type
                   </label>
                   <select
-                    value={newPaymentMethod.type}
-                    onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, type: e.target.value })}
+                    value={newPayment.type}
+                    onChange={(e) => setNewPayment({ ...newPayment, type: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option>Credit Card</option>
+                    <option>Bank Account</option>
                     <option>Mobile Money</option>
                   </select>
                 </div>
 
-                {newPaymentMethod.type === 'Credit Card' ? (
+                {newPayment.type === 'Bank Account' ? (
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Card Number
+                        Bank Name
                       </label>
                       <input
                         type="text"
-                        maxLength="16"
-                        value={newPaymentMethod.cardNumber}
-                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cardNumber: e.target.value })}
+                        value={newPayment.bankName}
+                        onChange={(e) => setNewPayment({ ...newPayment, bankName: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Expiry Date
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="MM/YY"
-                          maxLength="5"
-                          value={newPaymentMethod.expiryDate}
-                          onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, expiryDate: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          CVV
-                        </label>
-                        <input
-                          type="text"
-                          maxLength="3"
-                          value={newPaymentMethod.cvv}
-                          onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cvv: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                          required
-                        />
-                      </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Account Number
+                      </label>
+                      <input
+                        type="text"
+                        value={newPayment.accountNumber}
+                        onChange={(e) => setNewPayment({ ...newPayment, accountNumber: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        required
+                      />
                     </div>
                   </>
                 ) : (
@@ -349,13 +345,13 @@ const PaymentSettings = () => {
                         Mobile Money Provider
                       </label>
                       <select
-                        value={newPaymentMethod.momoProvider}
-                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, momoProvider: e.target.value })}
+                        value={newPayment.provider}
+                        onChange={(e) => setNewPayment({ ...newPayment, provider: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       >
                         <option value="">Select Provider</option>
-                        <option>MTN MoMo</option>
+                        <option>MTN Mobile Money</option>
                         <option>Vodafone Cash</option>
                         <option>AirtelTigo Money</option>
                       </select>
@@ -366,8 +362,8 @@ const PaymentSettings = () => {
                       </label>
                       <input
                         type="tel"
-                        value={newPaymentMethod.momoNumber}
-                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, momoNumber: e.target.value })}
+                        value={newPayment.mobileNumber}
+                        onChange={(e) => setNewPayment({ ...newPayment, mobileNumber: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       />
@@ -377,12 +373,12 @@ const PaymentSettings = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Cardholder Name
+                    Account Name
                   </label>
                   <input
                     type="text"
-                    value={newPaymentMethod.cardholderName}
-                    onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cardholderName: e.target.value })}
+                    value={newPayment.accountName}
+                    onChange={(e) => setNewPayment({ ...newPayment, accountName: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
@@ -464,15 +460,15 @@ const PaymentSettings = () => {
                         <dl className="space-y-1">
                           <div className="grid grid-cols-2 text-sm">
                             <dt className="text-gray-500">Order Number:</dt>
-                            <dd className="text-gray-900">{selectedBill.invoice}</dd>
+                            <dd className="text-gray-900 text-right pr-4">{selectedBill.invoice}</dd>
                           </div>
                           <div className="grid grid-cols-2 text-sm">
                             <dt className="text-gray-500">Purchase Date:</dt>
-                            <dd className="text-gray-900">{selectedBill.date}</dd>
+                            <dd className="text-gray-900 text-right pr-4">{selectedBill.date}</dd>
                           </div>
                           <div className="grid grid-cols-2 text-sm">
                             <dt className="text-gray-500">Status:</dt>
-                            <dd className="text-green-600 font-medium">{selectedBill.status}</dd>
+                            <dd className="text-green-600 font-medium text-right pr-4">{selectedBill.status}</dd>
                           </div>
                         </dl>
                       </div>
@@ -482,11 +478,11 @@ const PaymentSettings = () => {
                         <dl className="space-y-1">
                           <div className="grid grid-cols-2 text-sm">
                             <dt className="text-gray-500">Ticket Type:</dt>
-                            <dd className="text-gray-900">{selectedBill.event.ticketType}</dd>
+                            <dd className="text-gray-900 text-right pr-4">{selectedBill.event.ticketType}</dd>
                           </div>
                           <div className="grid grid-cols-2 text-sm">
                             <dt className="text-gray-500">Quantity:</dt>
-                            <dd className="text-gray-900">{selectedBill.event.tickets}</dd>
+                            <dd className="text-gray-900 text-right pr-4">{selectedBill.event.tickets}</dd>
                           </div>
                         </dl>
                       </div>
