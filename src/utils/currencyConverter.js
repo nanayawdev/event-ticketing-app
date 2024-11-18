@@ -91,4 +91,29 @@ export const useExchangeRates = () => {
   }, [rates]);
 
   return { rates, loading, error, convertCurrency };
+};
+
+export const getDefaultCurrencyByLocation = (location) => {
+  // Map regions/cities to currencies
+  const locationToCurrency = {
+    // Ghana regions
+    'Greater Accra': 'GHS',
+    'Ashanti': 'GHS',
+    'Western': 'GHS',
+    // Add other Ghana regions...
+    
+    // Nigeria locations
+    'Lagos': 'NGN',
+    'Abuja': 'NGN',
+    
+    // Default to GHS if location not found
+    'default': 'GHS'
+  };
+
+  // Check if location contains any of the mapped locations
+  const matchedLocation = Object.keys(locationToCurrency).find(loc => 
+    location?.toLowerCase().includes(loc.toLowerCase())
+  );
+
+  return locationToCurrency[matchedLocation] || locationToCurrency.default;
 }; 

@@ -1,17 +1,10 @@
 import { useState, useRef } from 'react';
 import { Building, Mail, Phone, AlertCircle, Camera, MapPin, Ellipsis, Trash2 } from 'lucide-react';
+import { currencies, getDefaultCurrencyByLocation } from '../../utils/currencyConverter';
 import DeleteOrganizationModal from '../../components/modals/DeleteOrganizationModal';
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
-
-const generateRegistrationNumber = () => {
-  const word = 'TICKRFLY';
-  let result = '';
-  for (let i = 0; i < 3; i++) {
-    result += word.charAt(Math.floor(Math.random() * word.length));
-  }
-  return `${result}${Math.floor(100000 + Math.random() * 900000)}`;
-};
+import { generateRegistrationNumber } from '../../utils/generateRegistrationNumber';
 
 const OrganizationSettings = () => {
   const [showDeleteDropdown, setShowDeleteDropdown] = useState(false);
@@ -26,7 +19,8 @@ const OrganizationSettings = () => {
     address: '',
     city: '',
     region: '',
-    description: ''
+    description: '',
+    preferredCurrency: getDefaultCurrencyByLocation('Greater Accra')
   });
 
   const [errors, setErrors] = useState({});
@@ -395,6 +389,34 @@ const OrganizationSettings = () => {
                 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
                 focus:border-blue-500"
             />
+          </div>
+
+          {/* Currency Settings */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
+                Default Currency
+              </label>
+              <select
+                value={formData.preferredCurrency}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  preferredCurrency: e.target.value
+                }))}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg 
+                  shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 
+                  focus:border-blue-500"
+              >
+                {Object.entries(currencies).map(([code, { name, symbol }]) => (
+                  <option key={code} value={code}>
+                    {code} - {name} ({symbol})
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-sm text-gray-500">
+                This will be the default currency for all transactions
+              </p>
+            </div>
           </div>
 
           {/* Form Actions */}

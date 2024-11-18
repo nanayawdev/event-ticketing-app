@@ -1,7 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CreditCard, Wallet, Plus, AlertCircle } from 'lucide-react';
+import { useExchangeRates, formatCurrency, getDefaultCurrencyByLocation } from '../../utils/currencyConverter';
 
 const PaymentSettings = () => {
+  const { convertCurrency, rates, loading, error } = useExchangeRates();
+  const [userCurrency, setUserCurrency] = useState('GHS');
+  
+  // Get user's location from profile or organization settings
+  const userLocation = 'Greater Accra'; // You should get this from your user profile/context
+  
+  useEffect(() => {
+    // Get organization settings from context/state management
+    const orgCurrency = organizationSettings?.preferredCurrency || 'GHS';
+    setUserCurrency(orgCurrency);
+  }, [organizationSettings]);
+
   const [paymentMethods] = useState([
     {
       id: 1,
@@ -32,14 +45,26 @@ const PaymentSettings = () => {
       date: 'Mar 15, 2024',
       amount: 299.99,
       status: 'Paid',
-      invoice: '#INV-2024-001'
+      invoice: '#INV-2024-001',
+      event: {
+        name: 'Summer Music Festival 2024',
+        date: 'July 15, 2024',
+        tickets: 2,
+        ticketType: 'VIP Pass'
+      }
     },
     {
       id: 2,
       date: 'Feb 15, 2024',
       amount: 299.99,
       status: 'Paid',
-      invoice: '#INV-2024-002'
+      invoice: '#INV-2024-002',
+      event: {
+        name: 'Tech Conference 2024',
+        date: 'March 20, 2024',
+        tickets: 1,
+        ticketType: 'General Admission'
+      }
     }
   ]);
 
@@ -117,7 +142,7 @@ const PaymentSettings = () => {
         <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Wallet className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Billing History</h3>
+            <h3 className="text-lg font-medium text-gray-900">Ticket Purchase History</h3>
           </div>
 
           <div className="overflow-x-auto">
@@ -125,30 +150,39 @@ const PaymentSettings = () => {
               <thead>
                 <tr className="text-left text-sm text-gray-500">
                   <th className="pb-3 font-medium">Date</th>
+                  <th className="pb-3 font-medium">Event</th>
                   <th className="pb-3 font-medium">Amount</th>
                   <th className="pb-3 font-medium">Status</th>
-                  <th className="pb-3 font-medium">Invoice</th>
                   <th className="pb-3 font-medium sr-only">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {billingHistory.map((bill) => (
-                  <tr key={bill.id} className="text-sm">
+                  <tr 
+                    key={bill.id} 
+                    className="text-sm hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      console.log('Show event details:', bill.event);
+                    }}
+                  >
                     <td className="py-3 text-gray-900">{bill.date}</td>
+                    <td className="py-3 text-gray-900">{bill.event.name}</td>
                     <td className="py-3 text-gray-900">
-                      ${bill.amount.toFixed(2)}
+                      {formatCurrency(bill.amount, userCurrency)}
+                      {userCurrency !== 'GHS' && (
+                        <span className="text-sm text-gray-500">
+                          ({formatCurrency(convertCurrency(bill.amount, 'GHS', userCurrency), userCurrency)})
+                        </span>
+                      )}
                     </td>
                     <td className="py-3">
-                      <span className="px-2 py-0.5 text-xs font-medium text-green-600 
-                        bg-green-50 rounded-full">
+                      <span className="px-2 py-0.5 text-xs font-medium text-green-600 bg-green-50 rounded-full">
                         {bill.status}
                       </span>
                     </td>
-                    <td className="py-3 text-gray-900">{bill.invoice}</td>
                     <td className="py-3 text-right">
-                      <button className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 
-                        rounded-lg transition-colors">
-                        Download
+                      <button className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        View Details
                       </button>
                     </td>
                   </tr>
@@ -166,8 +200,7 @@ const PaymentSettings = () => {
               Update Your Billing Information
             </h4>
             <p className="mt-1 text-sm text-yellow-700">
-              Your next billing cycle starts on April 15, 2024. Please ensure your 
-              payment method is up to date.
+              Please ensure your payment method is up to date to enable you buy tickets for events you wish to attend.
             </p>
           </div>
         </div>

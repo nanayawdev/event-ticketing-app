@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Camera, Mail, Phone, MapPin, User, Briefcase } from 'lucide-react';
+import { currencies, getDefaultCurrencyByLocation } from '../../utils/currencyConverter';
 
 const ProfileSettings = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,8 @@ const ProfileSettings = () => {
     title: 'Event Manager',
     company: 'Acme Events',
     bio: 'Experienced event manager with a passion for creating memorable experiences.',
-    location: 'Accra, Ghana'
+    location: 'Accra, Ghana',
+    preferredCurrency: getDefaultCurrencyByLocation('Accra, Ghana')
   });
 
   return (
@@ -215,6 +217,27 @@ const ProfileSettings = () => {
             <p className="mt-2 text-sm text-gray-500">
               Brief description for your profile.
             </p>
+          </div>
+
+          {/* Preferred Currency */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Preferred Currency
+            </label>
+            <select
+              value={formData.preferredCurrency}
+              onChange={(e) => setFormData(prev => ({
+                ...prev,
+                preferredCurrency: e.target.value
+              }))}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg"
+            >
+              {Object.entries(currencies).map(([code, { name, symbol }]) => (
+                <option key={code} value={code}>
+                  {code} - {name} ({symbol})
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Form Actions */}
