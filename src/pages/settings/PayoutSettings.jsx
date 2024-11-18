@@ -62,21 +62,21 @@ const PayoutSettings = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Payout Settings</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Payout Settings</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage how you receive your event earnings.
           </p>
         </div>
 
         {/* Payout Methods */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 sm:p-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Wallet className="w-5 h-5 text-gray-600" />
-              <h3 className="text-lg font-medium text-gray-900">Payout Methods</h3>
+              <Wallet className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Payout Methods</h3>
             </div>
             <button onClick={() => setIsAddModalOpen(true)} className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium 
-              text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
+              text-white bg-blue-600 hover:bg-blue-700 dark:text-white dark:bg-blue-600 dark:hover:bg-blue-900 rounded-lg transition-colors">
               <Plus className="w-4 h-4" />
               Add New
             </button>
@@ -85,35 +85,35 @@ const PayoutSettings = () => {
           <div className="space-y-3">
             {payoutMethods.map((method) => (
               <div key={method.id} className="flex flex-col sm:flex-row sm:items-center 
-                justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                justify-between gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center 
+                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-600 rounded-lg flex items-center 
                     justify-center">
                     {method.type === 'Bank Account' ? 
-                      <Banknote className="w-5 h-5 text-gray-600" /> : 
-                      <Wallet className="w-5 h-5 text-gray-600" />}
+                      <Banknote className="w-5 h-5 text-gray-600 dark:text-gray-400" /> : 
+                      <Wallet className="w-5 h-5 text-gray-600 dark:text-gray-400" />}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-gray-900 dark:text-white">
                         {method.type === 'Bank Account' ? method.bankName : method.provider}
                       </h4>
                       {method.isDefault && (
-                        <span className="px-2 py-0.5 text-xs font-medium text-blue-600 
-                          bg-blue-50 rounded-full">
+                        <span className="px-2 py-0.5 text-xs font-medium text-blue-600 dark:text-blue-400 
+                          bg-blue-50 dark:bg-blue-950 rounded-full">
                           Default
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {method.accountNumber || method.number} • {method.accountName}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {!method.isDefault && (
-                    <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 
-                      rounded-lg transition-colors">
+                    <button className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 
+                      dark:hover:bg-gray-600 rounded-lg transition-colors">
                       Set as Default
                     </button>
                   )}
@@ -122,8 +122,8 @@ const PayoutSettings = () => {
                       setMethodToDelete(method);
                       setIsDeleteModalOpen(true);
                     }} 
-                    className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 
-                      rounded-lg transition-colors">
+                    className="px-3 py-1.5 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 
+                      dark:hover:bg-red-700 rounded-lg transition-colors">
                     Remove
                   </button>
                 </div>
@@ -133,18 +133,18 @@ const PayoutSettings = () => {
         </div>
 
         {/* Payout Schedule */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
-            <Building2 className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Payout Schedule</h3>
+            <Building2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Payout Schedule</h3>
           </div>
 
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-              gap-3 p-3 bg-white rounded-lg border border-gray-200">
+              gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
               <div>
-                <h4 className="font-medium text-gray-900">Automatic Payouts</h4>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-medium text-gray-900 dark:text-white">Automatic Payouts</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Receive your earnings automatically every week
                 </p>
               </div>
@@ -161,15 +161,16 @@ const PayoutSettings = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-              gap-3 p-3 bg-white rounded-lg border border-gray-200">
+              gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
               <div>
-                <h4 className="font-medium text-gray-900">Minimum Payout Amount</h4>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-medium text-gray-900 dark:text-white">Minimum Payout Amount</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Only process payouts when balance exceeds this amount
                 </p>
               </div>
-              <select className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg 
-                focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 
+                text-gray-900 dark:text-white bg-white dark:bg-gray-700">
                 <option>GHS 100</option>
                 <option>GHS 500</option>
                 <option>GHS 1,000</option>
@@ -179,13 +180,13 @@ const PayoutSettings = () => {
         </div>
 
         {/* Payout Alert */}
-        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 rounded-lg">
-          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 dark:bg-yellow-50 rounded-lg">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-600 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-yellow-800">
+            <h4 className="text-sm font-medium text-yellow-800 dark:text-yellow-600">
               Update Your Billing Information
             </h4>
-            <p className="mt-1 text-sm text-yellow-700">
+            <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-400">
               Please ensure your payment method is up to date to enable you buy tickets for events you wish to attend.
             </p>
           </div>
@@ -196,10 +197,10 @@ const PayoutSettings = () => {
       <Dialog open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="w-full max-w-md bg-white rounded-lg p-6">
+          <Dialog.Panel className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <Dialog.Title className="text-lg font-medium">Add Payout Method</Dialog.Title>
-              <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+              <Dialog.Title className="text-lg font-medium text-gray-900 dark:text-white">Add Payout Method</Dialog.Title>
+              <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
                 <X className="w-5 h-5" />
               </button>
             </div>
