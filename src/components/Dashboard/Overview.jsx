@@ -1,56 +1,76 @@
 import React from 'react';
 import { Users, Clock, Ticket, TrendingUp, Tag, Eye, Percent } from 'lucide-react';
+import { usePayment } from '../../context/PaymentContext';
+import { formatCurrency } from '../../utils/currencyConverter';
 
 const Overview = () => {
+  const { selectedCurrency, convertCurrency } = usePayment();
+
+  const formatValue = (value, isCurrency = true) => {
+    if (!isCurrency) return value;
+    const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ''));
+    if (isNaN(numericValue)) return value;
+    
+    const convertedValue = convertCurrency(numericValue, 'GHS', selectedCurrency);
+    return formatCurrency(convertedValue || 0, selectedCurrency);
+  };
+
   const stats = [
     { 
       title: 'Registrations', 
       value: '0 / 0', 
       icon: Users, 
       subtitle: 'Current / Capacity',
-      color: 'blue' 
+      color: 'blue',
+      isCurrency: false
     },
     { 
       title: 'Revenue Achieved', 
       value: '₵ 0', 
       icon: TrendingUp, 
       subtitle: 'Total confirmed payments',
-      color: 'green' 
+      color: 'green',
+      isCurrency: true
     },
     { 
       title: 'Revenue Expected', 
       value: '₵ 0', 
       icon: Ticket, 
       subtitle: 'Based on total registrations',
-      color: 'purple' 
+      color: 'purple',
+      isCurrency: true
     },
     { 
       title: 'Revenue Pending', 
       value: '₵ 0', 
       icon: Clock,
       subtitle: 'Awaiting payment',
-      color: 'yellow' 
+      color: 'yellow',
+      isCurrency: true
     },
     { 
       title: 'Total Discount', 
       value: '₵ 0', 
       icon: Tag,
       subtitle: 'Applied discounts',
-      color: 'pink' 
+      color: 'pink',
+      isCurrency: true
     },
     { 
       title: 'Event Views', 
       value: '0', 
       icon: Eye,
       subtitle: 'Total page views',
-      color: 'indigo' 
+      color: 'indigo',
+      isCurrency: false
     },
     { 
       title: 'Commission Rate', 
       value: '7.50%', 
       icon: Percent,
       subtitle: 'Platform fee',
-      color: 'gray' 
+      color: 'gray',
+      isCurrency: false
     }
   ];
 
@@ -69,7 +89,9 @@ const Overview = () => {
                 </div>
               </div>
               <h3 className="text-gray-500 text-sm mb-1">{stat.title}</h3>
-              <p className="text-2xl font-bold text-gray-800 mb-1">{stat.value}</p>
+              <p className="text-2xl font-bold text-gray-800 mb-1">
+                {formatValue(stat.value, stat.isCurrency)}
+              </p>
               <p className="text-sm text-gray-500">{stat.subtitle}</p>
             </div>
           );

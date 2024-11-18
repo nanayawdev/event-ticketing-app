@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Ticket, Edit, Trash2 } from 'lucide-react';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import CurrencySelector from '../CurrencySelector/CurrencySelector';
 
 const TicketsManagement = () => {
   const [tickets, setTickets] = useState([
@@ -10,8 +12,11 @@ const TicketsManagement = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Tickets Management</h2>
-      
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Tickets Management</h2>
+        <CurrencySelector />
+      </div>
+
       <div className="mb-6">
         <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
           Create New Ticket Type
@@ -34,7 +39,9 @@ const TicketsManagement = () => {
             </div>
             
             <h3 className="text-lg font-semibold mb-2">{ticket.name}</h3>
-            <p className="text-2xl font-bold text-gray-800 mb-4">${ticket.price}</p>
+            <p className="text-2xl font-bold text-gray-800 mb-4">
+              <PriceDisplay priceInGHS={ticket.price} />
+            </p>
             
             <div className="space-y-2">
               <div className="flex justify-between text-sm">

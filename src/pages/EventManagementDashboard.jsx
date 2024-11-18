@@ -17,6 +17,7 @@ import LogoutModal from '../components/LogoutModal/LogoutModal';
 import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
 import NotificationsDropdown from '../components/Notifications/NotificationsDropdown';
 import { useNotificationsManager } from '../hooks/useNotificationsManager';
+import { useTheme } from '../context/ThemeContext';
 
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
@@ -34,6 +35,7 @@ const EventManagementDashboard = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { addNotification } = useNotificationsManager();
+  const { theme } = useTheme();
 
   // Move the notification to useEffect
   useEffect(() => {
@@ -73,11 +75,11 @@ const EventManagementDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50/95">
+    <div className="flex h-screen bg-gray-50/95 dark:bg-gray-900">
       {/* Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 lg:hidden transition-all duration-300"
+          className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-20 lg:hidden transition-all duration-300"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -88,7 +90,8 @@ const EventManagementDashboard = () => {
         transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 transition duration-300 ease-in-out
         w-[280px] sm:w-[300px] md:w-20 xl:w-[300px] 
-        bg-white/80 backdrop-blur-xl border-r border-gray-200/80 
+        bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl 
+        border-r border-gray-200/80 dark:border-gray-700/80
         shadow-xl lg:shadow-none
         z-30
       `}>
@@ -96,7 +99,7 @@ const EventManagementDashboard = () => {
           {/* Logo Section */}
           <div className="p-4 flex justify-between items-center">
             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 
-              bg-clip-text text-transparent md:hidden xl:block">
+              bg-clip-text text-transparent md:hidden xl:block dark:from-blue-400 dark:to-indigo-400">
               EventDash
             </h1>
             <button 
@@ -123,8 +126,8 @@ const EventManagementDashboard = () => {
                     w-full flex items-center px-4 md:px-3 lg:px-4 py-3 text-sm group relative
                     rounded-xl transition-all duration-200 mb-1
                     ${isActive
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
-                      : 'text-gray-600 hover:bg-gray-100/80'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white dark:from-blue-500 dark:to-indigo-500'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
                     }
                   `}
                 >
@@ -164,7 +167,7 @@ const EventManagementDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Navigation */}
-        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/80">
+        <header className="bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl border-b border-gray-200/80 dark:border-gray-700/80">
           <div className="flex items-center justify-between p-4">
             {/* Left Side - Menu Button */}
             <div>
@@ -176,15 +179,16 @@ const EventManagementDashboard = () => {
               </button>
             </div>
 
-            {/* Right Side - Notifications & Profile */}
+            {/* Right Side - Search, Notifications & Profile */}
             <div className="flex items-center space-x-4 ml-auto">
-              {/* Search Bar (Optional) */}
+              {/* Search Bar */}
               <div className="hidden md:flex items-center relative">
                 <input
                   type="text"
                   placeholder="Search..."
                   className="pl-10 pr-4 py-2 rounded-xl border border-gray-200/80 
-                    focus:outline-none focus:border-blue-500 transition-colors"
+                    focus:outline-none focus:border-blue-500 transition-colors
+                    dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                 />
                 <Search className="w-5 h-5 text-gray-400 absolute left-3" />
               </div>
@@ -202,16 +206,16 @@ const EventManagementDashboard = () => {
         </header>
 
         {/* Content Area with Footer */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto dark:text-gray-200">
           <div className="p-6 min-h-[calc(100%-40px)]">
             {activeComponent}
           </div>
           
           {/* Footer */}
           <div className="h-10 px-6 py-2">
-            <p className="text-sm text-gray-500 text-center">
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
               Powered by{' '}
-              <span className="font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
                 Krontiva
               </span>
             </p>

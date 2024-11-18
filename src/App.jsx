@@ -209,17 +209,17 @@ class ErrorBoundary extends React.Component {
 const App = () => {
   return (
     <ThemeProvider>
-      <NotificationsProvider>
-        <ErrorBoundary>
-          <AuthProvider>
-            <PaymentProvider>
+      <PaymentProvider>
+        <NotificationsProvider>
+          <ErrorBoundary>
+            <AuthProvider>
               <Router>
                 <AppContent />
               </Router>
-            </PaymentProvider>
-          </AuthProvider>
-        </ErrorBoundary>
-      </NotificationsProvider>
+            </AuthProvider>
+          </ErrorBoundary>
+        </NotificationsProvider>
+      </PaymentProvider>
     </ThemeProvider>
   );
 };

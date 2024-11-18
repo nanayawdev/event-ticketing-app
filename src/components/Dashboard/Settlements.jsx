@@ -1,5 +1,6 @@
 import React from 'react';
 import { DollarSign, Download, Ticket, Percent, TrendingUp, CheckCircle, Clock } from 'lucide-react';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
 
 const Settlements = () => {
   const settlements = [
@@ -165,7 +166,9 @@ const Settlements = () => {
                 <tr key={settlement.id}>
                   <td className="px-6 py-4 whitespace-nowrap">{settlement.reference}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{settlement.eventName}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">${settlement.amount.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <PriceDisplay priceInGHS={settlement.amount} />
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">{settlement.date}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 rounded-full text-xs ${
