@@ -141,18 +141,18 @@ const PaymentSettings = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Payment Settings</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Payment Settings</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage your payment methods and view billing history.
           </p>
         </div>
 
         {/* Payment Methods */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <CreditCard className="w-5 h-5 text-gray-600" />
-              <h3 className="text-lg font-medium text-gray-900">Payment Methods</h3>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Payment Methods</h3>
             </div>
             <button
               onClick={() => setIsAddModalOpen(true)}
@@ -166,7 +166,7 @@ const PaymentSettings = () => {
           <div className="space-y-3">
             {paymentMethods.map((method) => (
               <div key={method.id} className="flex flex-col sm:flex-row sm:items-center 
-                justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                justify-between gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center 
                     justify-center">
@@ -176,7 +176,7 @@ const PaymentSettings = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-gray-900 dark:text-white">
                         {method.type} {method.last4 && `ending in ${method.last4}`}
                       </h4>
                       {method.isDefault && (
@@ -187,7 +187,7 @@ const PaymentSettings = () => {
                       )}
                     </div>
                     {method.expiry && (
-                      <p className="text-sm text-gray-500">Expires {method.expiry}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Expires {method.expiry}</p>
                     )}
                   </div>
                 </div>
@@ -214,16 +214,16 @@ const PaymentSettings = () => {
         </div>
 
         {/* Billing History */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Wallet className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Ticket Purchase History</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Ticket Purchase History</h3>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="text-left text-sm text-gray-500">
+                <tr className="text-left text-sm text-gray-500 dark:text-gray-400">
                   <th className="pb-3 font-medium">Date</th>
                   <th className="pb-3 font-medium">Event</th>
                   <th className="pb-3 font-medium">Amount</th>
@@ -241,12 +241,12 @@ const PaymentSettings = () => {
                       setIsDetailsModalOpen(true);
                     }}
                   >
-                    <td className="py-3 text-gray-900">{bill.date}</td>
-                    <td className="py-3 text-gray-900">{bill.event.name}</td>
-                    <td className="py-3 text-gray-900">
+                    <td className="py-3 text-gray-900 dark:text-white">{bill.date}</td>
+                    <td className="py-3 text-gray-900 dark:text-white">{bill.event.name}</td>
+                    <td className="py-3 text-gray-900 dark:text-white">
                       {formatCurrency(bill.amount, userCurrency)}
                       {userCurrency !== 'GHS' && (
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
                           ({formatCurrency(convertCurrency(bill.amount, 'GHS', userCurrency), userCurrency)})
                         </span>
                       )}
@@ -285,7 +285,7 @@ const PaymentSettings = () => {
         <Dialog open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} className="relative z-50">
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-md bg-white rounded-lg p-6">
+            <Dialog.Panel className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <Dialog.Title className="text-lg font-medium">Add Payment Method</Dialog.Title>
                 <button 
@@ -298,13 +298,13 @@ const PaymentSettings = () => {
 
               <form onSubmit={handleAddPayment} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Payment Type
                   </label>
                   <select
                     value={newPayment.type}
                     onChange={(e) => setNewPayment({ ...newPayment, type: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option>Bank Account</option>
                     <option>Mobile Money</option>
@@ -314,26 +314,26 @@ const PaymentSettings = () => {
                 {newPayment.type === 'Bank Account' ? (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Bank Name
                       </label>
                       <input
                         type="text"
                         value={newPayment.bankName}
                         onChange={(e) => setNewPayment({ ...newPayment, bankName: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Account Number
                       </label>
                       <input
                         type="text"
                         value={newPayment.accountNumber}
                         onChange={(e) => setNewPayment({ ...newPayment, accountNumber: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       />
                     </div>
@@ -341,13 +341,13 @@ const PaymentSettings = () => {
                 ) : (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Mobile Money Provider
                       </label>
                       <select
                         value={newPayment.provider}
                         onChange={(e) => setNewPayment({ ...newPayment, provider: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       >
                         <option value="">Select Provider</option>
@@ -357,14 +357,14 @@ const PaymentSettings = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Mobile Number
                       </label>
                       <input
                         type="tel"
                         value={newPayment.mobileNumber}
                         onChange={(e) => setNewPayment({ ...newPayment, mobileNumber: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required
                       />
                     </div>
@@ -372,14 +372,14 @@ const PaymentSettings = () => {
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Account Name
                   </label>
                   <input
                     type="text"
                     value={newPayment.accountName}
                     onChange={(e) => setNewPayment({ ...newPayment, accountName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
                 </div>
