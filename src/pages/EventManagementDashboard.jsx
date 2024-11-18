@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -16,6 +16,7 @@ import {
 import LogoutModal from '../components/LogoutModal/LogoutModal';
 import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
 import NotificationsDropdown from '../components/Notifications/NotificationsDropdown';
+import { useNotificationsManager } from '../hooks/useNotificationsManager';
 
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
@@ -31,30 +32,19 @@ const EventManagementDashboard = () => {
   const [activeMenu, setActiveMenu] = useState('Overview');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { addNotification } = useNotificationsManager();
+
+  // Move the notification to useEffect
+  useEffect(() => {
+    // Example notification - you can remove this if it's just for testing
+    addNotification({
       title: 'New Event Registration',
       message: 'John Doe registered for "Summer Music Festival"',
       time: '5 minutes ago',
-      isRead: false,
-    },
-    {
-      id: 2,
-      title: 'Ticket Sales Milestone',
-      message: 'Your event "Tech Conference 2024" reached 500 ticket sales!',
-      time: '1 hour ago',
-      isRead: false,
-    },
-    {
-      id: 3,
-      title: 'Payment Settled',
-      message: '$1,500 has been transferred to your account',
-      time: '2 hours ago',
-      isRead: true,
-    }
-  ]);
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+      type: 'success'
+    });
+  }, []); // Empty dependency array means this runs once when component mounts
 
   const menuItems = [
     { name: 'Overview', icon: LayoutDashboard, component: <Overview /> },
@@ -80,13 +70,6 @@ const EventManagementDashboard = () => {
     localStorage.removeItem('user'); // Remove user data
     setIsLogoutModalOpen(false);
     navigate('/login'); // Redirect to login page
-  };
-
-  // Add this function to mark notifications as read
-  const handleMarkAsRead = (notificationId) => {
-    setNotifications(notifications.map(notif => 
-      notif.id === notificationId ? { ...notif, isRead: true } : notif
-    ));
   };
 
   return (
@@ -208,10 +191,8 @@ const EventManagementDashboard = () => {
 
               {/* Notification Button */}
               <NotificationsDropdown 
-                notifications={notifications}
                 isOpen={isNotificationsOpen}
                 onToggle={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                onMarkAsRead={handleMarkAsRead}
               />
 
               {/* User Profile */}

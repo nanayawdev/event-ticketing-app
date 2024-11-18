@@ -34,6 +34,7 @@ import News from './pages/News';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import SocialButton from './components/SocialButton/SocialButton';
 import ApiTest from './components/ApiTest';
+import { NotificationsProvider } from './context/NotificationsContext';
 
 const StandardLayout = ({ children, showHelp = false }) => {
   const { theme } = useTheme();
@@ -208,18 +209,17 @@ class ErrorBoundary extends React.Component {
 const App = () => {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+      <NotificationsProvider>
         <ErrorBoundary>
           <AuthProvider>
             <PaymentProvider>
-              <Toaster position="top-center" richColors />
               <Router>
                 <AppContent />
               </Router>
             </PaymentProvider>
           </AuthProvider>
         </ErrorBoundary>
-      </div>
+      </NotificationsProvider>
     </ThemeProvider>
   );
 };
