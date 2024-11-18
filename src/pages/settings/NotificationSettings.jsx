@@ -30,27 +30,28 @@ const NotificationSettings = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Notification Settings</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Notification Settings</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage how you receive notifications and updates.
           </p>
         </div>
 
         {/* Email Notifications */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Mail className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Email Notifications</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Email Notifications</h3>
           </div>
           <div className="space-y-3">
             {Object.entries(emailNotifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between p-3 
-                bg-white rounded-lg border border-gray-200">
+                bg-white dark:bg-gray-800 
+                rounded-lg border border-gray-200 dark:border-gray-700">
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-gray-900 dark:text-white">
                     {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                   </h4>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Receive email notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
                   </p>
                 </div>
@@ -78,20 +79,21 @@ const NotificationSettings = () => {
         </div>
 
         {/* Push Notifications */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <Bell className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">Push Notifications</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Push Notifications</h3>
           </div>
           <div className="space-y-3">
             {Object.entries(pushNotifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between p-3 
-                bg-white rounded-lg border border-gray-200">
+                bg-white dark:bg-gray-800 
+                rounded-lg border border-gray-200 dark:border-gray-700">
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-gray-900 dark:text-white">
                     {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                   </h4>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Receive push notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
                   </p>
                 </div>
@@ -119,20 +121,21 @@ const NotificationSettings = () => {
         </div>
 
         {/* SMS Notifications */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-3 mb-4">
             <MessageSquare className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-medium text-gray-900">SMS Notifications</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">SMS Notifications</h3>
           </div>
           <div className="space-y-3">
             {Object.entries(smsNotifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between p-3 
-                bg-white rounded-lg border border-gray-200">
+                bg-white dark:bg-gray-800 
+                rounded-lg border border-gray-200 dark:border-gray-700">
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-gray-900 dark:text-white">
                     {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                   </h4>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Receive SMS notifications for {key.toLowerCase().replace(/([A-Z])/g, ' $1')}
                   </p>
                 </div>
