@@ -76,7 +76,7 @@ const PayoutSettings = () => {
               <h3 className="text-lg font-medium text-gray-900">Payout Methods</h3>
             </div>
             <button onClick={() => setIsAddModalOpen(true)} className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium 
-              text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
               <Plus className="w-4 h-4" />
               Add New
             </button>
