@@ -64,8 +64,8 @@ const ConnectedAccounts = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Connected Accounts</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Connected Accounts</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage your connected social and service accounts.
           </p>
         </div>
@@ -73,17 +73,17 @@ const ConnectedAccounts = () => {
         {/* Connected Accounts Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Social Media Accounts */}
-          <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Social Media</h3>
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Social Media</h3>
             <div className="space-y-3">
               {socialAccounts.map((account) => (
                 <div key={account.name} className="flex flex-col sm:flex-row sm:items-center 
-                  justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                  justify-between gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
                     <account.icon className="w-5 h-5 text-gray-600" />
                     <div>
-                      <h4 className="font-medium text-gray-900">{account.name}</h4>
-                      <p className="text-sm text-gray-500">{account.status}</p>
+                      <h4 className="font-medium text-gray-900 dark:text-white">{account.name}</h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{account.status}</p>
                     </div>
                   </div>
                   <button className={`px-3 py-1.5 text-sm rounded-lg transition-colors
@@ -99,17 +99,17 @@ const ConnectedAccounts = () => {
           </div>
 
           {/* Service Accounts */}
-          <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Services</h3>
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Services</h3>
             <div className="space-y-3">
               {serviceAccounts.map((account) => (
                 <div key={account.name} className="flex flex-col sm:flex-row sm:items-center 
-                  justify-between gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                  justify-between gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
                     <account.icon className="w-5 h-5 text-gray-600" />
                     <div>
-                      <h4 className="font-medium text-gray-900">{account.name}</h4>
-                      <p className="text-sm text-gray-500">{account.status}</p>
+                      <h4 className="font-medium text-gray-900 dark:text-white">{account.name}</h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{account.status}</p>
                     </div>
                   </div>
                   <button className={`px-3 py-1.5 text-sm rounded-lg transition-colors
