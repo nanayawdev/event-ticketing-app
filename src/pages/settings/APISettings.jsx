@@ -7,21 +7,21 @@ const APISettings = () => {
       <div className="space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">API & Integrations</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">API & Integrations</h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage your API keys and third-party integrations.
           </p>
         </div>
 
         {/* API Keys Section */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-          <h3 className="text-lg font-medium text-gray-900">API Keys</h3>
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">API Keys</h3>
           <div className="mt-4 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-              gap-3 p-3 bg-white rounded-lg border border-gray-200">
+              gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div>
-                <h4 className="font-medium text-gray-900">Production Key</h4>
-                <p className="text-sm text-gray-500">Used for live transactions</p>
+                <h4 className="font-medium text-gray-900 dark:text-white">Production Key</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Used for live transactions</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 
@@ -36,10 +36,10 @@ const APISettings = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between 
-              gap-3 p-3 bg-white rounded-lg border border-gray-200">
+              gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div>
-                <h4 className="font-medium text-gray-900">Test Key</h4>
-                <p className="text-sm text-gray-500">Used for testing and development</p>
+                <h4 className="font-medium text-gray-900 dark:text-white">Test Key</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Used for testing and development</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 
@@ -56,8 +56,8 @@ const APISettings = () => {
         </div>
 
         {/* Integrations Section */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-          <h3 className="text-lg font-medium text-gray-900">Connected Services</h3>
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 sm:p-4">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Connected Services</h3>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Add your integration cards here */}
           </div>
