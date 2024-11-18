@@ -11,7 +11,6 @@ import SecuritySettings from './SecuritySettings';
 import PaymentSettings from './PaymentSettings';
 import PayoutSettings from './PayoutSettings';
 import NotificationSettings from './NotificationSettings';
-import APISettings from './APISettings';
 import ConnectedAccounts from './ConnectedAccounts';
 import AccountActivity from './AccountActivity';
 
@@ -43,11 +42,6 @@ const SettingsLayout = () => {
       title: 'Notifications',
       path: 'notifications',
       icon: Bell
-    },
-    {
-      title: 'API & Integrations',
-      path: 'integrations',
-      icon: Key
     },
     {
       title: 'Connected Accounts',
@@ -131,7 +125,6 @@ const SettingsLayout = () => {
                 <Route path="payments" element={<PaymentSettings />} />
                 <Route path="payouts" element={<PayoutSettings />} />
                 <Route path="notifications" element={<NotificationSettings />} />
-                <Route path="integrations" element={<APISettings />} />
                 <Route path="connected-accounts" element={<ConnectedAccounts />} />
                 <Route path="activity" element={<AccountActivity />} />
                 <Route path="/" element={<Navigate to="organization" replace />} />
