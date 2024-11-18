@@ -9,8 +9,13 @@ const PaymentSettings = () => {
   // Get user's location from profile or organization settings
   const userLocation = 'Greater Accra'; // You should get this from your user profile/context
   
+  const [organizationSettings, setOrganizationSettings] = useState({
+    preferredCurrency: 'GHS'
+  });
+
   useEffect(() => {
-    // Get organization settings from context/state management
+    // You would typically fetch organization settings from an API
+    // For now, we'll use the default state
     const orgCurrency = organizationSettings?.preferredCurrency || 'GHS';
     setUserCurrency(orgCurrency);
   }, [organizationSettings]);

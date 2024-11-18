@@ -198,7 +198,7 @@ const PayoutSettings = () => {
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-md bg-white rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <Dialog.Title className="text-lg font-medium">Add Payment Method</Dialog.Title>
+              <Dialog.Title className="text-lg font-medium">Add Payout Method</Dialog.Title>
               <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-500">
                 <X className="w-5 h-5" />
               </button>
@@ -207,7 +207,7 @@ const PayoutSettings = () => {
             <form onSubmit={handleAddMethod} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Payment Type
+                  Payout Type
                 </label>
                 <select
                   value={newMethod.type}
