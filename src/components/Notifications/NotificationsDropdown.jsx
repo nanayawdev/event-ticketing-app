@@ -28,9 +28,11 @@ const NotificationsDropdown = ({ isOpen, onToggle }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-white rounded-xl 
-          shadow-lg border border-gray-200/80 overflow-hidden z-50">
-          <div className="p-3 sm:p-4 border-b border-gray-200/80 flex justify-between items-center">
+        <div className="fixed sm:absolute left-0 sm:left-auto right-0 top-[60px] sm:top-auto sm:mt-2 
+          w-full sm:w-80 bg-white sm:rounded-xl shadow-lg border border-gray-200/80 
+          overflow-hidden z-50 h-[calc(100vh-60px)] sm:h-auto">
+          <div className="sticky top-0 p-3 sm:p-4 border-b border-gray-200/80 flex justify-between 
+            items-center bg-white z-10">
             <h3 className="font-semibold text-sm sm:text-base">Notifications</h3>
             {notifications.length > 0 && (
               <button
@@ -42,7 +44,7 @@ const NotificationsDropdown = ({ isOpen, onToggle }) => {
             )}
           </div>
 
-          <div className="max-h-[60vh] sm:max-h-[400px] overflow-y-auto">
+          <div className="overflow-y-auto h-full sm:max-h-[400px]">
             {notifications.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 No notifications
