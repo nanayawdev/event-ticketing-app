@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, Check, Trash2 } from 'lucide-react';
 import { useNotificationsManager } from '../../hooks/useNotificationsManager';
 
 const NotificationsDropdown = ({ isOpen, onToggle }) => {
@@ -56,24 +56,26 @@ const NotificationsDropdown = ({ isOpen, onToggle }) => {
                 >
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex-1">
-                      <h4 className="font-medium text-sm sm:text-base">{notification.title}</h4>
-                      <p className="text-xs sm:text-sm text-gray-600">{notification.message}</p>
-                      <span className="text-[10px] sm:text-xs text-gray-400">{notification.time}</span>
+                      <h4 className="font-medium text-[11px] sm:text-xs">{notification.title}</h4>
+                      <p className="text-[10px] sm:text-[11px] text-gray-600">{notification.message}</p>
+                      <span className="text-[8px] sm:text-[9px] text-gray-400">{notification.time}</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                    <div className="flex flex-row gap-1">
                       {!notification.isRead && (
                         <button
                           onClick={() => markAsRead(notification.id)}
-                          className="text-[10px] sm:text-xs text-blue-600 hover:text-blue-700 whitespace-nowrap"
+                          className="p-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded"
+                          title="Mark as read"
                         >
-                          Mark as read
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4" />
                         </button>
                       )}
                       <button
                         onClick={() => removeNotification(notification.id)}
-                        className="text-[10px] sm:text-xs text-red-600 hover:text-red-700"
+                        className="p-1 text-red-600 hover:text-red-700 hover:bg-red-50 rounded"
+                        title="Remove"
                       >
-                        Remove
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   </div>
