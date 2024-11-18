@@ -51,12 +51,21 @@ const EventsGrid = () => {
 
   if (loading) return <LoadingSpinner />
   if (error) {
+    console.error('EventsGrid error:', error);
     return (
       <ErrorMessage 
         title="Unable to Load Events"
-        message="We're having trouble loading the events. Please check your internet connection and try again."
+        message={error || "We're having trouble loading the events. Please check your internet connection and try again."}
         onRetry={() => window.location.reload()}
       />
+    );
+  }
+
+  if (!events || events.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-gray-500">No events available at this time.</p>
+      </div>
     );
   }
 

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { eventService } from '../services/api';
+import { handleApiError } from '../utils/errorHandler';
 
 export const useEvents = (filterClosed = false) => {
   const [events, setEvents] = useState([]);
@@ -11,51 +13,44 @@ export const useEvents = (filterClosed = false) => {
         setLoading(true);
         setError(null);
         
-        // Fetch basic event data
-        const eventsResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/Get_All_Event');
-        if (!eventsResponse.ok) {
-          throw new Error(`HTTP error! status: ${eventsResponse.status}`);
-        }
-        let eventsData = await eventsResponse.json();
-
+        console.log('Fetching events...');
+        const { data: eventsData } = await eventService.getAllEvents();
+        
+        // Ensure eventsData is an array
+        const eventsArray = Array.isArray(eventsData) ? eventsData : [eventsData];
+        
         // Fetch ticket details for each event
         const eventsWithTickets = await Promise.all(
-          eventsData.map(async (event) => {
+          eventsArray.map(async (event) => {
             try {
-              const ticketResponse = await fetch(
-                `https://api-server.krontiva.africa/api:BnSaGAXN/ticket_table/${event.id}`
-              );
-              
-              if (ticketResponse.ok) {
-                const ticketData = await ticketResponse.json();
-                return {
-                  ...event,
-                  ...ticketData.eventTable, // Merge event table data
-                  Ticket_Price: ticketData.ticketTable.Ticket_Price || [], // Add ticket prices
-                  ticketTableId: ticketData.ticketTable.id, // Store ticket table ID
-                  Event_Price: event.Event_Price || ticketData.eventTable.Event_Price, // Fallback price
-                };
-              }
-              return event;
-            } catch (error) {
-              console.error(`Error fetching tickets for event ${event.id}:`, error);
+              const { data: ticketData } = await eventService.getTicketsByEventId(event.id);
+              return {
+                ...event,
+                ...ticketData.eventTable,
+                Ticket_Price: ticketData.ticketTable?.Ticket_Price || [],
+                ticketTableId: ticketData.ticketTable?.id,
+                Event_Price: event.Event_Price || ticketData.eventTable?.Event_Price,
+              };
+            } catch (ticketError) {
+              console.warn(`Error fetching tickets for event ${event.id}:`, ticketError);
               return event;
             }
           })
         );
 
-        // Filter closed events if needed
+        // Filter out closed events if needed
         const filteredEvents = filterClosed 
           ? eventsWithTickets.filter(event => {
-              const endDateTime = new Date(event.Event_End_Time);
-              return new Date() <= endDateTime;
+              const endDate = new Date(event.Event_End_Time || event.Event_Start_Date);
+              return endDate >= new Date();
             })
           : eventsWithTickets;
 
         setEvents(filteredEvents);
       } catch (err) {
-        setError(err.message);
-        console.error('Error fetching events:', err);
+        console.error('Error in useEvents hook:', err);
+        const errorDetails = handleApiError(err);
+        setError(errorDetails.message);
       } finally {
         setLoading(false);
       }

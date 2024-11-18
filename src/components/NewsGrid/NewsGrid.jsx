@@ -27,14 +27,14 @@ const NewsGrid = () => {
         <div className="container mx-auto px-4 py-4 mb-16 max-w-[1300px]">
           {/* Header Section Skeleton */}
           <div className="flex items-center gap-4 mb-8 px-1">
-            <Skeleton className="h-8 w-48" /> {/* Title skeleton */}
-            <Skeleton className="h-8 w-24" /> {/* Button skeleton */}
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-8 w-24" />
           </div>
 
           {/* News Cards Grid Skeleton */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6">
             {[...Array(6)].map((_, index) => (
-              <NewsCardSkeleton key={index} />
+              <NewsCardSkeleton key={`skeleton-${index}`} />
             ))}
           </div>
         </div>
@@ -61,7 +61,10 @@ const NewsGrid = () => {
         {/* News Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6">
           {news.map((newsItem) => (
-            <div key={newsItem.event_news_table_id} className="w-full">
+            <div 
+              key={newsItem.event_news_table_id || newsItem.id || `news-${newsItem.newsTitle}`} 
+              className="w-full"
+            >
               <NewsCard
                 event_news_table_id={newsItem.event_news_table_id}
                 title={newsItem.newsTitle}

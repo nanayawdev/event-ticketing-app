@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { newsService } from '../services/api';
+import { handleApiError } from '../utils/errorHandler';
 
 export const useNews = (newsId = null) => {
   const [news, setNews] = useState(newsId ? null : []);
@@ -11,29 +13,18 @@ export const useNews = (newsId = null) => {
         setLoading(true);
         setError(null);
         
-        const baseUrl = 'https://api-server.krontiva.africa/api:BnSaGAXN/event_news_table';
-        const url = newsId ? `${baseUrl}/${newsId}` : baseUrl;
+        const { data } = newsId 
+          ? await newsService.getNewsById(newsId)
+          : await newsService.getAllNews();
         
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('Fetched news data:', data); // For debugging
-        
-        // Handle single item vs list differently
         if (newsId) {
-          // For single item, use the first item if data is an array
           setNews(Array.isArray(data) ? data[0] : data);
         } else {
-          // For list view, ensure we always have an array
           setNews(Array.isArray(data) ? data : [data]);
         }
       } catch (err) {
-        console.error('News fetch error:', err);
-        setError(err.message);
+        const errorDetails = handleApiError(err);
+        setError(errorDetails.message);
       } finally {
         setLoading(false);
       }
