@@ -172,99 +172,107 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
-          {/* Featured Card */}
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="col-span-2 row-span-2 p-8 bg-primary/10 dark:bg-primary/20 rounded-3xl 
-                     hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 
-                          group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative z-10">
-              <Calendar className="w-12 h-12 text-primary mb-6" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Advanced Scheduling
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                Our AI-powered scheduling system optimizes your event timeline, coordinates with vendors, 
-                and automatically adjusts for dependencies and constraints.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-center text-gray-700 dark:text-gray-200">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2" />
-                  Smart conflict resolution
-                </li>
-                <li className="flex items-center text-gray-700 dark:text-gray-200">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2" />
-                  Multi-timezone support
-                </li>
-                <li className="flex items-center text-gray-700 dark:text-gray-200">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2" />
-                  Real-time updates
-                </li>
-              </ul>
+        {/* Featured Service */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <div className="relative rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent dark:from-primary/20" />
+            <div className="relative grid md:grid-cols-2 gap-8 p-12">
+              <div className="space-y-6">
+                <div className="inline-block p-3 bg-primary/10 dark:bg-primary/20 rounded-2xl">
+                  <Calendar className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Advanced Event Planning
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                  Our AI-powered planning system streamlines your event organization with intelligent 
+                  scheduling, automated vendor coordination, and real-time adjustments.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  {['Smart Timeline', 'Vendor Portal', 'Resource Management'].map((tag, index) => (
+                    <span key={index} className="px-4 py-2 bg-primary/5 dark:bg-primary/10 
+                                                rounded-full text-primary text-sm font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 h-fit">
+                {[
+                  { label: 'Events Planned', value: '10K+' },
+                  { label: 'Success Rate', value: '99.9%' },
+                  { label: 'Team Members', value: '500+' },
+                  { label: 'Countries', value: '50+' }
+                ].map((stat, index) => (
+                  <div key={index} className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 
+                                            backdrop-blur-sm">
+                    <p className="text-3xl font-bold text-primary mb-2">{stat.value}</p>
+                    <p className="text-gray-600 dark:text-gray-400">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Regular Cards */}
+        {/* Additional Services Grid */}
+        <div className="grid md:grid-cols-3 gap-8">
           {[
             {
               icon: <Users className="w-6 h-6" />,
               title: "Attendee Networking",
-              description: "Built-in social features for attendee connection"
+              description: "Foster meaningful connections between event participants through our AI-powered networking platform.",
+              features: ["Smart Matching", "Virtual Cards", "Meeting Scheduler"]
             },
             {
               icon: <BarChart3 className="w-6 h-6" />,
               title: "Analytics Dashboard",
-              description: "Real-time event performance metrics"
+              description: "Make data-driven decisions with our comprehensive analytics and reporting tools.",
+              features: ["Real-time Metrics", "Custom Reports", "Predictive Analysis"]
             },
             {
               icon: <Camera className="w-6 h-6" />,
-              title: "Event Photography",
-              description: "Professional photo & video services"
+              title: "Event Capture",
+              description: "Professional photography and videography services to document your event's success.",
+              features: ["Live Streaming", "Highlight Reels", "Photo Gallery"]
             },
-            {
-              icon: <Headphones className="w-6 h-6" />,
-              title: "24/7 Support",
-              description: "Round-the-clock technical assistance"
-            },
-            {
-              icon: <Map className="w-6 h-6" />,
-              title: "Venue Mapping",
-              description: "Interactive floor plans & navigation"
-            },
-            {
-              icon: <Palette className="w-6 h-6" />,
-              title: "Brand Integration",
-              description: "Custom branding & design services"
-            },
-            {
-              icon: <Wifi className="w-6 h-6" />,
-              title: "Tech Infrastructure",
-              description: "Complete event connectivity solutions"
-            }
-          ].map((item, index) => (
+          ].map((service, index) => (
             <motion.div
               key={index}
-              whileHover={{ scale: 1.02 }}
-              className="p-6 bg-white dark:bg-gray-800 rounded-3xl hover:shadow-xl 
-                       transition-all duration-300 border border-gray-100 dark:border-gray-700 
-                       group cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="group hover:shadow-lg transition-all duration-300 rounded-2xl 
+                         bg-white dark:bg-gray-800 p-8 border border-gray-100 
+                         dark:border-gray-700"
             >
-              <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-xl w-fit 
+              <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-xl w-fit mb-6 
                             group-hover:bg-primary/20 dark:group-hover:bg-primary/30 
-                            transition-colors mb-4">
+                            transition-colors">
                 <div className="text-primary">
-                  {item.icon}
+                  {service.icon}
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                {item.title}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                {service.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {item.description}
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                {service.description}
               </p>
+              <div className="flex flex-wrap gap-2">
+                {service.features.map((feature, idx) => (
+                  <span key={idx} className="text-sm px-3 py-1 bg-gray-100 dark:bg-gray-700 
+                                           rounded-full text-gray-600 dark:text-gray-300">
+                    {feature}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
