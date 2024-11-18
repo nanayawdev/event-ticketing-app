@@ -168,8 +168,8 @@ const PaymentSettings = () => {
               <div key={method.id} className="flex flex-col sm:flex-row sm:items-center 
                 justify-between gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center 
-                    justify-center">
+                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center 
+                    justify-center text-gray-600 dark:text-gray-400">
                     {method.type === 'Visa' ? 'V' : 
                      method.type === 'Mastercard' ? 'M' : 
                      'MTN'}
@@ -237,7 +237,7 @@ const PaymentSettings = () => {
                 {billingHistory.map((bill) => (
                   <tr 
                     key={bill.id} 
-                    className="text-sm hover:bg-gray-100 cursor-pointer"
+                    className="text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                     onClick={() => {
                       setSelectedBill(bill);
                       setIsDetailsModalOpen(true);
@@ -271,10 +271,10 @@ const PaymentSettings = () => {
         </div>
 
         {/* Billing Alert */}
-        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 rounded-lg">
-          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 p-3 sm:p-4 bg-yellow-50 dark:bg-yellow-800/50 rounded-lg">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-yellow-800">
+            <h4 className="text-sm font-medium text-yellow-800 dark:text-yellow-600">
               Update Your Billing Information
             </h4>
             <p className="mt-1 text-sm text-yellow-700">
