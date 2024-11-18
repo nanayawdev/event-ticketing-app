@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Ticket, Edit, Trash2 } from 'lucide-react';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
-import CurrencySelector from '../CurrencySelector/CurrencySelector';
 
 const TicketsManagement = () => {
   const [tickets, setTickets] = useState([
@@ -14,7 +13,6 @@ const TicketsManagement = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Tickets Management</h2>
-        <CurrencySelector />
       </div>
 
       <div className="mb-6">

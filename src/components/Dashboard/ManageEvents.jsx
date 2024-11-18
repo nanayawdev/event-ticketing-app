@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Edit, Plus, Search, Users, Ticket, Eye, ChevronDown, ChevronUp } from 'lucide-react';
 import { format } from 'date-fns';
 import CreateEvent from './CreateEvent';
-import EditEvent from './EditEvent';
-import ManageTickets from './ManageTickets';
-import ViewAttendees from './ViewAttendees';
+import TicketsManagement from './TicketsManagement/TicketsManagement';
+import Attendees from './Attendees';
+import Modal from '@/components/ui/modal';
 
 const ManageEvents = () => {
   const navigate = useNavigate();
@@ -193,34 +193,53 @@ const ManageEvents = () => {
 
       {/* Modals */}
       {isCreateModalOpen && (
-        <CreateEvent 
+        <Modal 
           isOpen={isCreateModalOpen} 
-          onClose={() => setIsCreateModalOpen(false)} 
-        />
+          onClose={() => setIsCreateModalOpen(false)}
+          size="lg"
+        >
+          <CreateEvent onClose={() => setIsCreateModalOpen(false)} />
+        </Modal>
       )}
 
       {isEditModalOpen && (
-        <EditEvent 
+        <Modal 
           isOpen={isEditModalOpen} 
           onClose={() => setIsEditModalOpen(false)}
-          event={selectedEvent}
-        />
+          size="lg"
+        >
+          <CreateEvent 
+            onClose={() => setIsEditModalOpen(false)} 
+            event={selectedEvent} 
+            isEditing={true}
+          />
+        </Modal>
       )}
 
       {isTicketsModalOpen && (
-        <ManageTickets 
+        <Modal 
           isOpen={isTicketsModalOpen} 
           onClose={() => setIsTicketsModalOpen(false)}
-          event={selectedEvent}
-        />
+          size="xl"
+        >
+          <TicketsManagement 
+            event={selectedEvent}
+            onClose={() => setIsTicketsModalOpen(false)}
+          />
+        </Modal>
       )}
 
       {isAttendeesModalOpen && (
-        <ViewAttendees 
+        <Modal 
           isOpen={isAttendeesModalOpen} 
           onClose={() => setIsAttendeesModalOpen(false)}
-          event={selectedEvent}
-        />
+          size="xl"
+        >
+          <Attendees 
+            event={selectedEvent}
+            onClose={() => setIsAttendeesModalOpen(false)}
+          />
+        </Modal>
       )}
     </>
   );

@@ -14,8 +14,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import TimePicker from "@/components/ui/time-picker"
+import { useTicketManagement } from '@/hooks/useTicketManagement';
 
-const CreateEvent = () => {
+const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const [step, setStep] = useState(1);
   const [tickets, setTickets] = useState([{ ticket_type: '', price: '', ticket_quantity: '' }]);
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
@@ -61,6 +62,20 @@ const CreateEvent = () => {
       setPreviewUrl(fileUrl);
     }
   };
+
+  React.useEffect(() => {
+    if (isEditing && event) {
+      setValue('Event_Name', event.title);
+      setValue('Event_Venue', event.venue);
+      // ... set other form values based on event data
+      setStartDate(new Date(event.date));
+      // ... set other state values
+    }
+  }, [event, isEditing, setValue]);
+
+  const [useExistingTickets, setUseExistingTickets] = useState(false);
+  const { tickets: existingTickets } = useTicketManagement();
+  const [selectedExistingTickets, setSelectedExistingTickets] = useState([]);
 
   const renderStep1 = () => (
     <div className="space-y-6">
@@ -427,83 +442,148 @@ const CreateEvent = () => {
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Create Ticket</h2>
-        <button
-          type="button"
-          onClick={addTicket}
-          className="flex items-center gap-2 px-4 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600"
-        >
-          <Plus className="w-4 h-4" />
-          Add Ticket Type
-        </button>
+        <h2 className="text-2xl font-bold text-gray-800">Event Tickets</h2>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => setUseExistingTickets(!useExistingTickets)}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+          >
+            {useExistingTickets ? 'Create New Tickets' : 'Use Existing Tickets'}
+          </button>
+          {!useExistingTickets && (
+            <button
+              type="button"
+              onClick={addTicket}
+              className="flex items-center gap-2 px-4 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600"
+            >
+              <Plus className="w-4 h-4" />
+              Add Ticket Type
+            </button>
+          )}
+        </div>
       </div>
 
-      {tickets.map((ticket, index) => (
-        <div key={index} className="p-4 border rounded-md space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="font-medium">Ticket #{index + 1}</h3>
-            {tickets.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeTicket(index)}
-                className="text-red-500 hover:text-red-700"
+      {useExistingTickets ? (
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">Select from existing tickets:</p>
+          <div className="grid grid-cols-1 gap-4">
+            {existingTickets.map((ticket) => (
+              <div 
+                key={ticket.id} 
+                className="flex items-center justify-between p-4 border rounded-md"
               >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ticket Type *
-              </label>
-              <input
-                value={ticket.ticket_type}
-                onChange={(e) => handleTicketChange(index, 'ticket_type', e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ticket Price (GH₵) *
-              </label>
-              <input
-                type="number"
-                value={ticket.price}
-                onChange={(e) => handleTicketChange(index, 'price', e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ticket Quantity *
-              </label>
-              <input
-                type="number"
-                value={ticket.ticket_quantity}
-                onChange={(e) => handleTicketChange(index, 'ticket_quantity', e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedExistingTickets.includes(ticket.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedExistingTickets([...selectedExistingTickets, ticket.id]);
+                      } else {
+                        setSelectedExistingTickets(
+                          selectedExistingTickets.filter(id => id !== ticket.id)
+                        );
+                      }
+                    }}
+                    className="h-4 w-4 text-blue-600 rounded"
+                  />
+                  <div>
+                    <h3 className="font-medium">{ticket.name}</h3>
+                    <p className="text-sm text-gray-500">
+                      GH₵{ticket.price.toFixed(2)} - {ticket.quantity} available
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
+      ) : (
+        tickets.map((ticket, index) => (
+          <div key={index} className="p-4 border rounded-md space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="font-medium">Ticket #{index + 1}</h3>
+              {tickets.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeTicket(index)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Ticket Type *
+                </label>
+                <input
+                  value={ticket.ticket_type}
+                  onChange={(e) => handleTicketChange(index, 'ticket_type', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Ticket Price (GH₵) *
+                </label>
+                <input
+                  type="number"
+                  value={ticket.price}
+                  onChange={(e) => handleTicketChange(index, 'price', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Ticket Quantity *
+                </label>
+                <input
+                  type="number"
+                  value={ticket.ticket_quantity}
+                  onChange={(e) => handleTicketChange(index, 'ticket_quantity', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
-    console.log('Image File:', data.Event_Image);
+    const finalData = {
+      ...data,
+      tickets: useExistingTickets 
+        ? selectedExistingTickets.map(id => ({
+            id,
+            // Add any event-specific ticket data here
+          }))
+        : tickets
+    };
+
+    if (isEditing) {
+      console.log('Updating event:', finalData);
+    } else {
+      console.log('Creating event:', finalData);
+    }
+    onClose();
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6">
+        {isEditing ? 'Edit Event' : 'Create New Event'}
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}

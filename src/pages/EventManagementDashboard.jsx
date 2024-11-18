@@ -25,7 +25,7 @@ import CreateEvent from '../components/dashboard/CreateEvent';
 import ManageEvents from '../components/dashboard/ManageEvents';
 import Attendees from '../components/dashboard/Attendees';
 import Analytics from '../components/dashboard/Analytics';
-import TicketsManagement from '../components/dashboard/TicketsManagement';
+import TicketsManagement from '../components/dashboard/TicketsManagement/TicketsManagement';
 import Settlements from '../components/dashboard/Settlements';
 
 const EventManagementDashboard = () => {
