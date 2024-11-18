@@ -193,7 +193,8 @@ const PaymentSettings = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   {!method.isDefault && (
-                    <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 
+                    <button className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 
+                      hover:bg-gray-50 dark:hover:bg-gray-700 
                       rounded-lg transition-colors">
                       Set as Default
                     </button>
@@ -203,7 +204,8 @@ const PaymentSettings = () => {
                       setMethodToDelete(method);
                       setIsDeleteModalOpen(true);
                     }} 
-                    className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 
+                    className="px-3 py-1.5 text-sm text-red-600 dark:text-red-400 
+                      hover:bg-red-50 dark:hover:bg-red-900/20 
                       rounded-lg transition-colors">
                     Remove
                   </button>
@@ -388,7 +390,11 @@ const PaymentSettings = () => {
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 
+                      bg-white dark:bg-gray-800 
+                      border border-gray-300 dark:border-gray-600 
+                      hover:bg-gray-50 dark:hover:bg-gray-700 
+                      rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
@@ -418,7 +424,11 @@ const PaymentSettings = () => {
               <div className="flex justify-end gap-3 mt-6">
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 
+                    bg-white dark:bg-gray-800 
+                    border border-gray-300 dark:border-gray-600 
+                    hover:bg-gray-50 dark:hover:bg-gray-700 
+                    rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
