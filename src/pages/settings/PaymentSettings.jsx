@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { CreditCard, Wallet, Plus, AlertCircle } from 'lucide-react';
+import { CreditCard, Wallet, Plus, AlertCircle, X, Download } from 'lucide-react';
 import { useExchangeRates, formatCurrency, getDefaultCurrencyByLocation } from '../../utils/currencyConverter';
+import { Dialog } from '@headlessui/react';
+import html2pdf from 'html2pdf.js';
+import { QRCodeSVG } from 'qrcode.react';
 
 const PaymentSettings = () => {
   const { convertCurrency, rates, loading, error } = useExchangeRates();
@@ -73,6 +76,57 @@ const PaymentSettings = () => {
     }
   ]);
 
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedBill, setSelectedBill] = useState(null);
+  const [methodToDelete, setMethodToDelete] = useState(null);
+  const [newPaymentMethod, setNewPaymentMethod] = useState({
+    type: 'Credit Card',
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    cardholderName: '',
+    momoProvider: '',
+    momoNumber: '',
+  });
+
+  const handleAddPaymentMethod = (e) => {
+    e.preventDefault();
+    // Add logic to save the new payment method
+    setIsAddModalOpen(false);
+  };
+
+  const handleDeletePaymentMethod = () => {
+    // Add logic to delete the payment method
+    setIsDeleteModalOpen(false);
+    setMethodToDelete(null);
+  };
+
+  const generatePDF = () => {
+    const ticket = document.getElementById('printable-ticket-details');
+    
+    const opt = {
+      margin: 0.5,
+      filename: `ticket-${selectedBill.invoice}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { 
+        scale: 2,
+        useCORS: true,
+        letterRendering: true,
+        scrollY: -window.scrollY,
+        windowHeight: ticket.scrollHeight + 100,
+      },
+      jsPDF: { 
+        unit: 'in', 
+        format: 'a4', 
+        orientation: 'portrait',
+      }
+    };
+
+    html2pdf().set(opt).from(ticket).save();
+  };
+
   return (
     <div className="p-4 sm:p-6">
       <div className="space-y-4 sm:space-y-6">
@@ -133,8 +187,13 @@ const PaymentSettings = () => {
                       Set as Default
                     </button>
                   )}
-                  <button className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 
-                    rounded-lg transition-colors">
+                  <button 
+                    onClick={() => {
+                      setMethodToDelete(method);
+                      setIsDeleteModalOpen(true);
+                    }} 
+                    className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 
+                      rounded-lg transition-colors">
                     Remove
                   </button>
                 </div>
@@ -167,7 +226,8 @@ const PaymentSettings = () => {
                     key={bill.id} 
                     className="text-sm hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
-                      console.log('Show event details:', bill.event);
+                      setSelectedBill(bill);
+                      setIsDetailsModalOpen(true);
                     }}
                   >
                     <td className="py-3 text-gray-900">{bill.date}</td>
@@ -209,6 +269,277 @@ const PaymentSettings = () => {
             </p>
           </div>
         </div>
+
+        {/* Add Payment Method Modal */}
+        <Dialog open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} className="relative z-50">
+          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Dialog.Panel className="w-full max-w-md bg-white rounded-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Dialog.Title className="text-lg font-medium">Add Payment Method</Dialog.Title>
+                <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddPaymentMethod} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Payment Type
+                  </label>
+                  <select
+                    value={newPaymentMethod.type}
+                    onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, type: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option>Credit Card</option>
+                    <option>Mobile Money</option>
+                  </select>
+                </div>
+
+                {newPaymentMethod.type === 'Credit Card' ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Card Number
+                      </label>
+                      <input
+                        type="text"
+                        maxLength="16"
+                        value={newPaymentMethod.cardNumber}
+                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cardNumber: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Expiry Date
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="MM/YY"
+                          maxLength="5"
+                          value={newPaymentMethod.expiryDate}
+                          onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, expiryDate: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          maxLength="3"
+                          value={newPaymentMethod.cvv}
+                          onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cvv: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Mobile Money Provider
+                      </label>
+                      <select
+                        value={newPaymentMethod.momoProvider}
+                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, momoProvider: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        required
+                      >
+                        <option value="">Select Provider</option>
+                        <option>MTN MoMo</option>
+                        <option>Vodafone Cash</option>
+                        <option>AirtelTigo Money</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Mobile Number
+                      </label>
+                      <input
+                        type="tel"
+                        value={newPaymentMethod.momoNumber}
+                        onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, momoNumber: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        required
+                      />
+                    </div>
+                  </>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Cardholder Name
+                  </label>
+                  <input
+                    type="text"
+                    value={newPaymentMethod.cardholderName}
+                    onChange={(e) => setNewPaymentMethod({ ...newPaymentMethod, cardholderName: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3 mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                  >
+                    Add Method
+                  </button>
+                </div>
+              </form>
+            </Dialog.Panel>
+          </div>
+        </Dialog>
+
+        {/* Delete Confirmation Modal */}
+        <Dialog open={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} className="relative z-50">
+          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Dialog.Panel className="w-full max-w-sm bg-white rounded-lg p-6">
+              <Dialog.Title className="text-lg font-medium text-gray-900">
+                Remove Payment Method
+              </Dialog.Title>
+              <p className="mt-2 text-sm text-gray-500">
+                Are you sure you want to remove this payment method? This action cannot be undone.
+              </p>
+              <div className="flex justify-end gap-3 mt-6">
+                <button
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeletePaymentMethod}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                >
+                  Remove
+                </button>
+              </div>
+            </Dialog.Panel>
+          </div>
+        </Dialog>
+
+        {/* Ticket Details Modal */}
+        <Dialog open={isDetailsModalOpen} onClose={() => setIsDetailsModalOpen(false)} className="relative z-50">
+          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Dialog.Panel className="w-full max-w-2xl bg-white rounded-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Dialog.Title className="text-lg font-medium">Ticket Details</Dialog.Title>
+                <button onClick={() => setIsDetailsModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {selectedBill && (
+                <>
+                  {/* Printable content */}
+                  <div id="printable-ticket-details" className="space-y-6">
+                    <div className="border-b pb-4">
+                      <h3 className="text-xl font-semibold text-gray-900">{selectedBill.event.name}</h3>
+                      <p className="text-sm text-gray-500">Event Date: {selectedBill.event.date}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Order Details</h4>
+                        <dl className="space-y-1">
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Order Number:</dt>
+                            <dd className="text-gray-900">{selectedBill.invoice}</dd>
+                          </div>
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Purchase Date:</dt>
+                            <dd className="text-gray-900">{selectedBill.date}</dd>
+                          </div>
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Status:</dt>
+                            <dd className="text-green-600 font-medium">{selectedBill.status}</dd>
+                          </div>
+                        </dl>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Ticket Information</h4>
+                        <dl className="space-y-1">
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Ticket Type:</dt>
+                            <dd className="text-gray-900">{selectedBill.event.ticketType}</dd>
+                          </div>
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Quantity:</dt>
+                            <dd className="text-gray-900">{selectedBill.event.tickets}</dd>
+                          </div>
+                        </dl>
+                      </div>
+                    </div>
+
+                    <div className="border-t pt-4 pb-4">
+                      <h4 className="text-sm font-medium text-gray-700 mb-4">Payment Summary</h4>
+                      <dl className="space-y-4">
+                        <div className="grid grid-cols-2 text-sm">
+                          <dt className="text-gray-500">Subtotal:</dt>
+                          <dd className="text-gray-900 text-right pr-4">
+                            {formatCurrency(selectedBill.amount, userCurrency)}
+                          </dd>
+                        </div>
+                        {userCurrency !== 'GHS' && (
+                          <div className="grid grid-cols-2 text-sm">
+                            <dt className="text-gray-500">Original Amount (GHS):</dt>
+                            <dd className="text-gray-900 text-right pr-4">
+                              {formatCurrency(selectedBill.amount, 'GHS')}
+                            </dd>
+                          </div>
+                        )}
+                        <div className="grid grid-cols-2 text-sm font-medium border-t pt-4">
+                          <dt className="text-gray-900">Total Paid:</dt>
+                          <dd className="text-gray-900 text-right pr-4">
+                            {formatCurrency(selectedBill.amount, userCurrency)}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+
+                  {/* Action buttons - not included in PDF */}
+                  <div className="flex justify-end gap-3 mt-6">
+                    <button
+                      onClick={generatePDF}
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                    >
+                      <Download className="w-4 h-4" />
+                      Save as PDF
+                    </button>
+                    <button
+                      onClick={() => setIsDetailsModalOpen(false)}
+                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </>
+              )}
+            </Dialog.Panel>
+          </div>
+        </Dialog>
       </div>
     </div>
   );
