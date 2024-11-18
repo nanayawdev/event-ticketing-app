@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getEventStatus } from '../EventsCard/EventsCard';
+import { getEventStatus } from '../../utils/eventStatus';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg';
 import { LoadingSpinner } from '../ui/LoadingSpinner';

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { useEvents } from '../../hooks/useEvents'
 import { ErrorMessage } from '../ui/ErrorMessage'
+import { getEventStatus } from '../../utils/eventStatus'
 
 const EventsGrid = () => {
   const navigate = useNavigate()
@@ -30,13 +31,16 @@ const EventsGrid = () => {
 
   // Filter events based on search and closed status (for grid only)
   const filteredEvents = events.filter(event => {
-    if (!event || !event.Event_End_Time) return false;
-    const endDateTime = new Date(event.Event_End_Time);
-    const isNotClosed = new Date() <= endDateTime;
-    
-    if (!searchTerm.trim()) return isNotClosed;
-    
-    return isNotClosed && event.Event_Name.toLowerCase().includes(searchTerm.toLowerCase());
+    if (!event) return false;
+    const status = getEventStatus(
+      event.Event_Start_Date,
+      event.Event_End_Date,
+      event.Event_Start_Time,
+      event.Event_End_Time,
+      event.Event_Venue
+    );
+    return status.text !== "Event Closed" && 
+      (!searchTerm.trim() || event.Event_Name.toLowerCase().includes(searchTerm.toLowerCase()));
   });
 
   const handleSearchInput = (e) => {

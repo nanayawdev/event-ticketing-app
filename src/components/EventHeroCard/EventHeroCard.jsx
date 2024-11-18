@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Calendar, ChevronLeft, ChevronRight, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import eventplaceholder from '../../assets/images/eventplaceholder.jpg'
-import { getEventStatus } from '../EventsCard/EventsCard'
+import { getEventStatus } from '../../utils/eventStatus';
 import { useNavigate } from 'react-router-dom'
 
 export default function EventHeroCard({ events }) {
