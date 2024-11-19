@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { 
   UserCircle, 
   Shield, 
@@ -89,6 +90,15 @@ const ProfileDropdown = ({ onLogout }) => {
     navigate(path);
   };
 
+  const getDropdownPosition = () => {
+    if (!dropdownRef.current) return { top: 0, left: 0 };
+    const rect = dropdownRef.current.getBoundingClientRect();
+    return {
+      top: rect.bottom + window.scrollY,
+      left: rect.right - 256,
+    };
+  };
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
@@ -104,10 +114,14 @@ const ProfileDropdown = ({ onLogout }) => {
         <Ellipsis className={`w-3.5 h-3.5 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div
-          className="absolute right-0 mt-2 w-64 sm:w-64 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
-            border border-gray-200/80 dark:border-gray-700/80 backdrop-blur-xl overflow-hidden z-50 transition-all duration-200 ease-out"
+          style={{
+            position: 'absolute',
+            ...getDropdownPosition(),
+          }}
+          className="w-64 sm:w-64 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
+            border border-gray-200/80 dark:border-gray-700/80 backdrop-blur-xl overflow-hidden z-[9999] transition-all duration-200 ease-out"
         >
           <div className="max-h-[calc(100vh-200px)] overflow-y-auto py-1">
             {/* User Info */}
@@ -151,7 +165,8 @@ const ProfileDropdown = ({ onLogout }) => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
