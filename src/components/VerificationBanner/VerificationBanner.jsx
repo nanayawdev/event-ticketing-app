@@ -18,7 +18,7 @@ const VerificationBanner = ({ onClose }) => {
               to="/complete-profile"
               className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-800 transition-colors"
             >
-              Get Started
+              Verify Account
             </Link>
           </div>
           <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">

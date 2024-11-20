@@ -55,12 +55,6 @@ const ProfileDropdown = ({ onLogout }) => {
       path: '/settings/notifications'
     },
     {
-      title: 'API & Integrations',
-      description: 'Manage API keys and connections',
-      icon: Key,
-      path: '/settings/integrations'
-    },
-    {
       title: 'Connected Accounts',
       description: 'Link your social and platform accounts',
       icon: Link2,
