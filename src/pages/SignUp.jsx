@@ -1,24 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/icons/nylogo.png';
 import { Snackbar, Alert } from '@mui/material';
-import PhoneSignUp from '../components/PhoneSignUp/PhoneSignUp';
-import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
-import { CircleUser, AtSign, Key, Eye, EyeClosed } from 'lucide-react';
-import SocialButton from '../components/SocialButton/SocialButton';
 import PhoneSignIn from '../components/PhoneSignIn/PhoneSignIn';
+import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
+import { CircleUser, AtSign, Key, Eye, EyeClosed, ChevronDown, Search } from 'lucide-react';
+import SocialButton from '../components/SocialButton/SocialButton';
+import PhoneSignUp from '../components/PhoneSignUp/PhoneSignUp';
+import { useCountryList } from '../hooks/useCountryList';
   
 const SignUp = () => {
   const navigate = useNavigate();
+  const countries = useCountryList();
   const [formData, setFormData] = useState({
     fullName: '',
+    businessName: '',
     email: '',
     password: '',
+    country: '',
+    agreedToTerms: false
   });
   const [fieldErrors, setFieldErrors] = useState({
-    fullName: false, 
+    fullName: false,
+    businessName: false,
     email: false,
     password: false,
+    country: false,
+    agreedToTerms: false
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,10 +43,24 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [signal, setSignal] = useState(" ");
   const [showPhoneSignIn, setShowPhoneSignIn] = useState(false);
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     validatePassword(formData.password);
   }, [formData.password]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsCountryOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const validatePassword = (password) => {
     const hasLowerCase = /[a-z]/.test(password);
@@ -109,24 +131,18 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if all fields are filled
-    const newFieldErrors = Object.keys(formData).reduce((acc, key) => {
-      acc[key] = formData[key].trim() === '';
-      return acc;
-    }, {});
-    setFieldErrors(newFieldErrors);
-
-    if (Object.values(newFieldErrors).some(Boolean)) {
-      return; // Don't submit if there are errors
-    }
-
-    if (!Object.values(passwordStrength).every(Boolean)) {
-      setError('Please meet all password requirements');
+    
+    // Check if terms are agreed to
+    if (!formData.agreedToTerms) {
+      setFieldErrors(prev => ({
+        ...prev,
+        agreedToTerms: true
+      }));
+      setError('Please agree to the Terms of Service and Privacy Policy');
       return;
     }
-    setIsLoading(true);
-    setError(null);
 
+    // Rest of your submit logic...
     try {
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/signup', {
         method: 'POST',
@@ -137,6 +153,8 @@ const SignUp = () => {
           Name: formData.fullName,
           Email: formData.email,
           Password: String(formData.password),
+          BusinessName: formData.businessName,
+          Country: formData.country,
           role: 'Admin',
         }),
       });
@@ -219,6 +237,10 @@ const SignUp = () => {
     }
   };
 
+  const filteredCountries = countries.filter(country => 
+    country.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       {showPhoneSignIn ? (
@@ -300,6 +322,80 @@ const SignUp = () => {
                   </div>
                 </div>
 
+                {/* Country Selector */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Country
+                  </label>
+                  <div className="mt-1 relative" ref={dropdownRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsCountryOpen(!isCountryOpen)}
+                      className={`w-full flex items-center gap-2 px-3 py-2 border rounded-md hover:bg-gray-50 
+                        dark:hover:bg-gray-800 transition-colors ${
+                          fieldErrors.country ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                    >
+                      {formData.country ? (
+                        <>
+                          <img
+                            src={`https://flagcdn.com/w20/${formData.country.toLowerCase()}.png`}
+                            alt={countries.find(c => c.code === formData.country)?.name}
+                            className="w-5 h-auto"
+                          />
+                          <span className="text-sm font-medium">
+                            {countries.find(c => c.code === formData.country)?.name}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-sm text-gray-500">Select your country</span>
+                      )}
+                      <ChevronDown className="w-4 h-4 text-gray-500 ml-auto" />
+                    </button>
+
+                    {isCountryOpen && (
+                      <div className="absolute z-50 mt-1 w-full bg-white dark:bg-gray-900 rounded-md shadow-lg 
+                        border dark:border-gray-700 max-h-96 overflow-hidden">
+                        <div className="p-2 border-b dark:border-gray-700">
+                          <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                            <input
+                              type="text"
+                              placeholder="Search countries..."
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                              className="w-full pl-9 pr-3 py-2 text-sm border rounded-md focus:outline-none 
+                                focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
+                            />
+                          </div>
+                        </div>
+                        <div className="overflow-y-auto max-h-72">
+                          {filteredCountries.map((country) => (
+                            <button
+                              key={country.code}
+                              type="button"
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, country: country.code }));
+                                setFieldErrors(prev => ({ ...prev, country: false }));
+                                setIsCountryOpen(false);
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 
+                                dark:hover:bg-gray-800 transition-colors"
+                            >
+                              <img
+                                src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                                alt={country.name}
+                                className="w-5 h-auto"
+                              />
+                              <span className="text-sm">{country.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Password Input */}
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -358,51 +454,55 @@ const SignUp = () => {
                   )}
                 </div>
 
-                <div className="space-y-4">
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full flex justify-center items-center h-12 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
-                  >
-                    {isLoading ? 'Registering...' : 'Register'}
-                  </button>
-
-                  {/* Divider with text */}
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                        Or sign up with
-                      </span>
-                    </div>
+                {/* Terms and Conditions Checkbox */}
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="agreedToTerms"
+                      name="agreedToTerms"
+                      type="checkbox"
+                      checked={formData.agreedToTerms}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          agreedToTerms: e.target.checked
+                        }));
+                        setFieldErrors(prev => ({
+                          ...prev,
+                          agreedToTerms: false
+                        }));
+                      }}
+                      className={`h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 
+                        ${fieldErrors.agreedToTerms ? 'border-red-500' : ''}`}
+                    />
                   </div>
-
-                  {/* Social Signup Buttons - Updated grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {socialButtons.map((props) => (
-                      <SocialButton 
-                        key={props.name} 
-                        {...props} 
-                      />
-                    ))}
+                  <div className="ml-3">
+                    <label htmlFor="agreedToTerms" className="text-sm text-gray-600">
+                      I agree to the{' '}
+                      <Link to="/terms" className="text-primary-400 hover:text-primary-500">
+                        Terms of Service
+                      </Link>{' '}
+                      and{' '}
+                      <Link to="/privacy" className="text-primary-400 hover:text-primary-500">
+                        Privacy Policy
+                      </Link>
+                    </label>
                   </div>
                 </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full flex justify-center items-center h-12 px-4 border border-transparent 
+                    rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 
+                    dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 
+                    focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                >
+                  {isLoading ? 'Registering...' : 'Create Account'}
+                </button>
               </form>
 
               <div className="flex flex-col items-center space-y-4 mt-4">
-                <p className="text-sm text-gray-600 text-center">
-                  By signing up, you agree to our{' '}
-                  <Link to="/terms" className="text-primary-400 hover:text-primary-500">
-                    Terms of service
-                  </Link>{' '}
-                  &{' '}
-                  <Link to="/privacy" className="text-primary-400 hover:text-primary-500">
-                    Privacy Policy
-                  </Link>
-                </p>
-
                 <p className="text-sm text-gray-600 text-center">
                   Already have an account?{' '}
                   <Link to="/login" className="text-primary-400 hover:text-primary-500">
