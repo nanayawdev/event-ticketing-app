@@ -4,7 +4,7 @@ import logo from '../assets/icons/nylogo.png';
 import { Snackbar, Alert } from '@mui/material';
 import PhoneSignIn from '../components/PhoneSignIn/PhoneSignIn';
 import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
-import { CircleUser, AtSign, Key, Eye, EyeClosed, ChevronDown, Search } from 'lucide-react';
+import { CircleUser, AtSign, Key, Eye, EyeClosed, ChevronDown, Search, X } from 'lucide-react';
 import SocialButton from '../components/SocialButton/SocialButton';
 import PhoneSignUp from '../components/PhoneSignUp/PhoneSignUp';
 import { useCountryList } from '../hooks/useCountryList';
@@ -241,6 +241,24 @@ const SignUp = () => {
     country.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
+  // Add this function to check if all fields are filled and terms accepted
+  const isFormValid = () => {
+    return (
+      formData.fullName.trim() !== '' &&
+      formData.businessName.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.password.trim() !== '' &&
+      formData.country !== '' &&
+      formData.agreedToTerms &&
+      // Check if password meets all requirements
+      Object.values(passwordStrength).every(value => value === true)
+    );
+  };
+
   return (
     <>
       {showPhoneSignIn ? (
@@ -257,13 +275,20 @@ const SignUp = () => {
       ) : (
         <>
           <div className="min-h-screen flex items-center justify-center px-4 py-8">
+            <button
+              onClick={handleClose}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+              aria-label="Close"
+            >
+              <X className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" />
+            </button>
             <div className="max-w-sm w-full space-y-6">
-              {/* Header Section */}
+              {/* Updated Header Section */}
               <div className="flex flex-col items-center text-center space-y-2">
                 <img src={logo} alt="Logo" className="h-12 w-auto" />
-                <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
                 <p className="text-sm text-gray-600">
-                  Revolutionize your voting experience today.
+                  Enter Details to magic with Tickrfly
                 </p>
               </div>
 
@@ -272,7 +297,7 @@ const SignUp = () => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
                 {/* Full Name Input */}
                 <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-900">
+                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Full Name
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -291,6 +316,31 @@ const SignUp = () => {
                       required
                       className={`block w-full pl-10 pr-3 h-12 border ${
                         fieldErrors.fullName ? 'border-red-500' : 'border-gray-300'
+                      } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
+                    />
+                  </div>
+                </div>
+
+                {/* Business Name Input */}
+                <div>
+                  <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Business Name
+                  </label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <CircleUser className="h-5 w-5 text-primary-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="businessName"
+                      name="businessName"
+                      placeholder="Enter your business name"
+                      value={formData.businessName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                      className={`block w-full pl-10 pr-3 h-12 border ${
+                        fieldErrors.businessName ? 'border-red-500' : 'border-gray-300'
                       } rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:placeholder-gray-400`}
                     />
                   </div>
@@ -331,7 +381,7 @@ const SignUp = () => {
                     <button
                       type="button"
                       onClick={() => setIsCountryOpen(!isCountryOpen)}
-                      className={`w-full flex items-center gap-2 px-3 py-2 border rounded-md hover:bg-gray-50 
+                      className={`w-full flex items-center gap-2 px-3 h-12 border rounded-md hover:bg-gray-50 
                         dark:hover:bg-gray-800 transition-colors ${
                           fieldErrors.country ? 'border-red-500' : 'border-gray-300'
                         }`}
@@ -490,15 +540,19 @@ const SignUp = () => {
                   </div>
                 </div>
 
+                {/* Updated submit button */}
                 <button
                   type="submit"
-                  disabled={isLoading}
-                  className="w-full flex justify-center items-center h-12 px-4 border border-transparent 
-                    rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 
-                    dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 
-                    focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                  disabled={!isFormValid() || isLoading}
+                  className={`w-full flex justify-center items-center h-12 px-4 border border-transparent 
+                    rounded-md shadow-sm text-sm font-medium text-white
+                    ${isFormValid() 
+                      ? 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-500' 
+                      : 'bg-gray-400 cursor-not-allowed'}
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 
+                    disabled:opacity-50 transition-colors`}
                 >
-                  {isLoading ? 'Registering...' : 'Create Account'}
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
                 </button>
               </form>
 
