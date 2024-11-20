@@ -15,15 +15,11 @@ const NotificationsDropdown = ({ isOpen, onToggle }) => {
     <div className="relative">
       <button
         onClick={onToggle}
-        className="relative p-2 rounded-xl hover:bg-gray-100/80 transition-colors"
+        className="relative p-2 text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
       >
-        <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+        <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 
-            bg-red-500 text-white text-[10px] sm:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 
-            flex items-center justify-center">
-            {unreadCount}
-          </span>
+          <span className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         )}
       </button>
 
