@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const VerificationBanner = ({ onClose }) => {
   return (
-    <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4">
+    <div className="sticky top-0 z-50 bg-red-600 text-white py-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
@@ -16,7 +16,7 @@ const VerificationBanner = ({ onClose }) => {
           <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <Link
               to="/complete-profile"
-              className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50 transition-colors"
+              className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-800 transition-colors"
             >
               Get Started
             </Link>
@@ -25,7 +25,7 @@ const VerificationBanner = ({ onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2 transition-colors"
+              className="-mr-1 flex p-2 rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2 transition-colors"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
