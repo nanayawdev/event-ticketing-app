@@ -23,7 +23,11 @@ import {
   Minus,
   Plus,
   MapPin,
-  ExternalLink
+  ExternalLink,
+  Facebook,
+  Twitter,
+  Linkedin,
+  MessageCircle
 } from 'lucide-react'
 import { useState, useEffect } from 'react';
 import { isFuture, isPast, isToday, isTomorrow, differenceInDays, format } from 'date-fns'
@@ -228,6 +232,37 @@ const BuyTicket = ({ event, loading, error }) => {
 
   const hasSelectedTickets = tickets.some(ticket => ticket.quantity > 0);
 
+  const shareUrl = window.location.href;
+  const shareTitle = eventDetails?.Event_Name;
+  const shareDescription = eventDetails?.Event_Description?.slice(0, 100) + '...';
+
+  const shareLinks = [
+    {
+      name: 'Facebook',
+      icon: <Facebook className="h-4 w-4" />,
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+      color: 'bg-[#1877F2] hover:bg-[#1864D9]'
+    },
+    {
+      name: 'Twitter',
+      icon: <Twitter className="h-4 w-4" />,
+      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`,
+      color: 'bg-[#1DA1F2] hover:bg-[#1A8CD8]'
+    },
+    {
+      name: 'LinkedIn',
+      icon: <Linkedin className="h-4 w-4" />,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+      color: 'bg-[#0A66C2] hover:bg-[#094D92]'
+    },
+    {
+      name: 'WhatsApp',
+      icon: <MessageCircle className="h-4 w-4" />,
+      url: `https://wa.me/?text=${encodeURIComponent(`${shareTitle}\n\n${shareDescription}\n\n${shareUrl}`)}`,
+      color: 'bg-[#25D366] hover:bg-[#20BD5A]'
+    }
+  ];
+
   return (
     <div className="container max-w-[1600px] mx-auto px-4 py-4 sm:py-6 md:py-8">
       <div className="grid gap-8 md:gap-12 lg:gap-16 lg:grid-cols-3">
@@ -251,7 +286,25 @@ const BuyTicket = ({ event, loading, error }) => {
             >
               {status.text}
             </Badge>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{eventDetails.Event_Name}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{eventDetails.Event_Name}</h1>
+            
+            <div className="flex gap-2 mb-6">
+              {shareLinks.map((link) => (
+                <Button
+                  key={link.name}
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "w-8 h-8 text-white rounded-full",
+                    link.color
+                  )}
+                  onClick={() => window.open(link.url, '_blank')}
+                  title={`Share on ${link.name}`}
+                >
+                  {link.icon}
+                </Button>
+              ))}
+            </div>
           </div>
           
           <Accordion type="single" collapsible defaultValue="description" className="w-full">
