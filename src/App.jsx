@@ -35,6 +35,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import SocialButton from './components/SocialButton/SocialButton';
 import ApiTest from './components/ApiTest';
 import { NotificationsProvider } from './context/NotificationsContext';
+import Onboarding from './components/Onboarding/Onboarding';
 
 const StandardLayout = ({ children, showHelp = false }) => {
   const { theme } = useTheme();
@@ -164,6 +165,7 @@ const AppContent = () => {
         } />
         <Route path="/settings/*" element={<SettingsLayout />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/onboarding" element={<Onboarding />} />
       </Routes>
       <CookieConsentBanner />
     </>

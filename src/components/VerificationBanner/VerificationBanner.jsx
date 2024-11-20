@@ -10,13 +10,13 @@ const VerificationBanner = ({ onClose }) => {
           <div className="w-0 flex-1 flex items-center">
             <div className="ml-3 font-medium">
               <span className="md:hidden">Welcome to Tickrfly!</span>
-              <span className="hidden md:inline">Welcome to Tickrfly! Kindly provide the requested information to fully verify your account.</span>
+              <span className="hidden md:inline font-normal">Welcome to Tickrfly! Kindly provide the requested information to complete your account registration.</span>
             </div>
           </div>
           <div className="order-3 mt-1 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <Link
-              to="/complete-profile"
-              className="flex items-center justify-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-800 transition-colors"
+              to="/onboarding"
+              className="flex items-center justify-center px-4 py-1 border border-transparent rounded-md shadow-sm text-xs font-normal text-red-600 bg-white hover:bg-red-400 hover:text-white transition-colors"
             >
               Verify Account
             </Link>
