@@ -18,6 +18,7 @@ import NotificationsDropdown from '../components/Notifications/NotificationsDrop
 import { useNotificationsManager } from '../hooks/useNotificationsManager';
 import { useTheme } from '../context/ThemeContext';
 import VerificationBanner from '../components/VerificationBanner/VerificationBanner';
+import EmptyState from '../components/EmptyState/EmptyState';
 
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
@@ -50,10 +51,14 @@ const EventManagementDashboard = () => {
     });
   }, []); // Empty dependency array means this runs once when component mounts
 
+  const handleCreateEvent = () => {
+    setActiveMenu('Create Event');
+  };
+
   const menuItems = [
     { name: 'Overview', icon: LayoutDashboard, component: <Overview /> },
     { name: 'Create Event', icon: CirclePlus, component: <CreateEvent /> },
-    { name: 'Manage Events', icon: Calendar, component: <ManageEvents /> },
+    { name: 'Manage Events', icon: Calendar, component: <EmptyState onCreateEvent={handleCreateEvent} /> },
     { name: 'Attendees', icon: Users, component: <Attendees /> },
     { name: 'Analytics', icon: BarChart, component: <Analytics /> },
     { name: 'Tickets', icon: Ticket, component: <TicketsManagement /> },

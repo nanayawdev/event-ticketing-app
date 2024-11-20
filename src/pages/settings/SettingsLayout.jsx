@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { NavLink, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { 
   Building, Shield, CreditCard, Wallet, Bell, 
   Link2, Activity, Menu, X 
@@ -15,7 +15,17 @@ import ConnectedAccounts from './ConnectedAccounts';
 import AccountActivity from './AccountActivity';
 
 const SettingsLayout = () => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const settingsNavigation = [
     {
@@ -58,6 +68,34 @@ const SettingsLayout = () => {
   return (
     <div className="min-h-screen dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back to Dashboard Button with Tooltip */}
+        <div className="flex items-center mb-6 gap-3">
+          <div className="relative">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="p-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-gray-800/80 dark:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            {showTooltip && (
+              <div className="
+                hidden md:block
+                absolute top-1/2 -translate-y-1/2 z-50 animate-fade-in
+                md:right-full md:mr-2
+                lg:right-full lg:mr-2
+                px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap
+              ">
+                Click to return to Dashboard
+                <div className="
+                  absolute top-1/2 -translate-y-1/2 -right-1 
+                  w-2 h-2 bg-gray-900 rotate-45
+                "/>
+              </div>
+            )}
+          </div>
+          <h1 className="text-xl font-semibold dark:text-white">Account Settings</h1>
+        </div>
+
         {/* Mobile Menu Button - Only visible on mobile */}
         <div className="lg:hidden mb-4">
           <button
