@@ -37,6 +37,7 @@ const EventManagementDashboard = () => {
   const { addNotification } = useNotificationsManager();
   const { theme } = useTheme();
   const [showVerificationBanner, setShowVerificationBanner] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Move the notification to useEffect
   useEffect(() => {
@@ -86,8 +87,8 @@ const EventManagementDashboard = () => {
           {/* Top Navigation */}
           <header className="bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl border-b border-gray-200/80 dark:border-gray-700/80">
             <div className="flex items-center justify-between px-4">
-              {/* Navigation Tabs */}
-              <div className="flex overflow-x-auto">
+              {/* Navigation Tabs - Hidden below 530px, icons only 530px-1023px, full text above 1024px */}
+              <div className="hidden sm:flex overflow-x-auto">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeMenu === item.name;
@@ -103,12 +104,20 @@ const EventManagementDashboard = () => {
                         }
                       `}
                     >
-                      <Icon className="w-4 h-4" />
-                      <span>{item.name}</span>
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
+                      <span className="hidden lg:inline">{item.name}</span>
                     </button>
                   );
                 })}
               </div>
+
+              {/* Mobile Menu Button (shown below 530px) */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="sm:hidden p-2 text-gray-600 hover:text-blue-600 dark:text-gray-300"
+              >
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
 
               {/* Actions */}
               <div className="flex items-center space-x-4">
@@ -116,9 +125,38 @@ const EventManagementDashboard = () => {
                   isOpen={isNotificationsOpen}
                   onToggle={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 />
-                <ProfileDropdown onLogout={handleLogoutClick} />
+                <ProfileDropdown onLogout={handleLogoutClick} showFullProfile={false} />
               </div>
             </div>
+
+            {/* Mobile Menu (shown below 530px) */}
+            {isMobileMenuOpen && (
+              <div className="sm:hidden border-t border-gray-200 dark:border-gray-700">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeMenu === item.name;
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        setActiveMenu(item.name);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`
+                        flex items-center space-x-3 w-full px-4 py-3
+                        ${isActive 
+                          ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400' 
+                          : 'text-gray-600 dark:text-gray-300'
+                        }
+                      `}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span>{item.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </header>
 
           {/* Content Area with Footer */}
