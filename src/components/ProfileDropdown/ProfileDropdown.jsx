@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
+import LogoutModal from '../LogoutModal/LogoutModal';
 import { 
   UserCircle, 
   Shield, 
@@ -20,6 +21,7 @@ import {
 
 const ProfileDropdown = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -93,6 +95,16 @@ const ProfileDropdown = ({ onLogout }) => {
     };
   };
 
+  const handleLogoutClick = () => {
+    setIsOpen(false);
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
@@ -144,10 +156,10 @@ const ProfileDropdown = ({ onLogout }) => {
               ))}
             </div>
 
-            {/* Logout Button */}
+            {/* Update Logout Button */}
             <div className="border-t border-gray-200/80 dark:border-gray-700/80 px-2 sm:px-3 py-1">
               <button
-                onClick={onLogout}
+                onClick={handleLogoutClick}
                 className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 text-red-600 dark:text-red-400 
                   hover:bg-red-50/80 dark:hover:bg-red-950/50 rounded-lg transition-colors"
               >
@@ -162,6 +174,12 @@ const ProfileDropdown = ({ onLogout }) => {
         </div>,
         document.body
       )}
+
+      <LogoutModal 
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogoutConfirm}
+      />
     </div>
   );
 };

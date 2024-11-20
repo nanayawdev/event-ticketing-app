@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const VerificationBanner = ({ onClose }) => {
   return (
-    <div className="sticky top-0 z-50 bg-red-600 text-white py-4">
+    <div className="sticky top-0 z-50 bg-red-600 text-white py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
@@ -13,10 +13,10 @@ const VerificationBanner = ({ onClose }) => {
               <span className="hidden md:inline">Welcome to Tickrfly! Kindly provide the requested information to fully verify your account.</span>
             </div>
           </div>
-          <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+          <div className="order-3 mt-1 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <Link
               to="/complete-profile"
-              className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-800 transition-colors"
+              className="flex items-center justify-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-800 transition-colors"
             >
               Verify Account
             </Link>

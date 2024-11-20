@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
 import { 
   Building, Shield, CreditCard, Wallet, Bell, 
-  Key, Link2, Activity, Menu, X 
+  Link2, Activity, Menu, X 
 } from 'lucide-react';
 
 // Import all settings pages (removed ProfileSettings)

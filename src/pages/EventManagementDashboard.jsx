@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -214,7 +214,7 @@ const EventManagementDashboard = () => {
           {/* Content Area with Footer */}
           <main className="flex-1 overflow-y-auto dark:text-gray-200">
             <div className="p-6 min-h-[calc(100%-40px)]">
-              {activeComponent}
+              {activeComponent || <Outlet />}
             </div>
             
             {/* Footer */}
