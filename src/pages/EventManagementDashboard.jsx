@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { 
-  LayoutDashboard, 
-  Calendar, 
+  LayoutGrid, 
+  FolderKanban, 
   Users, 
-  BarChart, 
+  ChartLine, 
   Ticket, 
-  Banknote, 
-  CirclePlus,
-  Bell,
+  BadgeCent, 
+  FolderPlus,
   Menu,
   X
 } from 'lucide-react';
@@ -23,7 +22,6 @@ import EmptyState from '../components/EmptyState/EmptyState';
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
 import CreateEvent from '../components/dashboard/CreateEvent';
-import ManageEvents from '../components/dashboard/ManageEvents';
 import Attendees from '../components/dashboard/Attendees';
 import Analytics from '../components/dashboard/Analytics';
 import TicketsManagement from '../components/dashboard/TicketsManagement/TicketsManagement';
@@ -56,13 +54,13 @@ const EventManagementDashboard = () => {
   };
 
   const menuItems = [
-    { name: 'Overview', icon: LayoutDashboard, component: <Overview /> },
-    { name: 'Create Event', icon: CirclePlus, component: <CreateEvent /> },
-    { name: 'Manage Events', icon: Calendar, component: <EmptyState onCreateEvent={handleCreateEvent} /> },
+    { name: 'Overview', icon: LayoutGrid, component: <Overview /> },
+    { name: 'Create Event', icon: FolderPlus, component: <CreateEvent /> },
+    { name: 'Manage Events', icon: FolderKanban, component: <EmptyState onCreateEvent={handleCreateEvent} /> },
     { name: 'Attendees', icon: Users, component: <Attendees /> },
-    { name: 'Analytics', icon: BarChart, component: <Analytics /> },
+    { name: 'Analytics', icon: ChartLine, component: <Analytics /> },
     { name: 'Tickets', icon: Ticket, component: <TicketsManagement /> },
-    { name: 'Settlements', icon: Banknote, component: <Settlements /> }
+    { name: 'Settlements', icon: BadgeCent, component: <Settlements /> }
   ];
 
   // Find the active component to render

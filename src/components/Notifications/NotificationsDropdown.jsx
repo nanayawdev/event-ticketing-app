@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Check, Trash2 } from 'lucide-react';
+import { BellDot, Check, Trash2 } from 'lucide-react';
 import { useNotificationsManager } from '../../hooks/useNotificationsManager';
 
 const NotificationsDropdown = ({ isOpen, onToggle }) => {
@@ -17,7 +17,7 @@ const NotificationsDropdown = ({ isOpen, onToggle }) => {
         onClick={onToggle}
         className="relative p-2 text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
       >
-        <Bell className="w-5 h-5" />
+        <BellDot className="w-5 h-5" />
         {unreadCount > 0 && (
           <span className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         )}
