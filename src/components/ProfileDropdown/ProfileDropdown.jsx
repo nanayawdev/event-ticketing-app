@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import LogoutModal from '../LogoutModal/LogoutModal';
+import { checkAuthAndGetProfile } from '../../utils/auth';
 import { 
   Shield, 
   CreditCard, 
@@ -18,8 +19,8 @@ const ProfileDropdown = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userData, setUserData] = useState({
-    businessName: '',
-    email: ''
+    BusinessName: '',
+    Email: ''
   });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -83,11 +84,10 @@ const ProfileDropdown = ({ onLogout }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const userData = await checkAuthAndGetProfile();
+        const response = await checkAuthAndGetProfile();
         setUserData({
-          businessName: userData.BusinessName || '',
-          email: userData.Email || '',
-          name: userData.Name || ''
+          BusinessName: response.BusinessName || '',
+          Email: response.Email || ''
         });
       } catch (error) {
         console.error('Error loading profile:', error);
@@ -130,10 +130,10 @@ const ProfileDropdown = ({ onLogout }) => {
         <div className="w-7 h-7 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
           flex items-center justify-center text-white font-medium shadow-lg shadow-blue-500/20
           group-hover:shadow-blue-500/30 transition-shadow">
-          {userData.businessName ? userData.businessName.substring(0, 2).toUpperCase() : ''}
+          {userData.BusinessName ? userData.BusinessName.substring(0, 2).toUpperCase() : ''}
         </div>
         <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
-          {userData.businessName}
+          {userData.BusinessName}
         </span>
         <Ellipsis className={`w-3.5 h-3.5 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -151,10 +151,10 @@ const ProfileDropdown = ({ onLogout }) => {
             {/* User Info Section */}
             <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 border-b border-gray-200/80 dark:border-gray-700/80">
               <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">
-                {userData.businessName}
+                {userData.BusinessName}
               </p>
               <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
-                {userData.email}
+                {userData.Email}
               </p>
             </div>
 
