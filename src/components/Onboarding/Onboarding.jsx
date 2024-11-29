@@ -5,6 +5,7 @@ import { useCountryStates } from '../../hooks/useCountryStates';
 import { generateRegistrationNumber } from '../../utils/generateRegistrationNumber';
 import { toast, Toaster } from 'react-hot-toast';
 import OtpInput from '../ui/OtpInput';
+import { useLocation } from 'react-router-dom';
 
 const Onboarding = () => {
   const countries = useCountryList();
@@ -19,11 +20,6 @@ const Onboarding = () => {
     phone: '',
     alternativeEmail: '',
     alternativePhone: '',
-    address: '',
-    city: '',
-    region: '',
-    country: 'GH',
-    state: '',
     description: ''
   });
 
@@ -39,6 +35,63 @@ const Onboarding = () => {
   const [showFinalModal, setShowFinalModal] = useState(false);
 
   const DEFAULT_OTP = '123456';
+
+  const location = useLocation();
+  const signupData = location.state;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Log signup data received from navigation
+        console.log('Received signup data:', signupData);
+
+        // First try to use data passed from signup
+        if (signupData) {
+          console.log('Using signup data to pre-fill form');
+          setFormData(prev => ({
+            ...prev,
+            organizationName: signupData.businessName || '',
+            email: signupData.email || '',
+            registrationNumber: signupData.registrationNumber || ''
+          }));
+          return;
+        }
+
+        console.log('No signup data, fetching from API...');
+        
+        // If no signup data, fetch from API
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/login', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        console.log('API Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log('API Response data:', userData);
+        
+        setFormData(prev => ({
+          ...prev,
+          organizationName: userData.businessName || '',
+          email: userData.email || '',
+          registrationNumber: userData.registrationNumber || ''
+        }));
+
+      } catch (error) {
+        console.error('Error in fetchUserData:', error);
+        toast.error('Failed to load user details');
+      }
+    };
+
+    fetchUserData();
+  }, [signupData]);
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
@@ -106,11 +159,6 @@ const Onboarding = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (step < 3) {
-      setStep(step + 1);
-      return;
-    }
-
     try {
       const organizerData = {
         Organizers_Name: formData.organizationName || '',
@@ -118,9 +166,6 @@ const Onboarding = () => {
         Organizers_Email: formData.email || '',
         Organizers_Logo: null,
         Events_Name: null,
-        Address: formData.address || '',
-        City: formData.city || '',
-        Region: formData.state || '',
         Alt_Phone: formData.alternativePhone || '',
         Alt_Email: formData.alternativeEmail || '',
         Reg_Number: formData.registrationNumber || ''
@@ -164,24 +209,6 @@ const Onboarding = () => {
       console.error('Error saving organization data:', error);
       toast.error(`Failed to save organization details: ${error.message}`);
     }
-  };
-
-  const renderProgressIndicator = () => {
-    return (
-      <div className="mb-6">
-        <div className="inline-flex px-2 py-1 bg-red-100 rounded-full mb-4">
-          <span className="text-xs font-medium text-red-600">
-            Step {step} of 3
-          </span>
-        </div>
-        <div className="h-1 w-full bg-gray-200 rounded-full">
-          <div
-            className="h-1 bg-red-500 rounded-full transition-all duration-300"
-            style={{ width: `${(step / 3) * 100}%` }}
-          />
-        </div>
-      </div>
-    );
   };
 
   const renderPhoneInput = () => {
@@ -329,101 +356,151 @@ const Onboarding = () => {
     );
   };
 
-  const renderStep = () => {
-    switch(step) {
-      case 1:
-        return (
-          <div className="space-y-6">
-            {renderProgressIndicator()}
-            <h2 className="text-xl font-semibold text-gray-900">Organization Profile</h2>
-            <p className="text-sm text-gray-500">
-              Manage your organization's information and contact details.
+  const renderForm = () => {
+    return (
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-gray-900">Organization Profile</h2>
+        <p className="text-sm text-gray-500">
+          Manage your organization's information and contact details.
+        </p>
+
+        {/* Organization Logo */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="relative">
+            <div className="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
+              {logoUrl.url ? (
+                <img 
+                  src={logoUrl.url} 
+                  alt="Organization logo" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Camera className="w-8 h-8 text-gray-400" />
+              )}
+            </div>
+            <button 
+              onClick={handleLogoClick} 
+              type="button"
+              className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white
+                shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+            >
+              <Camera className="w-4 h-4 text-gray-600" />
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleLogoUpload}
+              accept="image/*"
+              className="hidden"
+            />
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-gray-900">Organization Logo</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Recommended size: 400x400px. Max file size: 2MB.
             </p>
+          </div>
+        </div>
 
-            {/* Organization Logo */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
-                  {logoUrl.url ? (
-                    <img 
-                      src={logoUrl.url} 
-                      alt="Organization logo" 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <Camera className="w-8 h-8 text-gray-400" />
-                  )}
-                </div>
-                <button 
-                  onClick={handleLogoClick} 
-                  type="button"
-                  className="absolute -bottom-2 -right-2 p-2 rounded-full bg-white
-                    shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
-                >
-                  <Camera className="w-4 h-4 text-gray-600" />
-                </button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleLogoUpload}
-                  accept="image/*"
-                  className="hidden"
-                />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-900">Organization Logo</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Recommended size: 400x400px. Max file size: 2MB.
-                </p>
-              </div>
-            </div>
+        {/* Basic Information */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Organization Name
+            </label>
+            <input
+              type="text"
+              value={formData.organizationName}
+              disabled
+              className="mt-1 block w-full px-3 py-2 
+                bg-gray-50 border border-gray-300 
+                rounded-lg shadow-sm cursor-not-allowed"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Registration Number
+            </label>
+            <input
+              type="text"
+              value={formData.registrationNumber}
+              disabled
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 
+                rounded-lg shadow-sm bg-gray-50 cursor-not-allowed"
+            />
+          </div>
+        </div>
 
-            {/* Basic Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Organization Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.organizationName}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    organizationName: e.target.value
-                  }))}
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Registration Number
-                </label>
-                <input
-                  type="text"
-                  value={formData.registrationNumber}
-                  disabled
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 
-                    rounded-lg shadow-sm bg-gray-50 cursor-not-allowed"
-                />
-              </div>
-            </div>
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Description
+          </label>
+          <textarea
+            value={formData.description}
+            onChange={(e) => setFormData(prev => ({
+              ...prev,
+              description: e.target.value
+            }))}
+            rows={4}
+            placeholder="Tell us about your organization..."
+            className="mt-1 block w-full px-3 py-2 
+              bg-white border border-gray-300 
+              rounded-lg shadow-sm 
+              focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
 
-            {/* Description */}
+        {/* Contact Information Section */}
+        <div className="border-t pt-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Contact Information</h2>
+          
+          {/* Primary Contact */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Description
+                Primary Email
               </label>
-              <textarea
-                value={formData.description}
+              <input
+                type="email"
+                value={formData.email}
+                disabled
+                className="mt-1 block w-full px-3 py-2 
+                  bg-gray-50 border border-gray-300 
+                  rounded-lg shadow-sm cursor-not-allowed"
+              />
+            </div>
+            {renderPhoneInput()}
+          </div>
+
+          {/* Alternative Contact */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Alternative Email (Optional)
+              </label>
+              <input
+                type="email"
+                value={formData.alternativeEmail}
                 onChange={(e) => setFormData(prev => ({
                   ...prev,
-                  description: e.target.value
+                  alternativeEmail: e.target.value
                 }))}
-                rows={4}
-                placeholder="Tell us about your organization..."
+                className="mt-1 block w-full px-3 py-2 
+                  bg-white border border-gray-300 
+                  rounded-lg shadow-sm 
+                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Alternative Phone (Optional)
+              </label>
+              <input
+                type="tel"
+                value={formData.alternativePhone}
+                onChange={(e) => handlePhoneChange(e, 'alternativePhone')}
+                placeholder="Enter alternative phone number (optional)"
                 className="mt-1 block w-full px-3 py-2 
                   bg-white border border-gray-300 
                   rounded-lg shadow-sm 
@@ -431,132 +508,9 @@ const Onboarding = () => {
               />
             </div>
           </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            {renderProgressIndicator()}
-            <h2 className="text-xl font-semibold text-gray-900">Contact Information</h2>
-            
-            {/* Primary Contact */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Primary Email
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  disabled
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-gray-50 border border-gray-300 
-                    rounded-lg shadow-sm cursor-not-allowed"
-                />
-              </div>
-              {renderPhoneInput()}
-            </div>
-
-            {/* Alternative Contact */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Alternative Email (Optional)
-                </label>
-                <input
-                  type="email"
-                  value={formData.alternativeEmail}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    alternativeEmail: e.target.value
-                  }))}
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Alternative Phone (Optional)
-                </label>
-                <input
-                  type="tel"
-                  value={formData.alternativePhone}
-                  onChange={(e) => handlePhoneChange(e, 'alternativePhone')}
-                  placeholder="Enter alternative phone number (optional)"
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-          </div>
-        );
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            {renderProgressIndicator()}
-            <h2 className="text-xl font-semibold text-gray-900">Address Information</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Address
-                </label>
-                <input
-                  type="text"
-                  value={formData.address}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    address: e.target.value
-                  }))}
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">City</label>
-                <input
-                  type="text"
-                  value={formData.city}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    city: e.target.value
-                  }))}
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">State</label>
-                <select
-                  value={formData.state}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    state: e.target.value
-                  }))}
-                  className="mt-1 block w-full px-3 py-2 
-                    bg-white border border-gray-300 
-                    rounded-lg shadow-sm 
-                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Select a state</option>
-                  {getStatesForCountry(formData.country).map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        );
-    }
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -569,27 +523,17 @@ const Onboarding = () => {
           }}
         />
         <form onSubmit={handleSubmit} className="w-full">
-          {renderStep()}
+          {renderForm()}
           {renderOtpModal()}
           {renderFinalModal()}
           
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={() => setStep(step - 1)}
-                className="w-full px-4 py-3 text-base font-medium text-gray-700 
-                  bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-              >
-                Back
-              </button>
-            )}
+          <div className="mt-8">
             <button
               type="submit"
-              className={`${step === 1 ? 'col-span-2' : ''} w-full px-4 py-3 text-base font-medium 
-                text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors`}
+              className="w-full px-4 py-3 text-base font-medium 
+                text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
             >
-              {step === 3 ? 'Save and continue' : 'Continue'}
+              Save and continue
             </button>
           </div>
         </form>

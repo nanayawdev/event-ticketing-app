@@ -144,7 +144,6 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Check if terms are agreed to
     if (!formData.agreedToTerms) {
       setFieldErrors(prev => ({
         ...prev,
@@ -173,21 +172,32 @@ const SignUp = () => {
         }),
       });
 
+      const responseData = await response.json();
+      console.log('Signup Response:', responseData);
+
       if (response.ok) {
         setOpenSnackbar(true);
         console.log('User registered successfully');
-        setFormData({ fullName: '', email: '', password: '' });
+        console.log('Data being passed to Onboarding:', {
+          email: formData.email,
+          businessName: formData.businessName,
+          registrationNumber: registrationNumber
+        });
         
-        // Redirect to dashboard after a short delay
         setTimeout(() => {
-          navigate('/dashboard');
-        }, 1500); // 1.5 seconds delay to show the success message
+          navigate('/onboarding', { 
+            state: { 
+              email: formData.email,
+              businessName: formData.businessName,
+              registrationNumber: registrationNumber
+            } 
+          });
+        }, 1500);
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Failed to register user');
+        throw new Error(responseData.message || 'Failed to register user');
       }
     } catch (error) {
-      setError('Error during registration. Please try again.');
+      setError(error.message || 'Error during registration. Please try again.');
       console.error('Error during registration:', error);
     } finally {
       setIsLoading(false);
