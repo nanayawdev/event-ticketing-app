@@ -3,25 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import LogoutModal from '../LogoutModal/LogoutModal';
 import { 
-  UserCircle, 
   Shield, 
   CreditCard, 
   Wallet, 
   Bell, 
   Building, 
-  Key, 
   Link2, 
-  FileText, 
   Activity,
   LogOut,
   Ellipsis,
-  Settings,
-  HelpCircle 
 } from 'lucide-react';
 
 const ProfileDropdown = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [userData, setUserData] = useState({
+    businessName: '',
+    email: ''
+  });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -81,6 +80,17 @@ const ProfileDropdown = ({ onLogout }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    // Get user data from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUserData({
+        businessName: user.businessName || '',
+        email: user.email || ''
+      });
+    }
+  }, []);
+
   const handleMenuItemClick = (path) => {
     setIsOpen(false);
     navigate(path);
@@ -114,9 +124,11 @@ const ProfileDropdown = ({ onLogout }) => {
         <div className="w-7 h-7 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
           flex items-center justify-center text-white font-medium shadow-lg shadow-blue-500/20
           group-hover:shadow-blue-500/30 transition-shadow">
-          NY
+          {userData.businessName ? userData.businessName.substring(0, 2).toUpperCase() : ''}
         </div>
-        <span className="text-xs font-medium text-gray-700 dark:text-gray-200">Nana Yaw</span>
+        <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
+          {userData.businessName}
+        </span>
         <Ellipsis className={`w-3.5 h-3.5 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
@@ -126,14 +138,18 @@ const ProfileDropdown = ({ onLogout }) => {
             position: 'absolute',
             ...getDropdownPosition(),
           }}
-          className="w-64 sm:w-64 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
+          className="w-64 sm:w-64 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
             border border-gray-200/80 dark:border-gray-700/80 backdrop-blur-xl overflow-hidden z-[9999] transition-all duration-200 ease-out"
         >
           <div className="max-h-[calc(100vh-200px)] overflow-y-auto py-1">
-            {/* User Info */}
+            {/* User Info Section */}
             <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 border-b border-gray-200/80 dark:border-gray-700/80">
-              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">John Doe</p>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">john.doe@example.com</p>
+              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">
+                {userData.businessName}
+              </p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
+                {userData.email}
+              </p>
             </div>
 
             {/* Menu Items */}

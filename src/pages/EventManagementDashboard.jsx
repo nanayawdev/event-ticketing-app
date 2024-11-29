@@ -16,8 +16,8 @@ import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
 import NotificationsDropdown from '../components/Notifications/NotificationsDropdown';
 import { useNotificationsManager } from '../hooks/useNotificationsManager';
 import { useTheme } from '../context/ThemeContext';
-import VerificationBanner from '../components/VerificationBanner/VerificationBanner';
 import EmptyState from '../components/EmptyState/EmptyState';
+import { checkAuthAndGetProfile } from '../utils/auth';
 
 // Import dashboard components
 import Overview from '../components/dashboard/Overview';
@@ -35,7 +35,8 @@ const EventManagementDashboard = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { addNotification } = useNotificationsManager();
   const { theme } = useTheme();
-  const [showVerificationBanner, setShowVerificationBanner] = useState(true);
+  const [businessName, setBusinessName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Move the notification to useEffect
@@ -48,6 +49,31 @@ const EventManagementDashboard = () => {
       type: 'success'
     });
   }, []); // Empty dependency array means this runs once when component mounts
+
+  useEffect(() => {
+    const validateAuthAndLoadProfile = async () => {
+      try {
+        // Check auth token and get fresh profile data
+        const userData = await checkAuthAndGetProfile();
+        
+        // Update state with fresh data
+        setBusinessName(userData.businessName || '');
+        setUserEmail(userData.email || '');
+        
+        // Update localStorage with fresh data
+        localStorage.setItem('user', JSON.stringify({
+          businessName: userData.businessName,
+          email: userData.email,
+          // ... other user data
+        }));
+      } catch (error) {
+        // If auth check fails, redirect to login
+        navigate('/login');
+      }
+    };
+
+    validateAuthAndLoadProfile();
+  }, [navigate]);
 
   const handleCreateEvent = () => {
     setActiveMenu('Create Event');
@@ -81,9 +107,6 @@ const EventManagementDashboard = () => {
 
   return (
     <>
-      {showVerificationBanner && (
-        <VerificationBanner onClose={() => setShowVerificationBanner(false)} />
-      )}
       <div className="flex h-screen bg-gray-50/95 dark:bg-gray-900">
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -128,7 +151,12 @@ const EventManagementDashboard = () => {
                   isOpen={isNotificationsOpen}
                   onToggle={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 />
-                <ProfileDropdown onLogout={handleLogoutClick} showFullProfile={false} />
+                <ProfileDropdown 
+                  onLogout={handleLogoutClick} 
+                  showFullProfile={false}
+                  businessName={businessName}
+                  email={userEmail}
+                />
               </div>
             </div>
 

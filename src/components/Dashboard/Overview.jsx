@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Clock, Ticket, TrendingUp, Tag, Eye, Percent } from 'lucide-react';
 import { usePayment } from '../../context/PaymentContext';
 import { formatCurrency } from '../../utils/currencyConverter';
+import { checkAuthAndGetProfile } from '../../utils/auth';
 
 const Overview = () => {
   const { selectedCurrency, convertCurrency } = usePayment();
+  const [businessName, setBusinessName] = useState('');
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const userData = await checkAuthAndGetProfile();
+        if (userData && userData.businessName) {
+          setBusinessName(userData.businessName);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const formatValue = (value, isCurrency = true) => {
     if (!isCurrency) return value;
@@ -76,7 +93,9 @@ const Overview = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h2>
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+        {businessName ? `${businessName}'s Dashboard` : 'Dashboard Overview'}
+      </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat) => {
