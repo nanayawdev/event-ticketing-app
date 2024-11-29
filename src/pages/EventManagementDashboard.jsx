@@ -92,17 +92,17 @@ const EventManagementDashboard = () => {
   // Find the active component to render
   const activeComponent = menuItems.find(item => item.name === activeMenu)?.component;
 
-  // Add logout handlers
+  // Update the handleLogoutClick function
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(true);
   };
 
   const handleLogoutConfirm = () => {
     // Perform logout actions here
-    localStorage.removeItem('token'); // Remove auth token
-    localStorage.removeItem('user'); // Remove user data
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setIsLogoutModalOpen(false);
-    navigate('/login'); // Redirect to login page
+    navigate('/login');
   };
 
   return (
@@ -153,7 +153,6 @@ const EventManagementDashboard = () => {
                 />
                 <ProfileDropdown 
                   onLogout={handleLogoutClick} 
-                  showFullProfile={false}
                   businessName={businessName}
                   email={userEmail}
                 />

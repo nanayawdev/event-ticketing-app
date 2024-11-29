@@ -30,43 +30,43 @@ const ProfileDropdown = ({ onLogout }) => {
       title: 'Organization Profile',
       description: 'Manage your organization details',
       icon: Building,
-      path: '/settings/organization'
+      path: 'organization'
     },
     {
       title: 'Security Settings',
       description: 'Change password and 2FA settings',
       icon: Shield,
-      path: '/settings/security'
+      path: 'security'
     },
     {
       title: 'Payment Methods',
       description: 'Manage your payment methods',
       icon: CreditCard,
-      path: '/settings/payments'
+      path: 'payments'
     },
     {
       title: 'Payout Settings',
       description: 'Configure your payout preferences',
       icon: Wallet,
-      path: '/settings/payouts'
+      path: 'payouts'
     },
     {
       title: 'Notification Settings',
       description: 'Manage your notifications',
       icon: Bell,
-      path: '/settings/notifications'
+      path: 'notifications'
     },
     {
       title: 'Connected Accounts',
       description: 'Link your social and platform accounts',
       icon: Link2,
-      path: '/settings/connected-accounts'
+      path: 'connected-accounts'
     },
     {
       title: 'Account Activity',
       description: 'View login history and recent actions',
       icon: Activity,
-      path: '/settings/activity'
+      path: 'activity'
     }
   ];
 
@@ -99,7 +99,7 @@ const ProfileDropdown = ({ onLogout }) => {
 
   const handleMenuItemClick = (path) => {
     setIsOpen(false);
-    navigate(path);
+    navigate(`/settings/${path}`);
   };
 
   const getDropdownPosition = () => {
@@ -118,7 +118,9 @@ const ProfileDropdown = ({ onLogout }) => {
 
   const handleLogoutConfirm = () => {
     setShowLogoutModal(false);
-    onLogout();
+    if (onLogout) {
+      onLogout();
+    }
   };
 
   return (

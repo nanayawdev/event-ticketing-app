@@ -1,11 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Building, Mail, Phone, AlertCircle, Camera, MapPin, Ellipsis, Trash2 } from 'lucide-react';
 import { currencies, getDefaultCurrencyByLocation } from '../../utils/currencyConverter';
 import DeleteOrganizationModal from '../../components/modals/DeleteOrganizationModal';
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import { generateRegistrationNumber } from '../../utils/generateRegistrationNumber';
-
+import { checkAuthAndGetProfile } from '../../utils/auth';
 const OrganizationSettings = () => {
   const [showDeleteDropdown, setShowDeleteDropdown] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -16,9 +16,6 @@ const OrganizationSettings = () => {
     phone: '',
     alternativeEmail: '',
     alternativePhone: '',
-    address: '',
-    city: '',
-    region: '',
     description: '',
     preferredCurrency: getDefaultCurrencyByLocation('Greater Accra')
   });
@@ -30,6 +27,57 @@ const OrganizationSettings = () => {
   });
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    const fetchOrganizationData = async () => {
+      try {
+        console.log('Fetching organization data from API...');
+        
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/login', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        console.log('API Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log('API Response data:', userData);
+        
+        setFormData(prev => ({
+          ...prev,
+          organizationName: userData.businessName || '',
+          email: userData.email || '',
+          registrationNumber: userData.registrationNumber || '',
+          phone: userData.phone || '',
+          alternativeEmail: userData.alternativeEmail || '',
+          alternativePhone: userData.alternativePhone || '',
+          description: userData.description || '',
+          preferredCurrency: userData.preferredCurrency || getDefaultCurrencyByLocation('Greater Accra')
+        }));
+
+        // If there's a logo URL in the response
+        if (userData.logoUrl) {
+          setLogoUrl({
+            file: null,
+            url: userData.logoUrl
+          });
+        }
+
+      } catch (error) {
+        console.error('Error in fetchOrganizationData:', error);
+        toast.error('Failed to load organization details');
+      }
+    };
+
+    fetchOrganizationData();
+  }, []); // Empty dependency array means this runs once on mount
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -40,9 +88,6 @@ const OrganizationSettings = () => {
         Organizers_Email: formData.email || '',
         Organizers_Logo: null,
         Events_Name: null,
-        Address: formData.address || '',
-        City: formData.city || '',
-        Region: formData.region || '',
         Description: formData.description || '',
         Alt_Phone: formData.alternativePhone || '',
         Alt_Email: formData.alternativeEmail || '',
@@ -314,83 +359,6 @@ const OrganizationSettings = () => {
                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
                   placeholder-gray-400 dark:placeholder-gray-500"
               />
-            </div>
-          </div>
-
-          {/* Address Information */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                Address
-              </label>
-              <input
-                type="text"
-                value={formData.address}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  address: e.target.value
-                }))}
-                className="mt-1 block w-full px-3 py-2 
-                  bg-white dark:bg-gray-800 
-                  text-gray-900 dark:text-white
-                  border border-gray-300 dark:border-gray-600 
-                  rounded-lg shadow-sm 
-                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                City
-              </label>
-              <input
-                type="text"
-                value={formData.city}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  city: e.target.value
-                }))}
-                className="mt-1 block w-full px-3 py-2 
-                  bg-white dark:bg-gray-800 
-                  text-gray-900 dark:text-white
-                  border border-gray-300 dark:border-gray-600 
-                  rounded-lg shadow-sm 
-                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                Region
-              </label>
-              <select
-                value={formData.region}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  region: e.target.value
-                }))}
-                className="mt-1 block w-full px-3 py-2 
-                  bg-white dark:bg-gray-800 
-                  text-gray-900 dark:text-white
-                  border border-gray-300 dark:border-gray-600 
-                  rounded-lg shadow-sm 
-                  focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option>Ahafo</option>
-                <option>Ashanti</option>
-                <option>Bono</option>
-                <option>Bono East</option>
-                <option>Central</option>
-                <option>Eastern</option>
-                <option>Greater Accra</option>
-                <option>North East</option>
-                <option>Northern</option>
-                <option>Oti</option>
-                <option>Savannah</option>
-                <option>Upper East</option>
-                <option>Upper West</option>
-                <option>Volta</option>
-                <option>Western</option>
-                <option>Western North</option>
-              </select>
             </div>
           </div>
 
