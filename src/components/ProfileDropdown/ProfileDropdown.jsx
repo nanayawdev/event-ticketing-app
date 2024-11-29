@@ -81,14 +81,20 @@ const ProfileDropdown = ({ onLogout }) => {
   }, []);
 
   useEffect(() => {
-    // Get user data from localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setUserData({
-        businessName: user.businessName || '',
-        email: user.email || ''
-      });
-    }
+    const fetchUserProfile = async () => {
+      try {
+        const userData = await checkAuthAndGetProfile();
+        setUserData({
+          businessName: userData.BusinessName || '',
+          email: userData.Email || '',
+          name: userData.Name || ''
+        });
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      }
+    };
+
+    fetchUserProfile();
   }, []);
 
   const handleMenuItemClick = (path) => {

@@ -75,41 +75,15 @@ const SignIn = () => {
 
       if (response.ok) {
         const authData = await response.json();
-        // Store the auth token
+        // Store only the auth token
         localStorage.setItem('authToken', authData.authToken);
         
-        // Now fetch the user profile data
-        try {
-          const profileResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/me', {
-            method: 'GET',
-            headers: {
-              'X-Xano-Authorization': authData.authToken,
-              'X-Xano-Authorization-Only': 'true'
-            }
-          });
-
-          if (profileResponse.ok) {
-            const userData = await profileResponse.json();
-            // Store user profile data
-            localStorage.setItem('user', JSON.stringify({
-              businessName: userData.businessName,
-              email: userData.email,
-              // Add any other relevant user data
-            }));
-            
-            setOpenSnackbar(true);
-            setFormData({ email: '', password: '' });
-            
-            setTimeout(() => {
-              navigate('/dashboard');
-            }, 1500);
-          } else {
-            throw new Error('Failed to fetch user profile');
-          }
-        } catch (error) {
-          setError('Error fetching user profile. Please try again.');
-          localStorage.removeItem('authToken'); // Clean up on error
-        }
+        setOpenSnackbar(true);
+        setFormData({ email: '', password: '' });
+        
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Invalid credentials');
