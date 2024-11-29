@@ -129,6 +129,18 @@ const SignUp = () => {
     }
   };
 
+  const generateRegistrationNumber = () => {
+    const word = 'TICKRFLY';
+    let letters = '';
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * word.length);
+      letters += word[randomIndex];
+    }
+    
+    const numbers = Math.floor(Math.random() * 10000000).toString().padStart(7, '0');
+    return `${letters}${numbers}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -142,8 +154,9 @@ const SignUp = () => {
       return;
     }
 
-    // Rest of your submit logic...
     try {
+      const registrationNumber = generateRegistrationNumber();
+      
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/signup', {
         method: 'POST',
         headers: {
@@ -156,6 +169,7 @@ const SignUp = () => {
           BusinessName: formData.businessName,
           Country: formData.country,
           role: 'Admin',
+          RegistrationNumber: registrationNumber,
         }),
       });
 
