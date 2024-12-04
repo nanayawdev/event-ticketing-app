@@ -27,6 +27,17 @@ const SettingsLayout = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        navigate('/login');
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
   const settingsNavigation = [
     {
       title: 'Event Organizer',
