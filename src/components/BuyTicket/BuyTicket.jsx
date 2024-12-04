@@ -376,7 +376,7 @@ const BuyTicket = ({ event, loading, error }) => {
                         size="icon"
                         className="h-7 w-7 sm:h-8 sm:w-8 bg-gray-50"
                         onClick={() => handleDecrease(index)}
-                        disabled={ticket.quantity === 0}
+                        disabled={ticket.quantity === 0 || isEventClosed}
                       >
                         <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
@@ -387,13 +387,14 @@ const BuyTicket = ({ event, loading, error }) => {
                         min="0"
                         max={ticket.available}
                         readOnly
+                        disabled={isEventClosed}
                       />
                       <Button
                         variant="outline"
                         size="icon"
                         className="h-7 w-7 sm:h-8 sm:w-8 bg-gray-50"
                         onClick={() => handleIncrease(index)}
-                        disabled={ticket.quantity >= ticket.available}
+                        disabled={ticket.quantity >= ticket.available || isEventClosed}
                       >
                         <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
