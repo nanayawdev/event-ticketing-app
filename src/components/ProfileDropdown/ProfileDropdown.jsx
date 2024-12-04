@@ -42,39 +42,41 @@ const ProfileDropdown = ({ onLogout }) => {
     fetchUserProfile();
   }, []);
 
-  const handleSettingsClick = () => {
-    setIsOpen(false);
-    navigate('/settings');
-  };
-
-  const handleLogoutClick = () => {
-    setIsOpen(false);
-    setShowLogoutModal(true);
-  };
-
-  const handleLogoutConfirm = () => {
-    setShowLogoutModal(false);
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    if (onLogout) {
-      onLogout();
+  const handleSettingsClick = (e) => {
+    e.preventDefault();
+    console.log('1. Settings button clicked');
+    try {
+      setIsOpen(false);
+      console.log('2. Dropdown closed');
+      console.log('3. Attempting to navigate to /settings');
+      navigate('/settings');
+      console.log('4. Navigation completed');
+    } catch (error) {
+      console.error('Navigation error:', error);
     }
-    navigate('/login');
   };
 
-  const getDropdownPosition = () => {
-    if (!dropdownRef.current) return { top: 0, left: 0 };
-    const rect = dropdownRef.current.getBoundingClientRect();
-    return {
-      top: rect.bottom + window.scrollY,
-      left: rect.right - 256,
-    };
+  const handleLogoutClick = (e) => {
+    e.preventDefault();
+    console.log('1. Logout button clicked');
+    try {
+      setIsOpen(false);
+      console.log('2. Dropdown closed');
+      console.log('3. Opening logout modal');
+      setShowLogoutModal(true);
+      console.log('4. Logout modal opened');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          console.log('Profile button clicked, toggling dropdown');
+          setIsOpen(!isOpen);
+        }}
         className="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-gray-100/80 dark:hover:bg-gray-800/80 transition-colors group"
       >
         <div className="w-7 h-7 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 
@@ -87,62 +89,50 @@ const ProfileDropdown = ({ onLogout }) => {
         </span>
       </button>
 
-      {isOpen && createPortal(
+      {isOpen && (
         <div
-          style={{
-            position: 'absolute',
-            ...getDropdownPosition(),
-          }}
-          className="w-64 sm:w-64 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
-            border border-gray-200/80 dark:border-gray-700/80 backdrop-blur-xl overflow-hidden z-[9999] transition-all duration-200 ease-out"
+          className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900 rounded-xl shadow-lg 
+            border border-gray-200/80 dark:border-gray-700/80 overflow-hidden z-[9999]"
         >
-          <div className="max-h-[calc(100vh-200px)] overflow-y-auto py-1">
-            {/* User Info Section */}
-            <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 border-b border-gray-200/80 dark:border-gray-700/80">
-              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">
-                {userData.BusinessName}
-              </p>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
-                {userData.Email}
-              </p>
-            </div>
+          <div className="py-1">
+            {/* Settings Button */}
+            <button
+              type="button"
+              onClick={handleSettingsClick}
+              className="w-full flex items-center px-3 py-2 text-left hover:bg-gray-50/80 dark:hover:bg-gray-800/80"
+            >
+              <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-lg 
+                bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
+                <Settings className="w-3 h-3" />
+              </div>
+              <span className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Settings</span>
+            </button>
 
-            {/* Settings and Logout Items */}
-            <div className="py-1">
-              <button
-                className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-colors"
-                onClick={handleSettingsClick}
-              >
-                <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-lg 
-                  bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
-                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-                <div className="ml-2 text-left">
-                  <p className="text-[11px] sm:text-xs font-medium text-gray-900 dark:text-gray-100">Settings</p>
-                </div>
-              </button>
-
-              <button
-                onClick={handleLogoutClick}
-                className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 text-red-600 dark:text-red-400 
-                  hover:bg-red-50/80 dark:hover:bg-red-950/50 rounded-lg transition-colors"
-              >
-                <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-lg 
-                  bg-red-50 dark:bg-red-950/50">
-                  <LogOut className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-                <span className="ml-2 text-[11px] sm:text-xs font-medium">Logout</span>
-              </button>
-            </div>
+            {/* Logout Button */}
+            <button
+              type="button"
+              onClick={handleLogoutClick}
+              className="w-full flex items-center px-3 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-950/50"
+            >
+              <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-lg 
+                bg-red-50 dark:bg-red-950/50">
+                <LogOut className="w-3 h-3" />
+              </div>
+              <span className="ml-2 text-sm font-medium">Logout</span>
+            </button>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
 
       <LogoutModal 
         isOpen={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
-        onConfirm={handleLogoutConfirm}
+        onConfirm={() => {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+          if (onLogout) onLogout();
+          navigate('/login');
+        }}
       />
     </div>
   );
