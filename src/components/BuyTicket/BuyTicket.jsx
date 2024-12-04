@@ -216,6 +216,7 @@ const BuyTicket = ({ event, loading, error }) => {
   }
 
   const status = getEventStatus()
+  const isEventClosed = status.text === "Event Closed"
 
   // Add error handling for payment processing
   const [paymentError, setPaymentError] = useState(null);
@@ -439,7 +440,14 @@ const BuyTicket = ({ event, loading, error }) => {
             </div>
 
             <div className="mt-6">
-              {hasSelectedTickets ? (
+              {isEventClosed ? (
+                <Button 
+                  disabled
+                  className="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded cursor-not-allowed"
+                >
+                  Event Closed
+                </Button>
+              ) : hasSelectedTickets ? (
                 <PaystackButton 
                   {...componentProps}
                   className="w-full bg-primary-950 dark:bg-primary-600 text-gray-50 py-2 px-4 rounded hover:bg-primary-600 dark:hover:bg-primary-700"
