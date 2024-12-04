@@ -3,17 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import LogoutModal from '../LogoutModal/LogoutModal';
 import { checkAuthAndGetProfile } from '../../utils/auth';
-import { 
-  Shield, 
-  CreditCard, 
-  Wallet, 
-  Bell, 
-  Building, 
-  Link2, 
-  Activity,
-  LogOut,
-  Ellipsis,
-} from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 
 const ProfileDropdown = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,51 +14,6 @@ const ProfileDropdown = ({ onLogout }) => {
   });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
-  const profileMenuItems = [
-    {
-      title: 'Organization Profile',
-      description: 'Manage your organization details',
-      icon: Building,
-      path: 'organization'
-    },
-    {
-      title: 'Security Settings',
-      description: 'Change password and 2FA settings',
-      icon: Shield,
-      path: 'security'
-    },
-    {
-      title: 'Payment Methods',
-      description: 'Manage your payment methods',
-      icon: CreditCard,
-      path: 'payments'
-    },
-    {
-      title: 'Payout Settings',
-      description: 'Configure your payout preferences',
-      icon: Wallet,
-      path: 'payouts'
-    },
-    {
-      title: 'Notification Settings',
-      description: 'Manage your notifications',
-      icon: Bell,
-      path: 'notifications'
-    },
-    {
-      title: 'Connected Accounts',
-      description: 'Link your social and platform accounts',
-      icon: Link2,
-      path: 'connected-accounts'
-    },
-    {
-      title: 'Account Activity',
-      description: 'View login history and recent actions',
-      icon: Activity,
-      path: 'activity'
-    }
-  ];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -97,18 +42,9 @@ const ProfileDropdown = ({ onLogout }) => {
     fetchUserProfile();
   }, []);
 
-  const handleMenuItemClick = (path) => {
+  const handleSettingsClick = () => {
     setIsOpen(false);
-    navigate(`/settings/${path}`);
-  };
-
-  const getDropdownPosition = () => {
-    if (!dropdownRef.current) return { top: 0, left: 0 };
-    const rect = dropdownRef.current.getBoundingClientRect();
-    return {
-      top: rect.bottom + window.scrollY,
-      left: rect.right - 256,
-    };
+    navigate('/settings');
   };
 
   const handleLogoutClick = () => {
@@ -118,9 +54,20 @@ const ProfileDropdown = ({ onLogout }) => {
 
   const handleLogoutConfirm = () => {
     setShowLogoutModal(false);
+    localStorage.removeItem('authToken'); // Remove auth token
     if (onLogout) {
       onLogout();
     }
+    navigate('/login'); // Redirect to login page
+  };
+
+  const getDropdownPosition = () => {
+    if (!dropdownRef.current) return { top: 0, left: 0 };
+    const rect = dropdownRef.current.getBoundingClientRect();
+    return {
+      top: rect.bottom + window.scrollY,
+      left: rect.right - 256,
+    };
   };
 
   return (
@@ -137,7 +84,6 @@ const ProfileDropdown = ({ onLogout }) => {
         <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
           {userData.BusinessName}
         </span>
-        <Ellipsis className={`w-3.5 h-3.5 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && createPortal(
@@ -160,28 +106,21 @@ const ProfileDropdown = ({ onLogout }) => {
               </p>
             </div>
 
-            {/* Menu Items */}
+            {/* Settings and Logout Items */}
             <div className="py-1">
-              {profileMenuItems.map((item) => (
-                <button
-                  key={item.title}
-                  className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-colors"
-                  onClick={() => handleMenuItemClick(item.path)}
-                >
-                  <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-lg 
-                    bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
-                    <item.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  </div>
-                  <div className="ml-2 text-left">
-                    <p className="text-[11px] sm:text-xs font-medium text-gray-900 dark:text-gray-100">{item.title}</p>
-                    <p className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400">{item.description}</p>
-                  </div>
-                </button>
-              ))}
-            </div>
+              <button
+                className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-colors"
+                onClick={handleSettingsClick}
+              >
+                <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-lg 
+                  bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
+                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                </div>
+                <div className="ml-2 text-left">
+                  <p className="text-[11px] sm:text-xs font-medium text-gray-900 dark:text-gray-100">Settings</p>
+                </div>
+              </button>
 
-            {/* Update Logout Button */}
-            <div className="border-t border-gray-200/80 dark:border-gray-700/80 px-2 sm:px-3 py-1">
               <button
                 onClick={handleLogoutClick}
                 className="w-full flex items-center px-2.5 sm:px-3 py-1.5 sm:py-2 text-red-600 dark:text-red-400 
