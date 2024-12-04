@@ -54,11 +54,12 @@ const ProfileDropdown = ({ onLogout }) => {
 
   const handleLogoutConfirm = () => {
     setShowLogoutModal(false);
-    localStorage.removeItem('authToken'); // Remove auth token
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     if (onLogout) {
       onLogout();
     }
-    navigate('/login'); // Redirect to login page
+    navigate('/login');
   };
 
   const getDropdownPosition = () => {

@@ -147,7 +147,7 @@ const AppContent = () => {
           </StandardLayout>
         } />
 
-        <Route path="/dashboard" element={<EventManagementDashboard />} />
+        <Route path="/dashboard/*" element={<EventManagementDashboard />} />
         <Route path="/privacy" element={
           <StandardLayout>
             <Privacy />

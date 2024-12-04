@@ -41,37 +41,37 @@ const SettingsLayout = () => {
   const settingsNavigation = [
     {
       title: 'Event Organizer',
-      path: 'organization',
+      path: '/settings/organization',
       icon: Building
     },
     {
       title: 'Security',
-      path: 'security',
+      path: '/settings/security',
       icon: Shield
     },
     {
       title: 'Payment Methods',
-      path: 'payments',
+      path: '/settings/payments',
       icon: CreditCard
     },
     {
       title: 'Payout Settings',
-      path: 'payouts',
+      path: '/settings/payouts',
       icon: Wallet
     },
     {
       title: 'Notifications',
-      path: 'notifications',
+      path: '/settings/notifications',
       icon: Bell
     },
     {
       title: 'Connected Accounts',
-      path: 'connected-accounts',
+      path: '/settings/connected-accounts',
       icon: Link2
     },
     {
       title: 'Account Activity',
-      path: 'activity',
+      path: '/settings/activity',
       icon: Activity
     }
   ];
@@ -169,14 +169,14 @@ const SettingsLayout = () => {
           <main className="flex-1 w-full">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700/80">
               <Routes>
-                <Route path="organization" element={<OrganizationSettings />} />
-                <Route path="security" element={<SecuritySettings />} />
-                <Route path="payments" element={<PaymentSettings />} />
-                <Route path="payouts" element={<PayoutSettings />} />
-                <Route path="notifications" element={<NotificationSettings />} />
-                <Route path="connected-accounts" element={<ConnectedAccounts />} />
-                <Route path="activity" element={<AccountActivity />} />
-                <Route path="/" element={<Navigate to="organization" replace />} />
+                <Route path="/organization" element={<OrganizationSettings />} />
+                <Route path="/security" element={<SecuritySettings />} />
+                <Route path="/payments" element={<PaymentSettings />} />
+                <Route path="/payouts" element={<PayoutSettings />} />
+                <Route path="/notifications" element={<NotificationSettings />} />
+                <Route path="/connected-accounts" element={<ConnectedAccounts />} />
+                <Route path="/activity" element={<AccountActivity />} />
+                <Route path="/" element={<Navigate to="/settings/organization" replace />} />
               </Routes>
             </div>
           </main>

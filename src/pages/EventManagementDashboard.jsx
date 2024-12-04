@@ -98,8 +98,7 @@ const EventManagementDashboard = () => {
   };
 
   const handleLogoutConfirm = () => {
-    // Perform logout actions here
-    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsLogoutModalOpen(false);
     navigate('/login');
