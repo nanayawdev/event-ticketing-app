@@ -673,7 +673,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       // Append all form fields
       Object.keys(data).forEach(key => {
         if (key === 'Event_Image' && imageFile) {
-          formData.append(key, imageFile);
+          formData.append('Event_Image', imageFile, imageFile.name); // Add filename
         } else if (key !== 'Event_Image') {
           formData.append(key, data[key]);
         }
@@ -685,28 +685,35 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
       formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
 
+      // Add tickets data
+      formData.append('tickets', JSON.stringify(tickets));
+
       // Log formData contents for debugging
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
       }
 
-      const response = await fetch('YOUR_API_ENDPOINT', {
+      const response = await fetch('https://api-server.krontiva.africa/api:4S2X7JDM/events', {
         method: 'POST',
         body: formData,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          // Remove Content-Type header to let the browser set it with the boundary
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create event');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create event');
       }
 
       // Handle success
+      console.log('Event created successfully');
       onClose?.();
     } catch (error) {
       console.error('Error creating event:', error);
-      // Handle error (show error message to user)
+      // Show error to user
+      alert(error.message || 'Failed to create event. Please try again.');
     }
   };
 
