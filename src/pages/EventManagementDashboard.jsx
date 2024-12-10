@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { 
   LayoutGrid, 
   FolderKanban, 
@@ -29,7 +29,8 @@ import Settlements from '../components/dashboard/Settlements';
 
 const EventManagementDashboard = () => {
   const navigate = useNavigate();
-  const [activeMenu, setActiveMenu] = useState('Overview');
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState(location.state?.activeTab || 'Overview');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -74,6 +75,15 @@ const EventManagementDashboard = () => {
 
     validateAuthAndLoadProfile();
   }, [navigate]);
+
+  // Update useEffect to handle location state changes
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveMenu(location.state.activeTab);
+      // Clear the state after using it
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate]);
 
   const handleCreateEvent = () => {
     setActiveMenu('Create Event');

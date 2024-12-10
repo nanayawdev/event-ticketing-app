@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Ellipsis, X, ChevronRight, ChevronDown, LogOut, CalendarPlus } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import EventNotice from '../EventNotice/EventNotice';
+import LoginProfileDropdown from '../LoginProfileDropdown/LoginProfileDropdown';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -86,39 +87,7 @@ const Navbar = () => {
 
   const renderAuthSection = () => {
     if (businessName) {
-      return (
-        <div className="hidden lg:flex items-center space-x-2 sm:space-x-4 xl:space-x-6 relative">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 px-2 sm:px-4 py-2 text-[13px] font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
-          >
-            <span>{businessName}</span>
-            <ChevronDown className="h-4 w-4" />
-          </button>
-
-          {/* Dropdown Menu */}
-          {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-              <div className="py-1">
-                <Link
-                  to="/create-event"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <CalendarPlus className="h-4 w-4 mr-2" />
-                  Create Event
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      );
+      return <LoginProfileDropdown businessName={businessName} />;
     }
 
     return (
