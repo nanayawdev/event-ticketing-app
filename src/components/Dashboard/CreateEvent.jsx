@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Combobox } from '@headlessui/react';
 import { Plus, Trash2, ArrowRight, ArrowLeft, Upload, Image } from 'lucide-react';
@@ -133,6 +133,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -156,6 +157,22 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       // Create preview URL
       const fileUrl = URL.createObjectURL(file);
       setPreviewUrl(fileUrl);
+    }
+  };
+
+  // Handle drag and drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileChange({ target: { files: [file] } });
     }
   };
 
@@ -655,18 +672,23 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       
       // Append all form fields
       Object.keys(data).forEach(key => {
-        if (key === 'Event_Image') {
+        if (key === 'Event_Image' && imageFile) {
           formData.append(key, imageFile);
-        } else {
+        } else if (key !== 'Event_Image') {
           formData.append(key, data[key]);
         }
       });
 
-      // Add any additional fields needed for the API
+      // Format dates and times
       formData.append('Event_Start_Time', format(startDate, "HH:mm"));
       formData.append('Event_End_Time', format(endDate, "HH:mm"));
       formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
       formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
+
+      // Log formData contents for debugging
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
 
       const response = await fetch('YOUR_API_ENDPOINT', {
         method: 'POST',
