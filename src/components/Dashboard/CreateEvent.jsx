@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Combobox } from '@headlessui/react';
 import { Plus, Trash2, ArrowRight, ArrowLeft, Upload, Image } from 'lucide-react';
-import { Editor } from '@tinymce/tinymce-react';
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -120,27 +119,21 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Event Description *
         </label>
-        <Editor
-          apiKey="your-tinymce-api-key"
-          value={description}
-          onEditorChange={(content) => {
-            setDescription(content);
-            setValue('Event_Description', content);
-          }}
-          init={{
-            height: 300,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-              'bold italic backcolor | alignleft aligncenter ' +
-              'alignright alignjustify | bullist numlist outdent indent | ' +
-              'removeformat | help',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-          }}
+        <textarea
+          {...register('Event_Description', { 
+            required: 'Event description is required',
+            minLength: {
+              value: 50,
+              message: 'Description must be at least 50 characters'
+            },
+            maxLength: {
+              value: 1000,
+              message: 'Description must not exceed 1000 characters'
+            }
+          })}
+          rows={6}
+          className="w-full px-4 py-2 border rounded-md resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Describe your event..."
         />
         {errors.Event_Description && (
           <p className="text-red-500 text-sm mt-1">{errors.Event_Description.message}</p>
