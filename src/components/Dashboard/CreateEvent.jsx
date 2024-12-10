@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Combobox } from '@headlessui/react';
 import { Plus, Trash2, ArrowRight, ArrowLeft, Upload, Image } from 'lucide-react';
-import { format } from "date-fns"
+import { format, isBefore, startOfToday, addMinutes } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -46,6 +46,56 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
+  const today = startOfToday();
+
+  // Prevent selecting past dates
+  const handleStartDateChange = (date) => {
+    if (isBefore(date, today)) {
+      return;
+    }
+    setStartDate(date);
+    setValue('Event_Start_Date', date);
+    
+    // If end date is before new start date, update it
+    if (isBefore(endDate, date)) {
+      setEndDate(date);
+      setValue('Event_End_Date', date);
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    if (isBefore(date, startDate)) {
+      return;
+    }
+    setEndDate(date);
+    setValue('Event_End_Date', date);
+  };
+
+  // Get current time rounded to nearest 30 minutes
+  const getCurrentRoundedTime = () => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const roundedMinutes = Math.ceil(minutes / 30) * 30;
+    return addMinutes(now, roundedMinutes - minutes);
+  };
+
+  // Prevent selecting past times
+  const handleStartTimeChange = (date) => {
+    const currentTime = getCurrentRoundedTime();
+    if (isBefore(date, currentTime) && isBefore(startDate, today)) {
+      return;
+    }
+    setStartDate(date);
+    setValue('Event_Start_Time', format(date, "HH:mm"));
+  };
+
+  const handleEndTimeChange = (date) => {
+    if (isBefore(date, startDate)) {
+      return;
+    }
+    setEndDate(date);
+    setValue('Event_End_Time', format(date, "HH:mm"));
+  };
 
   const addTicket = () => {
     setTickets([...tickets, { ticket_type: '', price: '', ticket_quantity: '' }]);
@@ -179,10 +229,8 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
               <Calendar
                 mode="single"
                 selected={startDate}
-                onSelect={(date) => {
-                  setStartDate(date);
-                  setValue('Event_Start_Date', date);
-                }}
+                onSelect={handleStartDateChange}
+                disabled={(date) => isBefore(date, today)}
                 initialFocus
               />
             </PopoverContent>
@@ -198,10 +246,8 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           </label>
           <TimePicker 
             date={startDate} 
-            setDate={(date) => {
-              setStartDate(date);
-              setValue('Event_Start_Time', format(date, "HH:mm"));
-            }} 
+            setDate={handleStartTimeChange}
+            minTime={isBefore(startDate, today) ? getCurrentRoundedTime() : undefined}
           />
           {errors.Event_Start_Time && (
             <p className="text-red-500 text-sm mt-1">{errors.Event_Start_Time.message}</p>
@@ -229,14 +275,9 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
               <Calendar
                 mode="single"
                 selected={endDate}
-                onSelect={(date) => {
-                  setEndDate(date);
-                  setValue('Event_End_Date', date);
-                }}
+                onSelect={handleEndDateChange}
+                disabled={(date) => isBefore(date, startDate)}
                 initialFocus
-                disabled={(date) => 
-                  startDate ? date < startDate : false
-                }
               />
             </PopoverContent>
           </Popover>
@@ -251,10 +292,8 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           </label>
           <TimePicker 
             date={endDate} 
-            setDate={(date) => {
-              setEndDate(date);
-              setValue('Event_End_Time', format(date, "HH:mm"));
-            }} 
+            setDate={handleEndTimeChange}
+            minTime={startDate}
           />
           {errors.Event_End_Time && (
             <p className="text-red-500 text-sm mt-1">{errors.Event_End_Time.message}</p>
