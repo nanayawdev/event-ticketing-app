@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Combobox } from '@headlessui/react';
 import { Plus, Trash2, ArrowRight, ArrowLeft, Upload, Image } from 'lucide-react';
@@ -19,17 +19,33 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const [step, setStep] = useState(1);
   const [tickets, setTickets] = useState([{ ticket_type: '', price: '', ticket_quantity: '' }]);
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
+  const [eventCategories, setEventCategories] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+
+  // Fetch event categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('https://api-server.krontiva.africa/api:4S2X7JDM/event_category');
+        if (response.ok) {
+          const data = await response.json();
+          setEventCategories(data);
+        } else {
+          console.error('Failed to fetch categories');
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-
-  const eventCategories = [
-    { id: 1, name: 'Music' },
-    { id: 2, name: 'Sports' },
-    { id: 3, name: 'Arts & Culture' },
-    // ... add other categories
-  ];
 
   const addTicket = () => {
     setTickets([...tickets, { ticket_type: '', price: '', ticket_quantity: '' }]);
@@ -101,11 +117,12 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           <select
             {...register('Event_Category', { required: 'Category is required' })}
             className="w-full px-4 py-2 border rounded-md"
+            disabled={isLoadingCategories}
           >
             <option value="">Select</option>
             {eventCategories.map(category => (
               <option key={category.id} value={category.id}>
-                {category.name}
+                {category.Event_Category}
               </option>
             ))}
           </select>
