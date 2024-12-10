@@ -647,31 +647,28 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     try {
       const formData = new FormData();
       
-      // First append the image if it exists
-      if (formData.image) {
-        formData.append('Event_Image', formData.image, formData.image.name);
-      }
-
-      // Then append all other form fields
+      // Append all form fields
       Object.keys(data).forEach(key => {
-        if (key !== 'Event_Image') { // Skip Event_Image as we handled it above
+        if (key === 'Event_Image' && formData.image) {
+          formData.append('Event_Image', formData.image);
+        } else if (key !== 'Event_Image') {
           formData.append(key, data[key]);
         }
       });
 
-      // Add other required fields
+      // Format dates and times
       formData.append('Event_Start_Time', format(startDate, "HH:mm"));
       formData.append('Event_End_Time', format(endDate, "HH:mm"));
       formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
       formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
       formData.append('tickets', JSON.stringify(tickets));
 
-      // Log the FormData contents for debugging
+      // Log formData for debugging
       for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const response = await fetch('https://api-server.krontiva.africa/api:4S2X7JDM/events', {
+      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
         method: 'POST',
         body: formData,
         headers: {
