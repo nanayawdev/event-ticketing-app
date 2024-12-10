@@ -56,7 +56,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     setStartDate(date);
     setValue('Event_Start_Date', date);
     
-    // If end date is before new start date, update it
+    // Only update end date if it's before the new start date
     if (isBefore(endDate, date)) {
       setEndDate(date);
       setValue('Event_End_Date', date);
@@ -64,6 +64,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   };
 
   const handleEndDateChange = (date) => {
+    // Allow same day selection but prevent selecting days before start date
     if (isBefore(date, startDate)) {
       return;
     }
@@ -82,17 +83,31 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   // Prevent selecting past times
   const handleStartTimeChange = (date) => {
     const currentTime = getCurrentRoundedTime();
-    if (isBefore(date, currentTime) && isBefore(startDate, today)) {
+    
+    // If it's today, prevent selecting past times
+    if (isBefore(startDate, addMinutes(today, 1)) && isBefore(date, currentTime)) {
       return;
     }
+    
     setStartDate(date);
     setValue('Event_Start_Time', format(date, "HH:mm"));
+    
+    // If end time is before start time on the same day, update it
+    if (format(startDate, "yyyy-MM-dd") === format(endDate, "yyyy-MM-dd") && 
+        isBefore(endDate, date)) {
+      const newEndDate = addMinutes(date, 30); // Set end time 30 minutes after start time
+      setEndDate(newEndDate);
+      setValue('Event_End_Time', format(newEndDate, "HH:mm"));
+    }
   };
 
   const handleEndTimeChange = (date) => {
-    if (isBefore(date, startDate)) {
+    // If same day, ensure end time is after start time
+    if (format(startDate, "yyyy-MM-dd") === format(endDate, "yyyy-MM-dd") && 
+        isBefore(date, startDate)) {
       return;
     }
+    
     setEndDate(date);
     setValue('Event_End_Time', format(date, "HH:mm"));
   };
@@ -117,16 +132,41 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   };
 
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file');
+        return;
+      }
+
+      // Validate file size (e.g., max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+      if (file.size > maxSize) {
+        alert('File size should be less than 5MB');
+        return;
+      }
+
+      setImageFile(file);
       setValue('Event_Image', file);
+      
       // Create preview URL
       const fileUrl = URL.createObjectURL(file);
       setPreviewUrl(fileUrl);
     }
   };
+
+  // Cleanup preview URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   React.useEffect(() => {
     if (isEditing && event) {
@@ -609,23 +649,43 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     </div>
   );
 
-  const onSubmit = (data) => {
-    const finalData = {
-      ...data,
-      tickets: useExistingTickets 
-        ? selectedExistingTickets.map(id => ({
-            id,
-            // Add any event-specific ticket data here
-          }))
-        : tickets
-    };
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      
+      // Append all form fields
+      Object.keys(data).forEach(key => {
+        if (key === 'Event_Image') {
+          formData.append(key, imageFile);
+        } else {
+          formData.append(key, data[key]);
+        }
+      });
 
-    if (isEditing) {
-      console.log('Updating event:', finalData);
-    } else {
-      console.log('Creating event:', finalData);
+      // Add any additional fields needed for the API
+      formData.append('Event_Start_Time', format(startDate, "HH:mm"));
+      formData.append('Event_End_Time', format(endDate, "HH:mm"));
+      formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
+      formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
+
+      const response = await fetch('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create event');
+      }
+
+      // Handle success
+      onClose?.();
+    } catch (error) {
+      console.error('Error creating event:', error);
+      // Handle error (show error message to user)
     }
-    onClose();
   };
 
   return (
