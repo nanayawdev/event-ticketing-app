@@ -131,59 +131,90 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     setTickets(newTickets);
   };
 
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-  const fileInputRef = useRef(null);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const [formData, setFormData] = useState({
+    image: null,
+    imagePreview: null,
+  });
+  
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
     if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please upload an image file');
-        return;
-      }
+      // Log file details for debugging
+      console.log('Selected file:', file);
+      console.log('File type:', file.type);
+      console.log('File size:', file.size);
 
-      // Validate file size (e.g., max 5MB)
-      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-      if (file.size > maxSize) {
-        alert('File size should be less than 5MB');
-        return;
-      }
-
-      setImageFile(file);
-      setValue('Event_Image', file);
+      setFormData(prev => ({
+        ...prev,
+        image: file,
+        imagePreview: URL.createObjectURL(file)
+      }));
       
-      // Create preview URL using the same approach as PortfolioAdminPage
-      const fileUrl = URL.createObjectURL(file);
-      setPreviewUrl(fileUrl);
+      setValue('Event_Image', file);
     }
   };
 
-  // Handle drag and drop
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      handleFileChange({ target: { files: [file] } });
-    }
-  };
-
-  // Cleanup preview URL when component unmounts
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
+  const renderImageUpload = () => (
+    <div className="space-y-4">
+      <label className="block text-sm font-medium text-gray-700">
+        Event Artwork *
+      </label>
+      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+        <div className="space-y-1 text-center">
+          {formData.imagePreview ? (
+            <div className="relative group">
+              <img
+                src={formData.imagePreview}
+                alt="Event artwork preview"
+                className="mx-auto h-64 w-auto rounded-lg object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                <button
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      image: null,
+                      imagePreview: null
+                    }));
+                    setValue('Event_Image', null);
+                  }}
+                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  type="button"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <Upload className="mx-auto h-12 w-12 text-gray-400" />
+              <div className="flex text-sm text-gray-600">
+                <label className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
+                  <span>Upload a file</span>
+                  <input
+                    type="file"
+                    className="sr-only"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    {...register('Event_Image', {
+                      required: 'Event artwork is required'
+                    })}
+                  />
+                </label>
+                <p className="pl-1">or drag and drop</p>
+              </div>
+              <p className="text-xs text-gray-500">
+                PNG, JPG, GIF up to 5MB
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+      {errors.Event_Image && (
+        <p className="text-red-500 text-sm mt-1">{errors.Event_Image.message}</p>
+      )}
+    </div>
+  );
 
   React.useEffect(() => {
     if (isEditing && event) {
@@ -359,71 +390,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       </div>
 
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
-          Upload Event Artwork *
-        </label>
-        <div className="flex items-center gap-4">
-          {previewUrl && (
-            <div className="relative group">
-              <img
-                src={previewUrl}
-                alt="Event artwork preview"
-                className="w-32 h-32 object-cover rounded-lg"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPreviewUrl(null);
-                    setImageFile(null);
-                    setValue('Event_Image', null);
-                    if (fileInputRef.current) {
-                      fileInputRef.current.value = '';
-                    }
-                  }}
-                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                  type="button"
-                >
-                  <Trash2 className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          )}
-          <div 
-            className={`flex-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-gray-400 transition-colors ${
-              previewUrl ? 'flex-1' : 'w-full'
-            }`}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <div className="space-y-1 text-center">
-              <Upload className="mx-auto h-12 w-12 text-gray-400" />
-              <div className="flex text-sm text-gray-600">
-                <label className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
-                  <span>Upload a file</span>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    className="sr-only"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    {...register('Event_Image', {
-                      required: 'Event artwork is required'
-                    })}
-                  />
-                </label>
-                <p className="pl-1">or drag and drop</p>
-              </div>
-              <p className="text-xs text-gray-500">
-                PNG, JPG, GIF up to 5MB
-              </p>
-            </div>
-          </div>
-        </div>
-        {errors.Event_Image && (
-          <p className="text-red-500 text-sm mt-1">{errors.Event_Image.message}</p>
-        )}
+        {renderImageUpload()}
       </div>
     </div>
   );
@@ -674,27 +641,28 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     try {
       const formData = new FormData();
       
-      // Append all form fields
+      // First append the image if it exists
+      if (formData.image) {
+        formData.append('Event_Image', formData.image, formData.image.name);
+      }
+
+      // Then append all other form fields
       Object.keys(data).forEach(key => {
-        if (key === 'Event_Image' && imageFile) {
-          formData.append('Event_Image', imageFile, imageFile.name); // Add filename
-        } else if (key !== 'Event_Image') {
+        if (key !== 'Event_Image') { // Skip Event_Image as we handled it above
           formData.append(key, data[key]);
         }
       });
 
-      // Format dates and times
+      // Add other required fields
       formData.append('Event_Start_Time', format(startDate, "HH:mm"));
       formData.append('Event_End_Time', format(endDate, "HH:mm"));
       formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
       formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
-
-      // Add tickets data
       formData.append('tickets', JSON.stringify(tickets));
 
-      // Log formData contents for debugging
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
+      // Log the FormData contents for debugging
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
       }
 
       const response = await fetch('https://api-server.krontiva.africa/api:4S2X7JDM/events', {
@@ -702,7 +670,6 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         body: formData,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          // Remove Content-Type header to let the browser set it with the boundary
         },
       });
 
@@ -711,12 +678,12 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         throw new Error(errorData.message || 'Failed to create event');
       }
 
-      // Handle success
-      console.log('Event created successfully');
+      const responseData = await response.json();
+      console.log('Success:', responseData);
+
       onClose?.();
     } catch (error) {
       console.error('Error creating event:', error);
-      // Show error to user
       alert(error.message || 'Failed to create event. Please try again.');
     }
   };
@@ -726,7 +693,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       <h2 className="text-2xl font-bold mb-6">
         {isEditing ? 'Edit Event' : 'Create New Event'}
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
         {step === 3 && renderStep3()}
