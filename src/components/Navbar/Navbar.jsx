@@ -87,7 +87,7 @@ const Navbar = () => {
 
   const renderAuthSection = () => {
     if (businessName) {
-      return <LoginProfileDropdown businessName={businessName} />;
+      return <LoginProfileDropdown />;
     }
 
     return (
