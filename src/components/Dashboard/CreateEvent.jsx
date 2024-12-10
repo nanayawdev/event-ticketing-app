@@ -403,7 +403,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">Venue and Organizer Details</h2>
+      <h2 className="text-2xl font-bold text-gray-800">Venue Details</h2>
       
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -421,27 +421,14 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Address *
+            Event City *
           </label>
           <input
-            {...register('Address', { required: 'Address is required' })}
+            {...register('Event_City', { required: 'City is required' })}
             className="w-full px-4 py-2 border rounded-md"
           />
-          {errors.Address && (
-            <p className="text-red-500 text-sm mt-1">{errors.Address.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Locality *
-          </label>
-          <input
-            {...register('Locality', { required: 'Locality is required' })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Locality && (
-            <p className="text-red-500 text-sm mt-1">{errors.Locality.message}</p>
+          {errors.Event_City && (
+            <p className="text-red-500 text-sm mt-1">{errors.Event_City.message}</p>
           )}
         </div>
 
@@ -456,67 +443,6 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           {errors.Country && (
             <p className="text-red-500 text-sm mt-1">{errors.Country.message}</p>
           )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Organizer Name *
-          </label>
-          <input
-            {...register('Organizer_Name', { required: 'Organizer name is required' })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Organizer_Name && (
-            <p className="text-red-500 text-sm mt-1">{errors.Organizer_Name.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone Number *
-          </label>
-          <input
-            type="tel"
-            {...register('Phone_Number', { required: 'Phone number is required' })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Phone_Number && (
-            <p className="text-red-500 text-sm mt-1">{errors.Phone_Number.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            {...register('Email', { 
-              required: 'Email is required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address"
-              }
-            })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Email && (
-            <p className="text-red-500 text-sm mt-1">{errors.Email.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Upload Organizer Logo
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            {...register('Organizer_Logo')}
-            className="w-full"
-          />
         </div>
       </div>
     </div>
