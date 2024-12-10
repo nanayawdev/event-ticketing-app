@@ -154,7 +154,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       setImageFile(file);
       setValue('Event_Image', file);
       
-      // Create preview URL
+      // Create preview URL using the same approach as PortfolioAdminPage
       const fileUrl = URL.createObjectURL(file);
       setPreviewUrl(fileUrl);
     }
@@ -362,59 +362,63 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         <label className="block text-sm font-medium text-gray-700">
           Upload Event Artwork *
         </label>
-        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-sea-green-500 transition-colors">
-          <div className="space-y-1 text-center">
-            {previewUrl ? (
-              <div className="space-y-2">
-                <img 
-                  src={previewUrl} 
-                  alt="Preview" 
-                  className="mx-auto h-32 w-32 object-cover rounded-md"
-                />
+        <div className="flex items-center gap-4">
+          {previewUrl && (
+            <div className="relative group">
+              <img
+                src={previewUrl}
+                alt="Event artwork preview"
+                className="w-32 h-32 object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                 <button
-                  type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     setPreviewUrl(null);
+                    setImageFile(null);
                     setValue('Event_Image', null);
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
                   }}
-                  className="text-sm text-red-500 hover:text-red-700"
+                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  type="button"
                 >
-                  Remove image
+                  <Trash2 className="h-5 w-5" />
                 </button>
               </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <Image className="mx-auto h-12 w-12 text-gray-400" />
-                <div className="flex text-sm text-gray-600">
-                  <label
-                    htmlFor="event-artwork"
-                    className="relative cursor-pointer rounded-md font-medium text-sea-green-500 hover:text-sea-green-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sea-green-500"
-                  >
-                    <span>Upload an image</span>
-                    <input
-                      id="event-artwork"
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
-                      onChange={handleFileChange}
-                      {...register('Event_Image', { 
-                        required: 'Event artwork is required',
-                        validate: {
-                          fileSize: (files) => 
-                            !files[0] || files[0].size <= 10000000 || 'File size must be less than 10MB',
-                          fileType: (files) =>
-                            !files[0] || ['image/jpeg', 'image/png', 'image/gif'].includes(files[0].type) || 
-                            'File must be an image (JPEG, PNG, GIF)'
-                        }
-                      })}
-                    />
-                  </label>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  PNG, JPG, GIF up to 10MB
-                </p>
+            </div>
+          )}
+          <div 
+            className={`flex-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-gray-400 transition-colors ${
+              previewUrl ? 'flex-1' : 'w-full'
+            }`}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <div className="space-y-1 text-center">
+              <Upload className="mx-auto h-12 w-12 text-gray-400" />
+              <div className="flex text-sm text-gray-600">
+                <label className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
+                  <span>Upload a file</span>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="sr-only"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    {...register('Event_Image', {
+                      required: 'Event artwork is required'
+                    })}
+                  />
+                </label>
+                <p className="pl-1">or drag and drop</p>
               </div>
-            )}
+              <p className="text-xs text-gray-500">
+                PNG, JPG, GIF up to 5MB
+              </p>
+            </div>
           </div>
         </div>
         {errors.Event_Image && (
@@ -722,7 +726,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       <h2 className="text-2xl font-bold mb-6">
         {isEditing ? 'Edit Event' : 'Create New Event'}
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
         {step === 3 && renderStep3()}
