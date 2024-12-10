@@ -156,7 +156,8 @@ const SignUp = () => {
     try {
       const registrationNumber = generateRegistrationNumber();
       
-      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/signup', {
+      // First, create the user account
+      const signupResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,29 +173,41 @@ const SignUp = () => {
         }),
       });
 
-      const responseData = await response.json();
-      console.log('Signup Response:', responseData);
+      const signupData = await signupResponse.json();
 
-      if (response.ok) {
+      if (signupResponse.ok) {
+        // Store the auth token
+        localStorage.setItem('authToken', signupData.authToken);
+
+        // Create onboarding data immediately after successful signup
+        const onboardingResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/onboarding', {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${signupData.authToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            description: '',
+            primaryPhone: '',
+            alternativeEmail: '',
+            alternativePhone: '',
+            ticket_user_table_id: signupData.ticket_user_table_id
+          }),
+        });
+
+        if (!onboardingResponse.ok) {
+          console.error('Failed to create onboarding data');
+        }
+
         setOpenSnackbar(true);
         console.log('User registered successfully');
-        console.log('Data being passed to Onboarding:', {
-          email: formData.email,
-          businessName: formData.businessName,
-          registrationNumber: registrationNumber
-        });
         
+        // Navigate directly to dashboard
         setTimeout(() => {
-          navigate('/onboarding', { 
-            state: { 
-              email: formData.email,
-              businessName: formData.businessName,
-              registrationNumber: registrationNumber
-            } 
-          });
+          navigate('/dashboard');
         }, 1500);
       } else {
-        throw new Error(responseData.message || 'Failed to register user');
+        throw new Error(signupData.message || 'Failed to register user');
       }
     } catch (error) {
       setError(error.message || 'Error during registration. Please try again.');

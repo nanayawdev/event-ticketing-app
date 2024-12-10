@@ -73,22 +73,35 @@ const SignIn = () => {
         }),
       });
 
+      const data = await response.json();
+      console.log('Login response:', data); // Debug log
+
       if (response.ok) {
-        const authData = await response.json();
-        // Store only the auth token
-        localStorage.setItem('authToken', authData.authToken);
+        // Store auth token
+        localStorage.setItem('authToken', data.authToken);
+        
+        // Store business name (handle both cases)
+        const businessName = data.BusinessName || data.businessName || data.business_name;
+        localStorage.setItem('businessName', businessName);
+        
+        // Store full user data
+        localStorage.setItem('user', JSON.stringify({
+          businessName: businessName,
+          email: data.Email || data.email,
+          // ... any other user data
+        }));
+
+        // Dispatch auth change event
+        window.dispatchEvent(new Event('authChange'));
         
         setOpenSnackbar(true);
         setFormData({ email: '', password: '' });
-        
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1500);
+        navigate('/');
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Invalid credentials');
+        setError(data.message || 'Invalid credentials');
       }
     } catch (error) {
+      console.error('Sign in error:', error);
       setError('Error during sign in. Please try again.');
     } finally {
       setIsLoading(false);
