@@ -136,11 +136,13 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     imagePreview: null,
   });
   
+  const fileInputRef = useRef(null);
+
   const handleImageChange = async (e) => {
+    console.log('handleImageChange triggered');
     const file = e.target.files[0];
     if (file) {
-      // Log file details for debugging
-      console.log('Selected file:', file);
+      console.log('File selected:', file);
       console.log('File type:', file.type);
       console.log('File size:', file.size);
 
@@ -159,7 +161,10 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       <label className="block text-sm font-medium text-gray-700">
         Event Artwork *
       </label>
-      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+      <div 
+        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+        onClick={() => fileInputRef.current?.click()}
+      >
         <div className="space-y-1 text-center">
           {formData.imagePreview ? (
             <div className="relative group">
@@ -170,13 +175,17 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setFormData(prev => ({
                       ...prev,
                       image: null,
                       imagePreview: null
                     }));
                     setValue('Event_Image', null);
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
                   }}
                   className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
                   type="button"
@@ -192,13 +201,11 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
                 <label className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
                   <span>Upload a file</span>
                   <input
+                    ref={fileInputRef}
                     type="file"
                     className="sr-only"
                     accept="image/*"
                     onChange={handleImageChange}
-                    {...register('Event_Image', {
-                      required: 'Event artwork is required'
-                    })}
                   />
                 </label>
                 <p className="pl-1">or drag and drop</p>
