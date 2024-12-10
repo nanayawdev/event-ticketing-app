@@ -571,45 +571,91 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
   const onSubmit = async (data) => {
     try {
-      const formData = new FormData();
-      
-      // Append all form fields
-      Object.keys(data).forEach(key => {
-        if (key === 'Event_Image' && formData.image) {
-          formData.append('Event_Image', formData.image);
-        } else if (key !== 'Event_Image') {
-          formData.append(key, data[key]);
-        }
-      });
+      // First, create the event with proper category reference
+      const eventData = {
+        Event_Name: data.Event_Name,
+        Event_Description: data.Event_Description,
+        Event_Category: {
+          id: data.Event_Category // This will reference the category ID
+        },
+        Event_Start_Date: format(startDate, "yyyy-MM-dd"),
+        Event_Start_Time: format(startDate, "HH:mm"),
+        Event_End_Date: format(endDate, "yyyy-MM-dd"),
+        Event_End_Time: format(endDate, "HH:mm"),
+        Event_Venue: data.Event_Venue,
+        Event_City: data.Event_City,
+        Event_Country: data.Country
+      };
 
-      // Format dates and times
-      formData.append('Event_Start_Time', format(startDate, "HH:mm"));
-      formData.append('Event_End_Time', format(endDate, "HH:mm"));
-      formData.append('Event_Start_Date', format(startDate, "yyyy-MM-dd"));
-      formData.append('Event_End_Date', format(endDate, "yyyy-MM-dd"));
-      formData.append('tickets', JSON.stringify(tickets));
+      // Log the data being sent
+      console.log('Sending event data:', eventData);
 
-      // Log formData for debugging
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
-
-      const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
+      const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
         method: 'POST',
-        body: formData,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify(eventData)
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
+      if (!eventResponse.ok) {
+        const errorData = await eventResponse.json();
         throw new Error(errorData.message || 'Failed to create event');
       }
 
-      const responseData = await response.json();
-      console.log('Success:', responseData);
+      const eventResponseData = await eventResponse.json();
+      console.log('Event created:', eventResponseData);
 
+      // If event creation was successful, upload the image
+      if (formData.image) {
+        const imageFormData = new FormData();
+        imageFormData.append('Event_Image', formData.image);
+        imageFormData.append('event_id', eventResponseData.id); // Assuming the API returns an event ID
+
+        const imageResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table/image', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+          body: imageFormData
+        });
+
+        if (!imageResponse.ok) {
+          console.error('Failed to upload image');
+        }
+      }
+
+      // Then create tickets
+      const ticketData = {
+        tickets: tickets.map(ticket => ({
+          ticket_type: ticket.ticket_type,
+          price: parseFloat(ticket.price),
+          ticket_quantity: parseInt(ticket.ticket_quantity, 10),
+          event_id: eventResponseData.id // Link tickets to the created event
+        }))
+      };
+
+      console.log('Sending ticket data:', ticketData);
+
+      const ticketResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_table', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ticketData)
+      });
+
+      if (!ticketResponse.ok) {
+        const errorData = await ticketResponse.json();
+        throw new Error(errorData.message || 'Failed to create tickets');
+      }
+
+      const ticketResponseData = await ticketResponse.json();
+      console.log('Tickets created:', ticketResponseData);
+
+      // Success - close the form
       onClose?.();
     } catch (error) {
       console.error('Error creating event:', error);
