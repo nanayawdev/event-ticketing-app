@@ -19,12 +19,15 @@ const api = axios.create({
 // Clean up the request interceptor
 api.interceptors.request.use(
   (config) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`🚀 ${config.method.toUpperCase()} ${config.url}`);
-    }
+    console.log('Request Config:', {
+      url: config.url,
+      baseURL: config.baseURL,
+      headers: config.headers
+    });
     return config;
   },
   (error) => {
+    console.error('Request Error:', error);
     return Promise.reject(error);
   }
 );

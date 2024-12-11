@@ -14,7 +14,14 @@ export const useEvents = (filterClosed = false) => {
         setError(null);
         
         console.log('Fetching events...');
-        const { data: eventsData } = await eventService.getAllEvents();
+        const response = await eventService.getAllEvents();
+        console.log('Events Response:', response);
+
+        if (!response.data) {
+          throw new Error('No data received from API');
+        }
+        
+        const eventsData = response.data;
         
         // Ensure eventsData is an array
         const eventsArray = Array.isArray(eventsData) ? eventsData : [eventsData];
@@ -48,9 +55,12 @@ export const useEvents = (filterClosed = false) => {
 
         setEvents(filteredEvents);
       } catch (err) {
-        console.error('Error in useEvents hook:', err);
-        const errorDetails = handleApiError(err);
-        setError(errorDetails.message);
+        console.error('Error in useEvents hook:', {
+          message: err.message,
+          response: err.response?.data,
+          status: err.response?.status
+        });
+        setError(err.response?.data?.message || err.message);
       } finally {
         setLoading(false);
       }
