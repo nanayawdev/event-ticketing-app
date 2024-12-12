@@ -47,6 +47,14 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Add validation for email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
     // Check if all fields are filled
     const newFieldErrors = Object.keys(formData).reduce((acc, key) => {
       acc[key] = formData[key].trim() === '';
@@ -62,10 +70,17 @@ const SignIn = () => {
     setError(null);
 
     try {
+      // Log the request payload
+      console.log('Sending login request with:', {
+        Email: formData.email,
+        Password: formData.password,
+      });
+
       const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json', // Add Accept header
         },
         body: JSON.stringify({
           Email: formData.email,
@@ -73,23 +88,24 @@ const SignIn = () => {
         }),
       });
 
+      // Log the raw response
+      console.log('Response status:', response.status);
       const data = await response.json();
-      console.log('Login response:', data); // Debug log
+      console.log('Response data:', data);
 
       if (response.ok) {
         // Store auth token
         localStorage.setItem('authToken', data.authToken);
         
-        // Store business name (handle both cases)
-        const businessName = data.BusinessName || data.businessName || data.business_name;
-        localStorage.setItem('businessName', businessName);
-        
-        // Store full user data
-        localStorage.setItem('user', JSON.stringify({
-          businessName: businessName,
+        // Store full user data including ID
+        const userData = {
+          businessName: data.BusinessName || data.businessName || data.business_name,
           email: data.Email || data.email,
-          // ... any other user data
-        }));
+          id: data.ID || data.Id || data.id || data._id || data.userId || data.user_id,
+        };
+        
+        console.log('Storing user data:', userData); // Debug log
+        localStorage.setItem('user', JSON.stringify(userData));
 
         // Dispatch auth change event
         window.dispatchEvent(new Event('authChange'));
@@ -98,11 +114,14 @@ const SignIn = () => {
         setFormData({ email: '', password: '' });
         navigate('/');
       } else {
-        setError(data.message || 'Invalid credentials');
+        // Improved error handling
+        const errorMessage = data.message || data.error || 'Login failed. Please check your credentials.';
+        setError(errorMessage);
+        console.error('Login failed:', errorMessage);
       }
     } catch (error) {
-      console.error('Sign in error:', error);
-      setError('Error during sign in. Please try again.');
+      console.error('Login error details:', error);
+      setError('Network error or server is unreachable. Please try again later.');
     } finally {
       setIsLoading(false);
     }
