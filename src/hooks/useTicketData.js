@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { ticketService } from '../services/api';
 
 export const useTicketData = () => {
   const [ticketData, setTicketData] = useState(null);
@@ -9,14 +10,12 @@ export const useTicketData = () => {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_table');
-        if (!response.ok) throw new Error('Failed to fetch ticket data');
-        const data = await response.json();
+        const { data } = await ticketService.getAllTickets();
         setTicketData(data);
       } catch (err) {
         console.error('Error fetching ticket data:', err);
         toast.error('Failed to load ticket information');
-        setError(err);
+        setError(err.response?.data?.message || err.message);
       } finally {
         setLoading(false);
       }
