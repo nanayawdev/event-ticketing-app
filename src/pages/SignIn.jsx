@@ -94,24 +94,37 @@ const SignIn = () => {
       console.log('Response data:', data);
 
       if (response.ok) {
+        // Debug logs
+        console.log('Login successful, full response:', data);
+        console.log('Auth token:', data.authToken);
+        console.log('User data structure:', {
+          id: data.id || data.ID || data._id,
+          email: data.email || data.Email,
+          businessName: data.businessName || data.BusinessName || data.business_name
+        });
+
         // Store auth token
         localStorage.setItem('authToken', data.authToken);
         
-        // Store full user data including ID
+        // Store user data
         const userData = {
-          businessName: data.BusinessName || data.businessName || data.business_name,
-          email: data.Email || data.email,
-          id: data.ID || data.Id || data.id || data._id || data.userId || data.user_id,
+          businessName: data.businessName || data.BusinessName || data.business_name,
+          email: data.email || data.Email,
+          id: data.id || data.ID || data._id,
+          token: data.authToken
         };
         
-        console.log('Storing user data:', userData); // Debug log
+        console.log('Storing user data:', userData);
         localStorage.setItem('user', JSON.stringify(userData));
+
+        // Verify storage
+        const storedUser = localStorage.getItem('user');
+        console.log('Verified stored user data:', JSON.parse(storedUser));
 
         // Dispatch auth change event
         window.dispatchEvent(new Event('authChange'));
         
         setOpenSnackbar(true);
-        setFormData({ email: '', password: '' });
         navigate('/');
       } else {
         // Improved error handling
