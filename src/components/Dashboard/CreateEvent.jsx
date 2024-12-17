@@ -26,7 +26,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://api-server.krontiva.africa/api:4S2X7JDM/event_category');
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_category');
         if (response.ok) {
           const data = await response.json();
           setEventCategories(data);
@@ -571,24 +571,28 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
   const onSubmit = async (data) => {
     try {
-      // First, create the event with proper category reference
+      // Get the user data from localStorage and log it to verify
+      const userData = JSON.parse(localStorage.getItem('user'));
+      console.log('User data from localStorage:', userData);
+
+      // Create the event data object with the user ID as Username
       const eventData = {
         Event_Name: data.Event_Name,
         Event_Description: data.Event_Description,
-        Event_Category: {
-          id: data.Event_Category // This will reference the category ID
-        },
         Event_Start_Date: format(startDate, "yyyy-MM-dd"),
         Event_Start_Time: format(startDate, "HH:mm"),
-        Event_End_Date: format(endDate, "yyyy-MM-dd"),
         Event_End_Time: format(endDate, "HH:mm"),
+        Event_End_Date: format(endDate, "yyyy-MM-dd"),
         Event_Venue: data.Event_Venue,
         Event_City: data.Event_City,
-        Event_Country: data.Country
+        Event_Country: data.Country,
+        Event_Category: data.Event_Category,
+        Username: "083f7a00-e85e-4b0a-947a-e15c584b8c57", // Make sure this is included
+        photo: null,
+        role: "Admin"
       };
 
-      // Log the data being sent
-      console.log('Sending event data:', eventData);
+      console.log('Event data being sent:', eventData);
 
       const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
         method: 'POST',
@@ -596,7 +600,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(eventData)
+        body: JSON.stringify(eventData) // Make sure eventData is being stringified
       });
 
       if (!eventResponse.ok) {
@@ -607,11 +611,11 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       const eventResponseData = await eventResponse.json();
       console.log('Event created:', eventResponseData);
 
-      // If event creation was successful, upload the image
+      // Handle image upload separately if an image exists
       if (formData.image) {
         const imageFormData = new FormData();
-        imageFormData.append('Event_Image', formData.image);
-        imageFormData.append('event_id', eventResponseData.id); // Assuming the API returns an event ID
+        imageFormData.append('photo', formData.image); // Changed to 'photo' to match API
+        imageFormData.append('event_id', eventResponseData.id);
 
         const imageResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table/image', {
           method: 'POST',

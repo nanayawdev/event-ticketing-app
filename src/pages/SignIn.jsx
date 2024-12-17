@@ -80,15 +80,21 @@ const SignIn = () => {
         // Store auth token
         localStorage.setItem('authToken', data.authToken);
         
-        // Store business name (handle both cases)
-        const businessName = data.BusinessName || data.businessName || data.business_name;
-        localStorage.setItem('businessName', businessName);
-        
         // Store full user data
         localStorage.setItem('user', JSON.stringify({
-          businessName: businessName,
-          email: data.Email || data.email,
-          // ... any other user data
+          id: data.id,
+          name: data.Name,
+          role: data.role,
+          email: data.Email,
+          country: data.Country,
+          businessName: data.BusinessName,
+          businessLogo: data.businessLogo,
+          primaryPhone: data.primaryPhone,
+          alternativeEmail: data.alternativeEmail,
+          alternativePhone: data.alternativePhone,
+          registrationNumber: data.RegistrationNumber,
+          description: data.description,
+          created_at: data.created_at
         }));
 
         // Dispatch auth change event
