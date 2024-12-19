@@ -16,8 +16,7 @@ const ManageEvents = () => {
   const [isTicketsModalOpen, setIsTicketsModalOpen] = useState(false);
   const [isAttendeesModalOpen, setIsAttendeesModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [events, setEvents] = useState([]);
-
+  
   const mockEvents = [
     {
       id: 1,
@@ -45,6 +44,8 @@ const ManageEvents = () => {
     },
     // Add more events as needed
   ];
+
+  const [events, setEvents] = useState(mockEvents);
 
   const toggleEventExpand = (eventId) => {
     setExpandedEventId(expandedEventId === eventId ? null : eventId);
@@ -108,7 +109,7 @@ const ManageEvents = () => {
 
         {/* Events List */}
         <div className="bg-white rounded-lg shadow">
-          {mockEvents.map((event) => (
+          {events.map((event) => (
             <div key={event.id} className="border-b last:border-b-0">
               {/* Event Header */}
               <div 

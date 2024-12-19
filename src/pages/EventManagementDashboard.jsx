@@ -16,7 +16,6 @@ import ProfileDropdown from '../components/ProfileDropdown/ProfileDropdown';
 import NotificationsDropdown from '../components/Notifications/NotificationsDropdown';
 import { useNotificationsManager } from '../hooks/useNotificationsManager';
 import { useTheme } from '../context/ThemeContext';
-import EmptyState from '../components/EmptyState/EmptyState';
 import { checkAuthAndGetProfile } from '../utils/auth';
 
 // Import dashboard components
@@ -26,6 +25,7 @@ import Attendees from '../components/dashboard/Attendees';
 import Analytics from '../components/dashboard/Analytics';
 import TicketsManagement from '../components/dashboard/TicketsManagement/TicketsManagement';
 import Settlements from '../components/dashboard/Settlements';
+import ManageEvents from '../components/dashboard/ManageEvents';
 
 const EventManagementDashboard = () => {
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const EventManagementDashboard = () => {
   const menuItems = [
     { name: 'Overview', icon: LayoutGrid, component: <Overview /> },
     { name: 'Create Event', icon: FolderPlus, component: <CreateEvent /> },
-    { name: 'Manage Events', icon: FolderKanban, component: <EmptyState onCreateEvent={handleCreateEvent} /> },
+    { name: 'Manage Events', icon: FolderKanban, component: <ManageEvents /> },
     { name: 'Attendees', icon: Users, component: <Attendees /> },
     { name: 'Analytics', icon: ChartLine, component: <Analytics /> },
     { name: 'Tickets', icon: Ticket, component: <TicketsManagement /> },
