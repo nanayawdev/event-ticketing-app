@@ -1,48 +1,35 @@
-import React, { createContext, useContext, useState } from 'react';
-import { authService } from '../services/api';
-import { handleApiError } from '../utils/errorHandler';
-import { toast } from 'sonner';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useState(null);
 
-  const login = async (credentials) => {
-    try {
-      setLoading(true);
-      const { data } = await authService.login(credentials);
-      setUser(data.user);
-      localStorage.setItem('token', data.token);
-      toast.success('Successfully logged in!');
-    } catch (error) {
-      const errorDetails = handleApiError(error);
-      toast.error(errorDetails.message);
-      throw error;
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    // Check localStorage on mount
+    const authToken = localStorage.getItem('authToken');
+    const user = localStorage.getItem('user');
+    if (authToken && user) {
+      setAuth({
+        authToken,
+        user: JSON.parse(user)
+      });
     }
+  }, []);
+
+  const login = (authData) => {
+    setAuth(authData);
   };
 
-  const logout = async () => {
-    try {
-      setLoading(true);
-      await authService.logout();
-      localStorage.removeItem('token');
-      setUser(null);
-      toast.success('Successfully logged out');
-    } catch (error) {
-      const errorDetails = handleApiError(error);
-      toast.error(errorDetails.message);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
+  const logout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('businessName');
+    setAuth(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ auth, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

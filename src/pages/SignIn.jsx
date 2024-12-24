@@ -6,9 +6,11 @@ import { AtSign, Key, Eye, EyeClosed } from 'lucide-react';
 import { FaPhoneAlt, FaGoogle } from 'react-icons/fa';
 import SocialButton from '../components/SocialButton/SocialButton';
 import PhoneSignIn from '../components/PhoneSignIn/PhoneSignIn';
+import { useAuth } from '../context/AuthContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -117,9 +119,16 @@ const SignIn = () => {
           // ... any other user data
         }));
 
-        // Dispatch auth change event
-        window.dispatchEvent(new Event('authChange'));
-        
+        // Add this line to update global auth state
+        login({
+          authToken: data.authToken,
+          user: {
+            businessName: businessName,
+            email: data.Email || data.email,
+            // ... any other user data
+          }
+        });
+
         setOpenSnackbar(true);
         navigate('/');
       } else {
