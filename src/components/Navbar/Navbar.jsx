@@ -4,6 +4,7 @@ import { Ellipsis, X, ChevronRight, ChevronDown, LogOut, CalendarPlus } from 'lu
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import EventNotice from '../EventNotice/EventNotice';
 import LoginProfileDropdown from '../LoginProfileDropdown/LoginProfileDropdown';
+import { checkAuthAndGetProfile } from '../../utils/auth';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,37 +13,14 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const checkAuthStatus = async () => {
-    const token = localStorage.getItem('authToken');
-    const storedBusinessName = localStorage.getItem('businessName');
-    
-    if (token && storedBusinessName) {
-      setBusinessName(storedBusinessName);
-    } else if (token) {
-      try {
-        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/login', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          }
-        });
-
-        if (response.ok) {
-          const userData = await response.json();
-          const businessName = userData.BusinessName || userData.businessName;
-          setBusinessName(businessName);
-          localStorage.setItem('businessName', businessName);
-        } else {
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('businessName');
-          setBusinessName(null);
-        }
-      } catch (error) {
-        console.error('Error checking auth status:', error);
-        setBusinessName(null);
-      }
-    } else {
+    try {
+      const userData = await checkAuthAndGetProfile();
+      setBusinessName(userData.BusinessName || '');
+      localStorage.setItem('businessName', userData.BusinessName || '');
+    } catch (error) {
+      console.error('Error checking auth status:', error);
       setBusinessName(null);
+      localStorage.removeItem('businessName');
     }
   };
 

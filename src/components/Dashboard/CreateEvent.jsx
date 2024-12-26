@@ -26,10 +26,26 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_category');
+        const response = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/event_categories');
         if (response.ok) {
           const data = await response.json();
-          setEventCategories(data);
+          console.log('API Response:', data);
+          // Extract just the Categories values from the response objects
+          const categoryValues = data.map(item => item.Categories);
+          console.log('Extracted Categories:', categoryValues);
+          // Define default categories if the API returns empty
+          const defaultCategories = [
+            'Conference',
+            'Workshop',
+            'Concert',
+            'Exhibition',
+            'Seminar',
+            'Networking',
+            'Festival',
+            'Sports',
+            'Other'
+          ];
+          setEventCategories(categoryValues.length > 0 ? categoryValues : defaultCategories);
         } else {
           console.error('Failed to fetch categories');
         }
@@ -264,9 +280,9 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
             disabled={isLoadingCategories}
           >
             <option value="">Select</option>
-            {eventCategories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.Event_Category}
+            {eventCategories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
               </option>
             ))}
           </select>
@@ -395,17 +411,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         </div>
       </div>
 
-      <div className="space-y-2">
-        {renderImageUpload()}
-      </div>
-    </div>
-  );
-
-  const renderStep2 = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">Venue Details</h2>
-      
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Event Venue *
@@ -418,37 +424,15 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
             <p className="text-red-500 text-sm mt-1">{errors.Event_Venue.message}</p>
           )}
         </div>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Event City *
-          </label>
-          <input
-            {...register('Event_City', { required: 'City is required' })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Event_City && (
-            <p className="text-red-500 text-sm mt-1">{errors.Event_City.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Country *
-          </label>
-          <input
-            {...register('Country', { required: 'Country is required' })}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          {errors.Country && (
-            <p className="text-red-500 text-sm mt-1">{errors.Country.message}</p>
-          )}
-        </div>
+      <div className="space-y-2">
+        {renderImageUpload()}
       </div>
     </div>
   );
 
-  const renderStep3 = () => (
+  const renderStep2 = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800">Event Tickets</h2>
@@ -571,36 +555,55 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Get the user data from localStorage and log it to verify
-      const userData = JSON.parse(localStorage.getItem('user'));
-      console.log('User data from localStorage:', userData);
+      // First get the user data
+      const userResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
 
-      // Create the event data object with the user ID as Username
+      if (!userResponse.ok) {
+        throw new Error('Failed to get user data. Please log in again.');
+      }
+
+      const userData = await userResponse.json();
+
+      // Create the event data object
       const eventData = {
         Event_Name: data.Event_Name,
         Event_Description: data.Event_Description,
         Event_Start_Date: format(startDate, "yyyy-MM-dd"),
         Event_Start_Time: format(startDate, "HH:mm"),
-        Event_End_Time: format(endDate, "HH:mm"),
         Event_End_Date: format(endDate, "yyyy-MM-dd"),
+        Event_End_Time: format(endDate, "HH:mm"),
         Event_Venue: data.Event_Venue,
-        Event_City: data.Event_City,
-        Event_Country: data.Country,
         Event_Category: data.Event_Category,
-        Username: "083f7a00-e85e-4b0a-947a-e15c584b8c57", // Make sure this is included
-        photo: null,
-        role: "Admin"
+        Username: userData.id
       };
 
-      console.log('Event data being sent:', eventData);
+      // Create FormData for the event submission
+      const formDataToSend = new FormData();
+      
+      // Add the event data as a string
+      formDataToSend.append('field_value', JSON.stringify(eventData));
 
+      // Add the image if it exists
+      if (formData.image) {
+        formDataToSend.append('Event_Image', formData.image);
+      }
+
+      console.log('Event data being sent:', {
+        field_value: eventData,
+        hasImage: !!formData.image
+      });
+
+      // Send everything in a single request
       const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(eventData) // Make sure eventData is being stringified
+        body: formDataToSend
       });
 
       if (!eventResponse.ok) {
@@ -611,55 +614,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       const eventResponseData = await eventResponse.json();
       console.log('Event created:', eventResponseData);
 
-      // Handle image upload separately if an image exists
-      if (formData.image) {
-        const imageFormData = new FormData();
-        imageFormData.append('photo', formData.image); // Changed to 'photo' to match API
-        imageFormData.append('event_id', eventResponseData.id);
-
-        const imageResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table/image', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          },
-          body: imageFormData
-        });
-
-        if (!imageResponse.ok) {
-          console.error('Failed to upload image');
-        }
-      }
-
-      // Then create tickets
-      const ticketData = {
-        tickets: tickets.map(ticket => ({
-          ticket_type: ticket.ticket_type,
-          price: parseFloat(ticket.price),
-          ticket_quantity: parseInt(ticket.ticket_quantity, 10),
-          event_id: eventResponseData.id // Link tickets to the created event
-        }))
-      };
-
-      console.log('Sending ticket data:', ticketData);
-
-      const ticketResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_table', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(ticketData)
-      });
-
-      if (!ticketResponse.ok) {
-        const errorData = await ticketResponse.json();
-        throw new Error(errorData.message || 'Failed to create tickets');
-      }
-
-      const ticketResponseData = await ticketResponse.json();
-      console.log('Tickets created:', ticketResponseData);
-
-      // Success - close the form
+      // Success - close the form and optionally refresh the events list
       onClose?.();
     } catch (error) {
       console.error('Error creating event:', error);
@@ -675,25 +630,89 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
-        {step === 3 && renderStep3()}
 
         <div className="mt-8 flex justify-between">
           {step > 1 && (
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
             >
               <ArrowLeft className="w-4 h-4" />
               Previous
             </button>
           )}
           
-          {step < 3 ? (
+          {step < 2 ? (
             <button
               type="button"
-              onClick={() => setStep(step + 1)}
-              className="flex items-center gap-2 px-6 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600 ml-auto"
+              onClick={handleSubmit(async (data) => {
+                try {
+                  // First get the user data
+                  const userResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/me', {
+                    headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                  });
+
+                  if (!userResponse.ok) {
+                    throw new Error('Failed to get user data. Please log in again.');
+                  }
+
+                  const userData = await userResponse.json();
+
+                  // Create FormData for the submission
+                  const formDataToSend = new FormData();
+
+                  // Create the event data with proper field_value structure
+                  const fieldValue = {
+                    Event_Name: data.Event_Name,
+                    Event_Description: data.Event_Description,
+                    Event_Start_Date: format(startDate, "yyyy-MM-dd"),
+                    Event_Start_Time: format(startDate, "HH:mm"),
+                    Event_End_Date: format(endDate, "yyyy-MM-dd"),
+                    Event_End_Time: format(endDate, "HH:mm"),
+                    Event_Venue: data.Event_Venue,
+                    Event_Category: data.Event_Category,
+                    Username: userData.id
+                  };
+
+                  // If there's an image, add it to the field_value
+                  if (formData.image) {
+                    fieldValue.Event_Image = formData.image;
+                  }
+
+                  // Add all data to FormData
+                  formDataToSend.append('field_value', JSON.stringify(fieldValue));
+
+                  console.log('Sending form data:', fieldValue);
+
+                  // Send the request
+                  const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
+                    method: 'POST',
+                    headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    },
+                    body: formDataToSend
+                  });
+
+                  if (!eventResponse.ok) {
+                    const errorData = await eventResponse.json();
+                    console.error('Event creation error:', errorData);
+                    throw new Error(errorData.message || 'Failed to create event');
+                  }
+
+                  const eventResponseData = await eventResponse.json();
+                  console.log('Event created:', eventResponseData);
+
+                  // Only proceed to next step after successful submission
+                  setStep(step + 1);
+                } catch (error) {
+                  console.error('Error creating event:', error);
+                  alert(error.message || 'Failed to create event. Please try again.');
+                }
+              })}
+              className="flex items-center gap-2 px-4 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600 ml-auto"
             >
               Next
               <ArrowRight className="w-4 h-4" />
@@ -701,7 +720,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           ) : (
             <button
               type="submit"
-              className="flex items-center gap-2 px-6 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600 ml-auto"
+              className="flex items-center gap-2 px-4 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600 ml-auto"
             >
               Create Event
             </button>
