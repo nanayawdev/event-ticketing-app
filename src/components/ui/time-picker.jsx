@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const TimePicker = ({ date, setDate }) => {
+const TimePicker = ({ date, setDate, minTime, className }) => {
   const minuteItems = Array.from({ length: 60 }, (_, i) => i)
   const hourItems = Array.from({ length: 24 }, (_, i) => i)
 
@@ -37,7 +37,9 @@ const TimePicker = ({ date, setDate }) => {
           onValueChange={handleHourChange}
         >
           <SelectTrigger className="w-[110px]">
-            <SelectValue placeholder="Hour" />
+            <SelectValue placeholder="Hour">
+              {date?.getHours().toString().padStart(2, "0")}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent position="popper">
             {hourItems.map((hour) => (
@@ -54,7 +56,9 @@ const TimePicker = ({ date, setDate }) => {
           onValueChange={handleMinuteChange}
         >
           <SelectTrigger className="w-[110px]">
-            <SelectValue placeholder="Minute" />
+            <SelectValue placeholder="Minute">
+              {date?.getMinutes().toString().padStart(2, "0")}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent position="popper">
             {minuteItems.map((minute) => (

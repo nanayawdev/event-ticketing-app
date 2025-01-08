@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/popover"
 import TimePicker from "@/components/ui/time-picker"
 import { useTicketManagement } from '@/hooks/useTicketManagement';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const [step, setStep] = useState(1);
@@ -21,6 +22,8 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
   const [eventCategories, setEventCategories] = useState([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const navigate = useNavigate();
+  const [categoryMap, setCategoryMap] = useState({});
 
   // Fetch event categories
   useEffect(() => {
@@ -30,7 +33,15 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         if (response.ok) {
           const data = await response.json();
           console.log('API Response:', data);
-          // Extract just the Categories values from the response objects
+          
+          // Create a mapping of category names to IDs
+          const mapping = {};
+          data.forEach(item => {
+            mapping[item.Categories] = item.id;
+          });
+          setCategoryMap(mapping);
+          
+          // Extract just the Categories values for the dropdown
           const categoryValues = data.map(item => item.Categories);
           console.log('Extracted Categories:', categoryValues);
           // Define default categories if the API returns empty
@@ -100,32 +111,38 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   const handleStartTimeChange = (date) => {
     const currentTime = getCurrentRoundedTime();
     
-    // If it's today, prevent selecting past times
     if (isBefore(startDate, addMinutes(today, 1)) && isBefore(date, currentTime)) {
       return;
     }
     
-    setStartDate(date);
-    setValue('Event_Start_Time', format(date, "HH:mm"));
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}`;
     
-    // If end time is before start time on the same day, update it
-    if (format(startDate, "yyyy-MM-dd") === format(endDate, "yyyy-MM-dd") && 
-        isBefore(endDate, date)) {
-      const newEndDate = addMinutes(date, 30); // Set end time 30 minutes after start time
-      setEndDate(newEndDate);
-      setValue('Event_End_Time', format(newEndDate, "HH:mm"));
-    }
+    setValue('Event_Start_Time', timeString);
+    console.log('Set start time:', timeString);
   };
 
   const handleEndTimeChange = (date) => {
-    // If same day, ensure end time is after start time
-    if (format(startDate, "yyyy-MM-dd") === format(endDate, "yyyy-MM-dd") && 
-        isBefore(date, startDate)) {
-      return;
+    if (format(startDate, "yyyy-MM-dd") === format(endDate, "yyyy-MM-dd")) {
+      const startTime = watch('Event_Start_Time');
+      if (startTime) {
+        const [startHour, startMinute] = startTime.split(':');
+        const startDateTime = new Date(startDate);
+        startDateTime.setHours(parseInt(startHour), parseInt(startMinute));
+        
+        if (isBefore(date, startDateTime)) {
+          return;
+        }
+      }
     }
     
-    setEndDate(date);
-    setValue('Event_End_Time', format(date, "HH:mm"));
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}`;
+    
+    setValue('Event_End_Time', timeString);
+    console.log('Set end time:', timeString);
   };
 
   const addTicket = () => {
@@ -154,21 +171,31 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
   
   const fileInputRef = useRef(null);
 
-  const handleImageChange = async (e) => {
-    console.log('handleImageChange triggered');
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log('File selected:', file);
-      console.log('File type:', file.type);
-      console.log('File size:', file.size);
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
 
+      // Validate file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+      }
+
+      // Set the raw file object
       setFormData(prev => ({
         ...prev,
         image: file,
         imagePreview: URL.createObjectURL(file)
       }));
       
+      // Also set it in the form
       setValue('Event_Image', file);
+      console.log('Image file set:', file);
     }
   };
 
@@ -358,6 +385,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
             date={startDate} 
             setDate={handleStartTimeChange}
             minTime={isBefore(startDate, today) ? getCurrentRoundedTime() : undefined}
+            className="w-full bg-white dark:bg-gray-800 border border-gray-300 rounded-md shadow-sm"
           />
           {errors.Event_Start_Time && (
             <p className="text-red-500 text-sm mt-1">{errors.Event_Start_Time.message}</p>
@@ -404,6 +432,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
             date={endDate} 
             setDate={handleEndTimeChange}
             minTime={startDate}
+            className="w-full bg-white dark:bg-gray-800 border border-gray-300 rounded-md shadow-sm"
           />
           {errors.Event_End_Time && (
             <p className="text-red-500 text-sm mt-1">{errors.Event_End_Time.message}</p>
@@ -553,9 +582,33 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
     </div>
   );
 
+  const validateFormData = (formData) => {
+    const requiredFields = [
+      'Event_Name',
+      'Event_Description',
+      'Event_Start_Date',
+      'Event_Start_Time',
+      'Event_End_Date',
+      'Event_End_Time',
+      'Event_Venue',
+      'event_category',
+      'Username'
+    ];
+
+    for (let field of requiredFields) {
+      const value = formData.get(field);
+      if (!value) {
+        throw new Error(`Missing required field: ${field}`);
+      }
+    }
+  };
+
   const onSubmit = async (data) => {
     try {
-      // First get the user data
+      if (!formData.image) {
+        throw new Error('Please select an event image');
+      }
+
       const userResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/me', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -563,41 +616,82 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
       });
 
       if (!userResponse.ok) {
-        throw new Error('Failed to get user data. Please log in again.');
+        const errorData = await userResponse.json();
+        console.error('User data fetch error:', errorData);
+        throw new Error(`Failed to get user data: ${errorData.message || 'Please log in again'}`);
       }
 
       const userData = await userResponse.json();
+      console.log('User data received:', userData);
 
-      // Create the event data object
-      const eventData = {
-        Event_Name: data.Event_Name,
-        Event_Description: data.Event_Description,
-        Event_Start_Date: format(startDate, "yyyy-MM-dd"),
-        Event_Start_Time: format(startDate, "HH:mm"),
-        Event_End_Date: format(endDate, "yyyy-MM-dd"),
-        Event_End_Time: format(endDate, "HH:mm"),
-        Event_Venue: data.Event_Venue,
-        Event_Category: data.Event_Category,
-        Username: userData.id
-      };
-
-      // Create FormData for the event submission
-      const formDataToSend = new FormData();
-      
-      // Add the event data as a string
-      formDataToSend.append('field_value', JSON.stringify(eventData));
-
-      // Add the image if it exists
-      if (formData.image) {
-        formDataToSend.append('Event_Image', formData.image);
+      if (!userData.id) {
+        throw new Error('User ID not found in response');
       }
 
-      console.log('Event data being sent:', {
-        field_value: eventData,
-        hasImage: !!formData.image
-      });
+      const formDataToSend = new FormData();
 
-      // Send everything in a single request
+      // Get the time values
+      const startTimeValue = watch('Event_Start_Time');
+      const endTimeValue = watch('Event_End_Time');
+
+      if (!startTimeValue || !endTimeValue) {
+        throw new Error('Please select both start and end times');
+      }
+
+      // Parse the time values
+      const [startHour, startMinute] = startTimeValue.split(':');
+      const [endHour, endMinute] = endTimeValue.split(':');
+
+      // Create start date with time
+      const startDateTime = new Date(startDate);
+      startDateTime.setHours(
+        parseInt(startHour),
+        parseInt(startMinute),
+        0,
+        0
+      );
+
+      // Create end date with time
+      const endDateTime = new Date(endDate);
+      endDateTime.setHours(
+        parseInt(endHour),
+        parseInt(endMinute),
+        0,
+        0
+      );
+
+      // Convert to Unix timestamps (seconds)
+      const startTimestamp = Math.floor(startDateTime.getTime() / 1000);
+      const endTimestamp = Math.floor(endDateTime.getTime() / 1000);
+
+      // Debug logging
+      console.log('Start Date:', startDate);
+      console.log('End Date:', endDate);
+      console.log('Start Time:', startTimeValue);
+      console.log('End Time:', endTimeValue);
+      console.log('Final Start DateTime:', startDateTime.toLocaleString());
+      console.log('Final End DateTime:', endDateTime.toLocaleString());
+
+      // Add fields to FormData
+      formDataToSend.append('Event_Name', data.Event_Name.trim());
+      formDataToSend.append('Event_Description', data.Event_Description.trim());
+      formDataToSend.append('Event_Start_Date', format(startDateTime, "yyyy-MM-dd"));
+      formDataToSend.append('Event_Start_Time', startTimestamp.toString());
+      formDataToSend.append('Event_End_Date', format(endDateTime, "yyyy-MM-dd"));
+      formDataToSend.append('Event_End_Time', endTimestamp.toString());
+      formDataToSend.append('Event_Venue', data.Event_Venue.trim());
+      formDataToSend.append('event_category', categoryMap[data.Event_Category].toString());
+      formDataToSend.append('Username', userData.id.trim());
+      formDataToSend.append('imagefile', formData.image);
+
+      // Log the final data being sent
+      console.log('Form Data Values:');
+      for (let pair of formDataToSend.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
+      validateFormData(formDataToSend);
+      
       const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
         method: 'POST',
         headers: {
@@ -605,17 +699,32 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
         },
         body: formDataToSend
       });
-
-      if (!eventResponse.ok) {
-        const errorData = await eventResponse.json();
-        throw new Error(errorData.message || 'Failed to create event');
+      
+      // Log the complete response
+      const responseText = await eventResponse.text();
+      console.log('Raw response:', responseText);
+      
+      let parsedResponse;
+      try {
+        parsedResponse = JSON.parse(responseText);
+        console.log('Parsed response:', parsedResponse);
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        throw new Error('Invalid response format from server');
       }
 
-      const eventResponseData = await eventResponse.json();
-      console.log('Event created:', eventResponseData);
+      if (!eventResponse.ok) {
+        throw new Error(parsedResponse.message || 'Failed to create event');
+      }
 
-      // Success - close the form and optionally refresh the events list
-      onClose?.();
+      if (parsedResponse.id) {
+        setStep(2);
+        localStorage.setItem('currentEventId', parsedResponse.id);
+        alert('Event created successfully! Now you can add tickets.');
+      } else {
+        throw new Error('No event ID received from server');
+      }
+
     } catch (error) {
       console.error('Error creating event:', error);
       alert(error.message || 'Failed to create event. Please try again.');
@@ -646,72 +755,7 @@ const CreateEvent = ({ onClose, event, isEditing = false }) => {
           {step < 2 ? (
             <button
               type="button"
-              onClick={handleSubmit(async (data) => {
-                try {
-                  // First get the user data
-                  const userResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/auth/me', {
-                    headers: {
-                      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                  });
-
-                  if (!userResponse.ok) {
-                    throw new Error('Failed to get user data. Please log in again.');
-                  }
-
-                  const userData = await userResponse.json();
-
-                  // Create FormData for the submission
-                  const formDataToSend = new FormData();
-
-                  // Create the event data with proper field_value structure
-                  const fieldValue = {
-                    Event_Name: data.Event_Name,
-                    Event_Description: data.Event_Description,
-                    Event_Start_Date: format(startDate, "yyyy-MM-dd"),
-                    Event_Start_Time: format(startDate, "HH:mm"),
-                    Event_End_Date: format(endDate, "yyyy-MM-dd"),
-                    Event_End_Time: format(endDate, "HH:mm"),
-                    Event_Venue: data.Event_Venue,
-                    Event_Category: data.Event_Category,
-                    Username: userData.id
-                  };
-
-                  // If there's an image, add it to the field_value
-                  if (formData.image) {
-                    fieldValue.Event_Image = formData.image;
-                  }
-
-                  // Add all data to FormData
-                  formDataToSend.append('field_value', JSON.stringify(fieldValue));
-
-                  console.log('Sending form data:', fieldValue);
-
-                  // Send the request
-                  const eventResponse = await fetch('https://api-server.krontiva.africa/api:BnSaGAXN/ticket_event_table', {
-                    method: 'POST',
-                    headers: {
-                      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-                    },
-                    body: formDataToSend
-                  });
-
-                  if (!eventResponse.ok) {
-                    const errorData = await eventResponse.json();
-                    console.error('Event creation error:', errorData);
-                    throw new Error(errorData.message || 'Failed to create event');
-                  }
-
-                  const eventResponseData = await eventResponse.json();
-                  console.log('Event created:', eventResponseData);
-
-                  // Only proceed to next step after successful submission
-                  setStep(step + 1);
-                } catch (error) {
-                  console.error('Error creating event:', error);
-                  alert(error.message || 'Failed to create event. Please try again.');
-                }
-              })}
+              onClick={handleSubmit(onSubmit)}
               className="flex items-center gap-2 px-4 py-2 bg-sea-green-500 text-white rounded-md hover:bg-sea-green-600 ml-auto"
             >
               Next

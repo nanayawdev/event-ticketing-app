@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Ellipsis, X, ChevronRight, ChevronDown, LogOut, CalendarPlus } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
-import EventNotice from '../EventNotice/EventNotice';
 import LoginProfileDropdown from '../LoginProfileDropdown/LoginProfileDropdown';
 import { checkAuthAndGetProfile } from '../../utils/auth';
 
@@ -152,7 +151,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 w-full z-[60] bg-white dark:bg-gray-900 transition-colors duration-300">
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-24">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-24">
         <div className="flex justify-between h-14 sm:h-16">
           {/* Left section */}
           <div className="flex items-center">
@@ -163,13 +162,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            {/* EventNotice - show on tablets, hide on mobile and 1024px screens */}
-            <div className="hidden sm:block lg:hidden xl:block ml-3 md:ml-4">
-              <EventNotice 
-                primary="Introducing Tickrfly"
-                secondary="Our new Event Platform"
-              />
-            </div>
+
 
             {/* Desktop menu - hidden on mobile/tablet */}
             <div className="hidden lg:flex items-center space-x-2 xl:space-x-4 ml-6 xl:ml-8">
